@@ -380,6 +380,7 @@ function renderSoon(){
     <div class="itemcode">${escapeHTML(x.spec||product?.spec||'')} ${escapeHTML(x.barcode||'바코드 미등록')}</div>
     <div class="v41-soon-discount-status ${state==='할인 미조치'?'pending':''}">${escapeHTML(state)}</div>
     ${x.discountAppliedAt?'<span class="small">'+escapeHTML(new Date(x.discountAppliedAt).toLocaleString('ko-KR'))+'</span>':''}
+    ${Array.isArray(x.discountHistory)?'<details><summary>할인 이력</summary>'+x.discountHistory.map(h=>escapeHTML(h.rate)+'% · '+escapeHTML(new Date(h.at).toLocaleString('ko-KR'))).join('<br>')+'</details>':''}
     <div class="v41-soon-actions">
      <button type="button" class="btn secondary" data-soon-discount="20" data-id="${escapeHTML(x.id)}" ${x.diff<0?'disabled title="기한 경과 상품 할인 불가"':''}>20% 할인</button>
      <button type="button" class="btn secondary" data-soon-discount="40" data-id="${escapeHTML(x.id)}" ${x.diff<0?'disabled title="기한 경과 상품 할인 불가"':''}>40% 할인</button>
@@ -400,9 +401,11 @@ function renderSoon(){
   const days=Math.round((new Date(rec.date+'T00:00:00')-todayLocal())/86400000);
   if(days<0){toast('소비기한 경과 상품은 할인 처리할 수 없습니다.');return;}
   if(!confirm(rec.name+'\n소비기한: '+rec.date+'\n\n'+rate+'% 할인 조치를 기록할까요?\n상품은 임박 목록에 계속 표시됩니다.'))return;
-  const prevRate=rec.discountRate,prevAt=rec.discountAppliedAt;
+  const prevRate=rec.discountRate,prevAt=rec.discountAppliedAt,prevLog=rec.discountHistory;
+  const log=Array.isArray(prevLog)?prevLog:prevRate?[{rate:prevRate,at:prevAt}]:[];
   rec.discountRate=rate;rec.discountAppliedAt=new Date().toISOString();
-  if(!persist()){rec.discountRate=prevRate;rec.discountAppliedAt=prevAt;return;}
+  rec.discountHistory=[...log,{rate,at:rec.discountAppliedAt}];
+  if(!persist()){rec.discountRate=prevRate;rec.discountAppliedAt=prevAt;rec.discountHistory=prevLog;return;}
   renderSoon();renderExpiry();toast(rate+'% 할인 조치를 기록했습니다.');
  });
  el('soonList').querySelectorAll('[data-soon-complete]').forEach(btn=>btn.onclick=async()=>{
