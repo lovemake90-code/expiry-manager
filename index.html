@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0b1730"><title>개인용 소비기한 매니저 V42</title>
+<style>
+:root{font-family:system-ui,-apple-system,'Noto Sans KR',sans-serif;color:#15233e;background:#eef2f8}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}header{background:linear-gradient(130deg,#091c3d,#173a73);color:white;padding:22px 18px 18px}header h1{font-size:23px;margin:0 0 5px}header p{margin:0;color:#d4e4ff;font-size:13px}.wrap{max-width:840px;margin:auto;padding-bottom:100px}.content{padding:14px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:white;padding:7px;position:sticky;top:0;z-index:5;box-shadow:0 2px 8px #1a315220}.tab{border:0;border-radius:10px;padding:11px 2px;background:transparent;color:#66758c;font-weight:700;font-size:13px}.tab.active{background:#123b78;color:white}.panel{display:none}.panel.active{display:block}.card{background:white;border:1px solid #e1e8f1;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 4px 16px #142c4b09}.card h2{font-size:17px;margin:0 0 13px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.field{margin-bottom:12px}.field label{display:block;margin-bottom:5px;font-weight:700;font-size:13px}.field input,.field select,input[type=search]{width:100%;border:1px solid #cbd6e5;border-radius:10px;padding:12px;min-height:45px;background:white;color:#15233e;outline-color:#2a66af}.btn{border:0;border-radius:10px;padding:12px 14px;background:#164d91;color:white;font-weight:750;min-height:44px}.btn.secondary{background:#e9f0fb;color:#164d91}.btn.danger{background:#fce7e8;color:#b12d3b}.btn.green{background:#13805e}.btn:disabled{opacity:.45}.wide{width:100%}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.hint{font-size:12px;color:#687991;line-height:1.6}.status{border-radius:10px;background:#e9f0fb;padding:10px 12px;font-size:13px;margin-top:11px;word-break:keep-all}.warn{background:#fff3d8;color:#774d09}.ok{background:#ddf5e8;color:#166744}.camera{background:#071426;aspect-ratio:4/3;position:relative;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#b9cce3}.camera video{width:100%;height:100%;object-fit:cover}.scanline{position:absolute;inset:18% 12%;border:2px solid #75e6a5;border-radius:16px;pointer-events:none;box-shadow:0 0 0 100vmax #0002}.tag{font-size:11px;background:#edf2fa;padding:4px 7px;border-radius:6px;color:#36577e;display:inline-block}.result{background:#f1f6ff;border:1px solid #c7dcf7;border-radius:12px;padding:13px;margin-top:12px}.code{font-size:22px;font-weight:800;letter-spacing:.5px;overflow-wrap:anywhere}.metric{background:#f0f5fc;border-radius:12px;padding:12px;text-align:center}.metric b{font-size:24px;color:#174987;display:block}.metric span{font-size:12px;color:#65748b}.listitem{padding:12px 0;border-bottom:1px solid #e6ecf3}.listitem:last-child{border-bottom:0}.itemtop{display:flex;justify-content:space-between;gap:10px}.small{font-size:12px;color:#708099}.itemname{font-weight:800;font-size:15px}.itemcode{font-size:12px;color:#718096;margin-top:3px;overflow-wrap:anywhere}.qty{display:flex;gap:6px;align-items:center}.qty button{border:0;background:#e7effb;color:#164b8d;border-radius:8px;font-weight:800;width:38px;height:38px}.qty input{width:66px;text-align:center;border:1px solid #cbd6e5;border-radius:7px;height:38px}.empty{text-align:center;color:#77869b;padding:25px 6px}.notice{font-size:12px;color:#687991;padding:0 3px}.pill{color:#1a619d;background:#edf5ff;padding:4px 9px;border-radius:30px;font-size:12px}.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:20;background:#193757;color:white;padding:12px 18px;border-radius:12px;display:none;box-shadow:0 9px 23px #0004;max-width:90%;text-align:center}.btnline{display:flex;gap:7px;flex-wrap:wrap}.btnline .btn{flex:1;min-width:110px}.space{height:9px}@media(max-width:400px){.tab{font-size:12px}.content{padding:10px}.card{padding:13px}.code{font-size:19px}}@media(min-width:680px){.content{padding:22px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.product-photo{width:92px;height:104px;flex:0 0 92px;object-fit:contain;background:white;border:1px solid #e4e8ef;border-radius:10px;padding:3px}.photo-missing{width:92px;height:104px;flex:0 0 92px;display:flex;align-items:center;justify-content:center;background:#f1f4f8;color:#8792a1;border:1px solid #e5ebf2;border-radius:10px;text-align:center;font-size:11px}.photo-row{display:flex;gap:11px;align-items:center;min-width:0}.photo-row .itemname{word-break:keep-all}.image-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.image-actions button{font-size:12px;padding:7px 10px;min-height:35px}.image-preview{width:110px;height:116px;object-fit:contain;background:#fff;border:1px solid #dbe4f0;border-radius:10px}.count-chip{font-size:12px;color:#176e53;background:#e6f7ee;padding:6px 10px;border-radius:20px;display:inline-block;margin:6px 0 10px} 
+.camera{aspect-ratio:3/4;max-height:66vh}.scanline{inset:26% 9%}
+.live-info{position:absolute;left:9px;right:9px;bottom:10px;background:rgba(4,20,39,.93);color:#fff;border:1px solid #76c4ee;border-radius:15px;padding:11px;z-index:2;max-height:53%;overflow:auto;box-shadow:0 8px 22px #0007}.live-info[hidden]{display:none}.live-info .photo-row{align-items:center}.live-info .product-photo{width:74px;height:82px;flex-basis:74px;background:#fff}.live-info .itemname{font-size:17px;color:white}.live-info .itemcode{color:#c9e0f6;font-size:13px;line-height:1.65}.expiry-input{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.expiry-input input{min-width:0}.expiry-list .listitem{padding:12px;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:8px}.expiry-pill{font-weight:750;color:#125d49;background:#def6eb;padding:4px 9px;border-radius:9px;display:inline-block}.voice-busy{background:#b02e4b!important;animation:voicePulse 1.2s ease-in-out infinite alternate}@keyframes voicePulse{to{filter:brightness(1.25)}}
+@media(min-width:700px){.camera{aspect-ratio:16/10}}
+
+.photo-tools{margin-top:12px;border:1px solid #d5e2f2;background:#f7faff;padding:13px;border-radius:12px}.photo-tools .btnline .btn{min-width:125px}.ocr-option{width:100%;text-align:left;margin-top:7px;background:#e4f0ff;color:#164776;border:1px solid #bdd6f4;border-radius:9px;padding:11px 12px;font-weight:700}.ocr-option:active{background:#bddcff}
+/* Pause the barcode detector until the selected expiry has been saved. */
+#scanPauseStatus{font-weight:750;padding:11px;border-radius:10px;margin-top:10px;background:#e9f8f0;border:1px solid #b8e5ca;color:#095c3d}
+#scanPauseStatus:not(.paused){background:#eff4fc;border-color:#d5e0ef;color:#29466f}
+#missingProductPhoto{background:#fffaf0;border:1px solid #f1d4a0;border-radius:12px;padding:13px;margin-top:12px}
+#missingProductPhoto[hidden],#pendingProductPhoto[hidden]{display:none!important}
+#missingProductPhoto .image-preview{width:98px;height:108px}
+/* Shared expiry settings */
+.sync-status{font-size:13px;line-height:1.5;border:1px solid #d6e2f2;border-radius:10px;padding:10px;background:#eff6ff;color:#153b69}
+.sync-status.good{background:#eafaf1;border-color:#a9dec5;color:#095a37}
+.sync-status.warn{background:#fff7e7;border-color:#f0d79f;color:#865b0d}
+.sync-row{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}.sync-row>*{flex:1 1 110px}
+.sync-hint{font-size:12px;color:#596983;line-height:1.55;margin:10px 0}
+
+/* App entry lock: UI-level privacy gate, not server authentication */
+body.app-locked .wrap,body.app-locked #toast{display:none!important}
+#entryLock{min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(145deg,#0b1c3d,#1b4c82)}
+#entryLock[hidden]{display:none!important}
+.entry-box{width:min(100%,420px);background:white;color:#15233e;border-radius:24px;padding:30px 24px;box-shadow:0 20px 55px #0004;text-align:center}
+.entry-box h1{margin:8px 0 6px;font-size:23px}.entry-box p{color:#5d6d83;line-height:1.6;font-size:14px}
+.entry-box input{border:1px solid #bac9db;border-radius:12px;height:54px;width:100%;font-size:22px;text-align:center;letter-spacing:9px;margin:7px 0 12px}
+.entry-box .btn{width:100%;margin:6px 0}.entry-box .voice-prompt{font-weight:800;color:#123b78;font-size:19px}
+#entryMessage{min-height:34px;font-size:13px;color:#aa2b38;margin-top:9px;line-height:1.5}
+
+/* Batch photo recognition, mobile-first. */
+.batch-item{border:1px solid #d4dfeb;border-radius:13px;margin:10px 0;padding:12px;background:#fbfdff;display:flex;flex-direction:column;gap:8px}
+.batch-title{font-weight:800;color:#143d74}
+.batch-item input[type=text],.batch-item input[type=date],.batch-item select{width:100%;min-height:43px;border:1px solid #cbd6e5;border-radius:9px;background:white;padding:9px;color:#15233e}
+.batch-label{font-weight:700;font-size:12px;color:#54657c}
+.batch-check{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700}
+.batch-check input{width:20px;height:20px}
+
+/* V29 missing-product photo modal */
+.missing-photo-overlay[hidden]{display:none!important}
+.missing-photo-overlay{position:fixed;inset:0;z-index:8600;background:rgba(4,16,35,.76);display:flex;align-items:center;justify-content:center;padding:15px}
+.missing-photo-panel{width:min(450px,100%);background:#fff;border-radius:18px;padding:20px;color:#163154;box-shadow:0 20px 65px #0006}
+.missing-photo-panel h2{margin:0 0 10px;font-size:21px}
+.missing-photo-panel .btnline{display:flex;gap:7px;flex-wrap:wrap}
+.missing-photo-panel .btnline button{flex:1;min-width:130px}
+.missing-photo-preview{max-width:160px;max-height:160px;border-radius:10px;object-fit:contain;display:block;margin:10px auto}
+.review-photo-register{padding:12px;border:1px solid #b9d6ed;background:#f1f8ff;border-radius:11px;margin-top:12px}
+.review-photo-register .btnline{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.review-photo-register .btnline button{flex:1;min-width:120px}
+.review-photo-register img{max-width:110px;max-height:120px;object-fit:contain;margin:8px 0;border-radius:7px}
+/* V28 image review UI */
+.review-backdrop[hidden],.photo-zoom[hidden]{display:none!important}
+.review-backdrop{position:fixed;inset:0;background:rgba(4,16,35,.72);z-index:8000;display:flex;justify-content:center;align-items:center;padding:8px}
+.review-shell{width:min(660px,100%);max-height:97dvh;background:#fff;border-radius:16px;display:flex;flex-direction:column;overflow:hidden;color:#142744;box-shadow:0 20px 80px #0006}
+.review-head,.review-footer{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:12px;border-bottom:1px solid #dce5f0}
+.review-footer{border-bottom:0;border-top:1px solid #dce5f0;flex-wrap:wrap}
+.review-head strong{font-size:17px}.review-head button{flex:0 0 auto;min-height:38px}
+.review-footer button{flex:1;min-height:42px;padding:9px 7px;font-size:13px}
+.review-body{overflow:auto;padding:13px;min-height:160px}
+.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.review-photo{min-width:0;border:1px solid #cedae8;border-radius:10px;padding:5px;background:#f4f7fb;cursor:pointer;text-align:center}
+.review-photo img{width:100%;height:95px;object-fit:contain;border-radius:6px;background:#fff}
+.review-photo span{display:block;font-size:11px;color:#234b78;line-height:1.35;margin-top:4px}
+.review-field{margin-top:11px}.review-field label{font-size:13px;font-weight:700;display:block;margin-bottom:5px}
+.review-field input,.review-field select{display:block;width:100%;font-size:15px;min-height:42px;padding:7px;border:1px solid #bacbdf;border-radius:9px;background:#fff;color:#15253d}
+.review-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.review-note{font-size:12px;color:#53657d;line-height:1.5;margin-top:7px}
+.review-warning{border:1px solid #f6c2ba;padding:9px;border-radius:8px;background:#fff5f4;color:#aa2b2b}
+.photo-zoom{position:fixed;inset:0;background:rgba(0,0,0,.96);z-index:9000;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:18px;gap:10px}
+.photo-zoom img{max-width:100%;max-height:78dvh;object-fit:contain;touch-action:pinch-zoom}
+.zoom-close{align-self:flex-end;background:#fff;color:#000;border:0;border-radius:9px;padding:10px 20px;font-weight:700}
+#photoZoomCaption{color:#fff;font-size:13px;text-align:center}
+@media(max-width:430px){.review-photo img{height:70px}.review-footer button{font-size:12px}}
+
+/* V33: 3 photo source controls on a single responsive line */
+.review-role-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:6px 0 12px}
+.review-role-row .review-field{min-width:0;margin-top:0}
+.review-role-row .review-field label{font-size:clamp(10px,2.6vw,12px);line-height:1.3;min-height:30px;word-break:keep-all}
+.review-role-row .review-field select{min-width:0;width:100%;font-size:13px;padding:7px 2px;min-height:43px}
+/* V33: isolate live scan and expiry entry in one accessible dialog */
+.expiry-popup-backdrop[hidden]{display:none!important}
+.expiry-popup-backdrop{position:fixed;inset:0;z-index:8700;background:rgba(2,13,30,.77);display:flex;align-items:center;justify-content:center;padding:8px}
+.expiry-popup-sheet{width:min(570px,100%);max-height:96dvh;display:flex;flex-direction:column;overflow:hidden;background:#fff;color:#172b46;border-radius:17px;box-shadow:0 20px 55px #0006}
+.expiry-popup-head{padding:11px 13px;border-bottom:1px solid #dfe7f2;display:flex;gap:8px;justify-content:space-between;align-items:center}
+.expiry-popup-head strong{font-size:16px}.expiry-popup-head .btn{flex-shrink:0;font-size:12px;min-height:36px;padding:7px}
+.expiry-popup-scroll{overflow:auto;overscroll-behavior:contain;padding:12px}
+.expiry-popup-scroll #expiryEditor{margin-bottom:0;box-shadow:none;border:0;padding:4px}
+.expiry-popup-scroll #expiryEditor h2{margin:0 0 8px}
+.expiry-popup-scroll .result{margin-top:0}
+@media(max-width:400px){.review-role-row{gap:4px}.review-role-row .review-field select{font-size:12px}.expiry-popup-head strong{font-size:14px}}
+
+/* V35: photo choice on reviewed JSON import */
+.v35-photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:10px 0}
+.v35-photo-choice{min-width:0;padding:9px;border:2px solid #d6e1ed;background:#fff;border-radius:12px;text-align:center;color:#1e3450}
+.v35-photo-choice.selected{border-color:#1478c6;background:#eaf5ff}
+.v35-photo-choice img{display:block;width:100%;height:130px;object-fit:contain;border-radius:7px;background:#f3f6fa}
+.v35-photo-choice .v35-choice-label{display:block;font-size:13px;font-weight:750;margin-top:6px}
+.v35-photo-actions{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.v35-photo-actions label{flex:1 1 130px;min-height:42px;display:flex;justify-content:center;align-items:center;text-align:center;border-radius:9px;padding:9px 6px;background:#e9f0fb;color:#164d91;font-weight:700;font-size:13px}
+.v35-preview-wrap{border:1px solid #cddbeb;border-radius:12px;padding:10px;background:#f5f9ff;display:flex;gap:12px;align-items:center}
+.v35-preview-wrap img{width:92px;height:96px;object-fit:contain;background:white;border-radius:9px;border:1px solid #d1ddeb;cursor:zoom-in}
+.v35-photo-warning{border:1px solid #e7b86e;background:#fff8e9;color:#70470a;border-radius:9px;padding:9px;font-size:13px;margin-top:9px}
+#v35PhotoNotice:not([hidden]){display:flex;position:fixed;inset:0;z-index:110;align-items:center;justify-content:center;padding:16px;background:#000a}
+#v35PhotoNotice[hidden]{display:none!important}
+#v35PhotoNotice .v35-inner{max-width:440px;width:100%;padding:20px;border-radius:18px;background:#fff;max-height:90vh;overflow:auto}
+
+.v39-matched-preview{display:flex;align-items:center;gap:10px;margin:8px 0 12px}.v39-matched-preview img{width:72px;height:72px;object-fit:contain;border:1px solid #ddd;border-radius:8px}.v39-matched-preview img[hidden]{display:none} 
+/* V41: enlarged expiry cards, vertical discount actions, accessible login warning */
+#soonList .v41-soon-card{padding:15px 12px;margin-bottom:12px}
+.v41-soon-layout{display:grid;grid-template-columns:minmax(126px,38%) minmax(0,1fr);gap:13px;align-items:start}
+.v41-soon-photo .product-photo,.v41-soon-photo .photo-missing{width:100%;height:205px;max-height:240px;object-fit:contain;flex:none;border-radius:13px;cursor:zoom-in}
+.v41-soon-info{min-width:0;display:flex;flex-direction:column;gap:8px}
+.v41-soon-title{font-size:clamp(17px,3.7vw,22px);font-weight:850;line-height:1.35;overflow-wrap:anywhere;color:#172b46}
+.v41-soon-dday{color:#ae2639;white-space:nowrap;font:inherit}
+.v41-soon-date{font-size:15px;font-weight:800;color:#125d49;background:#def6eb;border-radius:8px;padding:6px 9px}
+.v41-soon-discount-status{font-size:13px;font-weight:850;color:#13804b;line-height:1.45}
+.v41-soon-discount-status.pending{color:#667589}
+.v41-soon-actions{display:flex;flex-direction:column;gap:7px;margin-top:2px}
+.v41-soon-actions .btn{width:100%;min-height:44px}
+.v41-soon-complete{width:100%;margin-top:12px}
+#v41UrgentOverlay[hidden]{display:none!important}
+#v41UrgentOverlay{position:fixed;inset:0;z-index:9600;display:flex;align-items:center;justify-content:center;padding:14px;background:rgba(13,16,27,.84)}
+.v41-urgent-box{width:min(550px,100%);background:#fff;color:#18273b;border:3px solid #db2437;border-radius:19px;box-shadow:0 20px 70px #0009;max-height:90dvh;display:flex;flex-direction:column;overflow:hidden}
+.v41-urgent-heading{padding:18px 17px 12px;background:#fff0f0;color:#a71a29}
+.v41-urgent-heading h2{margin:0;font-size:23px}.v41-urgent-heading p{margin:7px 0 0;font-size:14px;font-weight:700}
+#v41UrgentRows{padding:14px;overflow:auto;display:flex;flex-direction:column;gap:9px}
+.v41-urgent-item{border:1px solid #f0c3c7;background:#fffafa;border-radius:11px;padding:12px}
+.v41-urgent-item-title{font-size:17px;font-weight:850}.v41-urgent-item-date{font-size:14px;margin-top:5px}
+.v41-urgent-level{color:#c3142f;font-weight:900}
+.v41-urgent-footer{padding:13px;border-top:1px solid #ecd0d0;background:#fff}
+.v41-urgent-footer .btn{width:100%;min-height:50px;font-size:16px}
+@media(max-width:380px){.v41-soon-layout{grid-template-columns:minmax(110px,37%) minmax(0,1fr);gap:9px}.v41-soon-photo .product-photo,.v41-soon-photo .photo-missing{height:186px}.v41-soon-title{font-size:17px}.v41-soon-date{font-size:13px}}
+</style>
+<link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"></head><body class="app-locked"><div id="entryLock" aria-label="접속 비밀번호 확인"><div class="entry-box">
+<div style="font-size:38px">🔐</div><h1>개인용 소비기한 매니저</h1><p>접속하려면 음성 암호를 말씀하시거나 숫자 비밀번호를 입력하세요.</p>
+<div class="voice-prompt">🎙️ 음성 비밀번호</div>
+<button id="entryVoice" class="btn green" type="button">🎤 음성으로 잠금 해제</button>
+<p style="margin:10px 0">또는 숫자 비밀번호</p>
+<form id="entryForm" autocomplete="off"><input id="entryPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="••••" aria-label="숫자 비밀번호 4자리" autocomplete="off" required><input id="newPhrase" type="password" placeholder="등록할 음성 암호" aria-label="등록할 음성 암호" hidden><button class="btn" type="submit">접속하기</button></form>
+<div id="entryMessage" role="status" aria-live="polite"></div></div></div><div class="wrap"><header><h1>▦ 개인용 소비기한 매니저</h1><p>개인기기 저장 · 음성 소비기한 · D-30 관리</p></header>
+<nav class="tabs" aria-label="주요 메뉴"><button class="tab active" data-tab="scan">📷 스캔</button><button class="tab" data-tab="history">🕘 최근 스캔</button><button class="tab" data-tab="products">🔍 상품</button><button class="tab" data-tab="inventory">📦 재고</button><button class="tab" data-tab="settings">⚙️ 자료</button></nav><main class="content">
+<section class="panel active" id="scan"><div class="card" style="background:#f1faf4;border-color:#b8e5c5"><strong>🔒 개인 사용 모드</strong><p class="hint">상품·소비기한 기록은 이 브라우저에 저장됩니다. 공용 서버 연결 기능은 제거했습니다. 회사 내부자료는 승인 없이 입력하거나 외부로 전송하지 마세요. 정기 백업을 권장합니다.</p></div><div class="card"><h2>카메라 바코드 스캔</h2><div class="camera" id="camera"><span id="cameraText">카메라 시작 버튼을 눌러주세요</span><video id="video" playsinline muted autoplay style="display:none"></video><div class="scanline" id="scanFrame" hidden></div><div id="liveInfo" class="live-info" hidden></div></div><div class="space"></div><div class="btnline"><button class="btn green" id="start">카메라 시작</button><button class="btn secondary" id="stop">카메라 중지</button></div><div id="scanRecognized" class="result" style="margin-top:12px"><div class="small">바코드를 인식하면 여기 아래에 상품이미지와 상품명이 표시됩니다.</div></div><div id="scanPauseStatus" role="status" aria-live="polite">📷 다음 상품 바코드를 스캔할 수 있습니다.</div><div id="cameraFallback" hidden style="display:none"></div><div class="status" id="scannerStatus" role="status">카메라 기능은 HTTPS 주소 또는 localhost에서 실행할 때 사용 가능합니다. 파일을 직접 열면 브라우저에 따라 차단될 수 있습니다.</div></div>
+<div class="card" id="photoRecognition"><h2>🖼️ 사진 최대 50장 일괄 인식 · 팝업 검수</h2>
+<p class="hint"><b>사진 1~50장</b>을 동시에 선택할 수 있습니다. 상품별 사진은 <b>1장(바코드+소비기한), 2장(바코드+날짜), 3장(바코드+제조/포장일+보관기간 안내)</b>을 연속으로 선택하세요. 분석 후 검수 팝업에서 원본 사진을 확대하고 인식값을 수정하여 등록합니다.</p>
+<div class="btnline"><button type="button" class="btn green" id="combinedGalleryBtn">🖼️ 갤러리 선택 (최대 50장)</button><button type="button" class="btn secondary" id="combinedCameraBtn">📷 사진 촬영 (1장)</button></div>
+<input id="combinedPhotos" type="file" accept="image/*" multiple hidden><input id="combinedCameraPhoto" type="file" accept="image/*" capture="environment" hidden>
+<div id="combinedStatus" class="status" role="status" aria-live="polite">선택한 사진을 순서대로 판독합니다. 바코드·소비기한의 연결을 확인한 뒤 전체 등록하세요.</div>
+<div id="combinedImagePreviews" class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap"></div>
+<div class="row" style="margin-top:8px"><button id="batchCancel" type="button" class="btn danger" hidden>분석 중지</button></div>
+<div id="batchSummary" class="status" hidden></div><div id="batchResults"></div>
+<button type="button" id="batchSave" class="btn green wide" style="margin-top:12px" hidden>확인한 상품 일괄 등록</button>
+<div id="batchReviewModal" class="review-backdrop" hidden role="dialog" aria-modal="true" aria-label="사진 분석 결과 검수">
+ <div class="review-shell"><div class="review-head"><strong>📋 사진별 상품 검수</strong><button type="button" id="reviewClose" class="btn secondary">닫기</button></div>
+ <div id="reviewProgress" class="status"></div><div id="reviewContent" class="review-body"></div>
+ <div class="review-footer"><button type="button" id="reviewPrev" class="btn secondary">이전 상품</button><button type="button" id="reviewConfirm" class="btn green">이 상품 검수 완료</button><button type="button" id="reviewNext" class="btn secondary">다음 상품</button></div>
+ <div class="review-footer"><button type="button" id="reviewSave" class="btn green wide">검수 완료 항목 일괄 등록</button></div></div>
+</div>
+<div id="missingPhotoModal" class="missing-photo-overlay" hidden role="dialog" aria-modal="true" aria-label="상품 사진 등록">
+ <div class="missing-photo-panel"><h2>📸 상품 이미지가 없습니다</h2>
+ <p id="missingModalProduct" class="status"></p>
+ <p class="hint">바코드는 인식되었습니다. 사진을 찍거나 갤러리에서 골라 이 상품에 바로 등록할 수 있습니다. 소비기한은 이어서 입력하세요.</p>
+ <div class="btnline"><button type="button" id="missingModalCamera" class="btn green">📷 지금 촬영</button><button type="button" id="missingModalGallery" class="btn secondary">🖼️ 사진 선택</button></div>
+ <input id="missingModalCameraFile" type="file" accept="image/*" capture="environment" hidden>
+ <input id="missingModalGalleryFile" type="file" accept="image/*" hidden>
+ <img id="missingModalPreview" class="missing-photo-preview" alt="선택한 상품 사진" hidden>
+ <div id="missingModalStatus" class="hint" aria-live="polite"></div>
+ <button type="button" id="missingModalLater" class="btn secondary wide" style="margin-top:12px">사진 없이 소비기한 먼저 입력</button>
+ </div></div>
+<div id="photoZoom" class="photo-zoom" hidden role="dialog" aria-modal="true" aria-label="사진 확대"><button id="photoZoomClose" type="button" class="zoom-close">✕ 닫기</button><img id="photoZoomImg" alt="원본 사진 확대"><div id="photoZoomCaption"></div></div>
+<div id="combinedBarcodeResult" class="status" hidden></div>
+<div id="ocrStatus" class="status" role="status" hidden></div><p class="hint">※ 휴대폰 OCR은 AI 이미지 이해와 동일하지 않습니다. 후보를 눌러 실제 포장지 날짜와 대조하세요.</p><div id="ocrCandidates" style="margin-top:8px"></div>
+<details id="ocrDetails" style="margin-top:8px" hidden><summary style="font-size:12px">사진에서 읽은 글자 확인</summary><pre id="ocrRaw" style="white-space:pre-wrap;word-break:break-word;font-size:12px"></pre></details>
+<!-- Legacy photo elements retained hidden for compatibility with existing handlers. -->
+<div hidden style="display:none" aria-hidden="true"><input id="photo" type="file" accept="image/*"><input id="cameraPhoto" type="file" accept="image/*" capture="environment"><div id="barcodePhotoStatus"></div><button type="button" id="barcodeGalleryBtn"></button><button type="button" id="barcodeCameraBtn"></button><input id="datePhoto" type="file" accept="image/*"><input id="dateCameraPhoto" type="file" accept="image/*" capture="environment"><button type="button" id="dateGalleryBtn"></button><button type="button" id="dateCameraBtn"></button><img id="datePhotoPreview" alt="날짜 사진"></div></div>
+<div hidden style="display:none" aria-hidden="true"><input id="manualCode" inputmode="numeric"><button id="manualSubmit" type="button"></button><div id="result" hidden></div></div>
+<div id="expiryPopup" class="expiry-popup-backdrop" hidden role="dialog" aria-modal="true" aria-label="바코드 인식 상품 소비기한 입력">
+<div class="expiry-popup-sheet"><div class="expiry-popup-head"><strong>✅ 상품 인식 완료 · 소비기한 등록</strong><button id="expiryPopupSkip" type="button" class="btn secondary">건너뛰기</button></div>
+<div class="expiry-popup-scroll"><div id="expiryPopupProduct" class="result" style="margin:0 0 12px"></div>
+<div class="card" id="expiryEditor"><h2>🗣️ 소비기한 입력 · 음성인식</h2>
+<p class="hint">바코드 인식 후 최대 1분간 음성을 듣습니다. 예: “6개월 2026년 11월 17일” / “6개월 11월 17일” / “6개월” 다음 “11월 17일” / “포장일 2026년 11월 12일 6개월” / “소비기한 2027년 3월 15일”.</p><label class="row" style="align-items:center;gap:8px;margin:8px 0 12px"><input type="checkbox" id="autoVoiceExpiry" checked style="width:20px;height:20px;flex:0 0 auto"><span style="font-size:14px">바코드 인식 후 자동으로 음성 듣기</span></label>
+<div id="expirySelected" class="status">먼저 상품을 스캔해주세요.</div>
+<div id="missingProductPhoto" hidden>
+ <strong>📸 상품 이미지가 없습니다</strong><p class="hint">소비기한을 입력하면서 상품 사진을 촬영하세요. 저장 버튼을 누르면 상품 사진과 소비기한이 함께 등록됩니다.</p>
+ <div class="btnline"><button type="button" id="takeProductPhoto" class="btn secondary">📷 상품 사진 촬영</button><button type="button" id="chooseProductPhoto" class="btn secondary">🖼️ 갤러리 선택</button></div>
+ <input id="takeProductPhotoFile" type="file" accept="image/*" capture="environment" hidden><input id="chooseProductPhotoFile" type="file" accept="image/*" hidden>
+ <div id="pendingProductPhoto" hidden style="margin-top:10px"><img id="pendingProductPhotoPreview" class="image-preview" alt="등록할 상품 사진"><div class="small">이 사진은 소비기한 등록 버튼을 누르면 함께 저장됩니다.</div><button type="button" class="btn secondary" id="removePendingPhoto" style="margin-top:6px">사진 다시 선택</button></div>
+ <div id="productPhotoStatus" class="hint" aria-live="polite"></div>
+</div>
+<div class="field" style="margin-top:11px"><label for="expiryDate">소비기한</label><div class="expiry-input"><input id="expiryDate" type="date"><button class="btn green" id="voiceExpiry" type="button">🎙️ 말하기</button></div></div>
+<div id="voiceStatus" class="status" role="status" aria-live="polite">예: “6개월 2026년 11월 17일”, “6개월 11월 17일”, “소비기한 2027년 3월 15일”</div>
+<div id="voiceTimer" class="hint" aria-live="polite" style="margin-top:6px"></div><div class="space"></div><button class="btn wide" id="saveExpiry" type="button">소비기한·상품 사진 등록 완료 → 다음 스캔</button><div class="space"></div><button class="btn secondary wide" id="skipExpiry" type="button" disabled>이 상품 건너뛰고 다음 스캔</button>
+</div></div></div></div>
+<div class="card"><h2>⏰ 소비기한 임박상품 <span class="pill" id="soonCount">0건</span></h2><p class="hint">D-30 이내 상품과 소비기한이 지난 상품을 표시합니다.</p><div id="soonList"></div></div></section>
+<section class="panel" id="history"><div class="card"><h2>최근 스캔 <span class="pill" id="scanCount">0건</span></h2><p class="hint">최근 인식한 상품 기록입니다.</p><div id="recent"></div></div></section>
+<section class="panel" id="products"><div class="card"><h2>상품 검색</h2><input type="search" id="productSearch" placeholder="상품명 / 바코드 / 판매코드 / 저울ID"><p class="hint">바코드와 판매코드는 서로 다른 번호입니다. 상품정보에 두 번호를 등록하면 연결됩니다.</p><div class="hint">상품 목록은 이 휴대폰의 브라우저에만 보관됩니다. 새 바코드를 인식하면 임시 상품을 만들고 상품 메뉴에서 이름을 수정할 수 있습니다.</div><div id="photoCount" class="count-chip"></div><div id="productList"></div></div><div class="card"><h2>상품 등록 / 수정</h2><input type="hidden" id="editId"><div class="field"><label for="pProductCode">상품코드 (내부코드)</label><input id="pProductCode" inputmode="numeric"></div><div class="field"><label for="pSpec">규격</label><input id="pSpec" placeholder="예: 80G / 4.5G*20봉"></div><div class="field"><label for="pBarcode">바코드</label><input id="pBarcode" inputmode="numeric" placeholder="예: 8801234567890"></div><div class="field"><label for="pName">상품명 *</label><input id="pName" placeholder="예: 생물오징어"></div><div class="grid"><div class="field"><label for="pSales">판매코드</label><input id="pSales" inputmode="numeric"></div><div class="field"><label for="pScale">저울ID</label><input id="pScale" inputmode="numeric"></div></div><div class="field"><label for="productImageFile">상품 사진 등록 (자동 축소 · 흰 여백 제거)</label><div class="row"><input id="productImageFile" type="file" accept="image/*" style="min-width:0"/><img id="imgPreview" class="image-preview" hidden alt="상품사진 미리보기"></div><p class="hint">등록할 사진은 상품만 보이게 촬영하세요. 이미지 너비 최대 240px, WebP/JPEG 품질 65%로 축소해 기기에 저장합니다.</p><label><input type="checkbox" id="removePhoto"> 등록된 사진 삭제</label></div><div class="row"><button class="btn" id="saveProduct">상품 저장</button><button class="btn secondary" id="clearProduct">입력 초기화</button></div><p class="hint">바코드가 없는 상품도 판매코드·저울ID로 등록할 수 있습니다. 바코드는 상품별로 중복 등록되지 않습니다.</p></div></section>
+<section class="panel" id="inventory">
+<div class="card"><h2>📅 등록된 소비기한 <span class="pill" id="expiryCount">0건</span></h2><p class="hint">상품별 날짜를 등록합니다. 같은 상품에 같은 날짜는 중복 저장되지 않습니다. 백업에 포함됩니다.</p><div class="row"><input id="expirySearch" type="search" placeholder="상품명 / 판매코드 / 날짜"><button id="expiryExport" class="btn secondary" type="button" style="flex:0 0 auto">CSV 저장</button></div><div id="expiryList" class="expiry-list" style="margin-top:12px"></div></div><div class="card"><h2>재고 조사 현황</h2><div class="grid3"><div class="metric"><b id="skuCount">0</b><span>조사 품목</span></div><div class="metric"><b id="unitCount">0</b><span>총 수량</span></div><div class="metric"><b id="eventCount">0</b><span>스캔 기록</span></div></div><div class="space"></div><div class="row"><button class="btn secondary" id="inventoryExport">재고 엑셀 저장</button><button class="btn danger" id="clearInventory">재고 초기화</button></div></div><div class="card"><h2>조사 상품 및 수량</h2><input type="search" id="inventorySearch" placeholder="재고 검색"><div id="inventoryList"></div></div><div class="card"><h2>스캔 기록</h2><div class="row"><button class="btn secondary" id="historyExport">스캔기록 엑셀 저장</button><button class="btn danger" id="clearHistory">기록 초기화</button></div><div id="historyList"></div></div></section>
+<section class="panel" id="settings"><div class="card"><h2>개인정보·회사정보 주의</h2><p class="hint">앱 자체에는 공용 DB 연결이 없고, 배포 파일에 회사 상품 목록을 넣지 않았습니다. 새로 입력하는 정보는 기기 브라우저에 저장됩니다. 단, 브라우저·음성인식 기능의 외부 통신 및 Netlify 운영은 별개이므로 회사 보안 규정을 반드시 확인하세요.</p></div><div class="card"><h2>스캔 동작 설정</h2><label class="row" style="justify-content:space-between"><span>스캔 시 재고 수량 +1 자동 반영 (소비기한만 입력 시 끄기 권장)</span><input id="autoStock" type="checkbox" style="flex:0 0 auto;width:23px;height:23px"></label><p class="hint">중복 인식 방지: 동일 바코드는 30초 안에 반복 기록하지 않습니다. 다른 상품은 바로 인식할 수 있습니다.</p><label class="row" style="justify-content:space-between"><span>스캔 시 진동 알림</span><input id="vibrate" type="checkbox" checked style="flex:0 0 auto;width:23px;height:23px"></label></div><div class="card"><h2>상품 자료 엑셀·CSV 가져오기</h2><input type="file" id="importFile" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"><p class="hint">헤더 예시: 바코드, 상품명, 판매코드, 상품코드, 규격, 저울ID (또는 barcode, name, salesCode, scaleId). XLSX는 인터넷 연결 시 라이브러리를 불러옵니다. CSV는 오프라인으로 가져올 수 있습니다.</p><div class="row"><button class="btn" id="importBtn">상품 자료 불러오기</button><button class="btn secondary" id="template">CSV 양식 받기</button></div><div class="space"></div><button class="btn secondary wide" id="productsExport">등록 상품 엑셀 저장</button></div><div class="card" id="reviewImportArea"><h2>📥 사진 판독 결과 가져오기 (V40 · 대표 이미지 자동 보완)</h2><p class="hint">검수용 JSON을 불러오면 상품 앞면·뒷면 중 대표 이미지를 선택하거나 사진을 새로 찍을 수 있습니다. 사진을 누르면 확대되고, 상품명·바코드·소비기한은 수정 가능합니다. 기존 바코드가 있으면 기존 상품명을 연결합니다. 대표 이미지가 있으면 그대로 유지하고, 이미지가 없을 때만 앞면·뒷면 선택 또는 촬영·갤러리 사진을 대표 이미지로 저장할 수 있습니다. 없는 바코드는 신규 상품으로 구분합니다. 선택 항목만 등록하며 기존 자료는 덮어쓰지 않습니다.</p><input id="reviewImportFile" type="file" accept=".json,application/json"><div id="reviewImportStatus" class="status">검수 파일을 선택해 주세요.</div><div id="reviewImportList"></div><button class="btn green wide" type="button" id="reviewImportSave" hidden>확인한 항목만 등록</button>
+<div id="v35PhotoNotice" hidden role="dialog" aria-modal="true" aria-labelledby="v35PhotoNoticeTitle"><div class="v35-inner">
+<h2 id="v35PhotoNoticeTitle">📸 상품 대표 이미지가 없습니다</h2>
+<p id="v35PhotoNoticeMessage" class="hint">사진을 촬영하거나 갤러리에서 선택해 등록해 주세요.</p>
+<div class="v35-photo-actions"><label>📷 지금 촬영<input id="v35NoticeCamera" type="file" accept="image/*" capture="environment" hidden></label><label>🖼️ 갤러리 선택<input id="v35NoticeGallery" type="file" accept="image/*" hidden></label></div>
+<button id="v35NoticeLater" type="button" class="btn secondary wide">나중에 선택 · 검수 계속</button>
+</div></div></div><div class="card" id="legacyBulkPanel"><h2>📥 기존 엑셀 145건 사진포함 추가 등록 (V36)</h2>
+<p class="hint">이전 엑셀에서 만든 등록자료 JSON 전용입니다. 바코드가 없는 상품도 원본 고유번호로 구분합니다. 기존 상품·소비기한 기록은 삭제하거나 덮어쓰지 않고, 중복은 제외합니다. 자료는 현재 기기 브라우저에만 보관됩니다.</p>
+<input type="file" id="legacyBulkFile" accept=".json,application/json"><div id="legacyBulkStatus" class="status">먼저 '전체 백업 (JSON)'을 눌러 현재 데이터를 보관한 다음 파일을 선택하세요.</div>
+<div id="legacyBulkPreview" class="small" style="white-space:pre-line;margin:8px 0"></div>
+<button class="btn green wide" id="legacyBulkImport" hidden type="button">기존 자료 유지 · 신규 항목 추가</button></div>
+<div class="card"><h2>전체 데이터 백업 · 복원</h2><p class="hint">기록은 현재 브라우저에만 저장됩니다. 브라우저 데이터 삭제·기기 변경 시 사라질 수 있으므로 JSON 백업을 권장합니다. 백업에는 상품 및 소비기한 정보가 들어가므로 안전하게 보관하세요.</p><div class="row"><button class="btn green" id="backup">전체 백업 (JSON)</button><button class="btn secondary" id="restoreBtn">백업 복원</button></div><input type="file" id="restoreFile" accept=".json,application/json" hidden><div class="space"></div><button class="btn danger wide" id="clearAll">전체 자료 삭제</button></div><div class="card"><h2>폴드8 설치·사용 안내</h2><p class="hint">① 이 HTML 파일은 상품 검색, 수동 입력, 재고 관리, CSV 내보내기를 오프라인에서도 사용할 수 있습니다.<br>② 실시간 카메라 스캔은 HTTPS 웹 주소에서 열어야 안정적으로 작동합니다. Chrome/삼성 인터넷 브라우저에서 카메라 권한을 허용하세요.<br>③ HTTPS에서도 브라우저별 카메라·바코드 지원 차이가 있어 일부 기기에서는 인터넷 연결이 필요합니다.<br>④ 온라인 배포 후 브라우저의 ‘홈 화면에 추가’를 이용하면 앱처럼 실행할 수 있습니다.<br>⑤ 엑셀에서 열리는 CSV를 기본으로 저장하며, 한글이 깨지지 않도록 UTF-8 BOM을 포함합니다.</p></div></section>
+</main></div><div id="v41UrgentOverlay" role="dialog" aria-modal="true" aria-labelledby="v41UrgentTitle" hidden>
+ <div class="v41-urgent-box"><div class="v41-urgent-heading"><h2 id="v41UrgentTitle">🚨 소비기한 긴급 경고!</h2><p id="v41UrgentSummary">D-3 이내 또는 기한 경과 상품을 확인하세요.</p></div>
+ <div id="v41UrgentRows"></div><div class="v41-urgent-footer"><button id="v41UrgentClose" type="button" class="btn danger">확인하고 닫기</button></div></div>
+</div>
+<div role="status" id="toast"></div>
+<script>
+'use strict';
+const CATALOG=[];
+const STORE='fish_barcode_manager_v1';let db={products:[],inventory:{},history:[],expiry:[],settings:{autoStock:false,vibrate:true}};
+const el=id=>document.getElementById(id); const escapeHTML=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s??'').trim();const digits=s=>norm(s).replace(/\s+/g,'');
+const uid=()=>('id'+Date.now().toString(36)+Math.random().toString(36).slice(2,8));
+function toast(m){const x=el('toast');x.textContent=m;x.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>x.style.display='none',2600)}
+function compactDb(){const bases=new Map(CATALOG.map(p=>[p.productCode,p]));return {...db,products:db.products.map(p=>{const b=bases.get(p.productCode);if(!b)return p;const o={...p};if(o.imageUrl===b.imageUrl)delete o.imageUrl;if(o.imageSource===b.imageSource)delete o.imageSource;if(o.imageStatus===b.imageStatus)delete o.imageStatus;return o})}}
+function persist(){try{const snapshot=compactDb();localStorage.setItem(STORE,JSON.stringify(snapshot));return true}catch(e){toast('저장 공간 부족: 사진과 소비기한이 저장되지 않았습니다. 백업 후 저장 공간을 확인해주세요.');return false}}
+function validData(o){return o&&typeof o==='object'&&Array.isArray(o.products)&&o.inventory&&typeof o.inventory==='object'&&!Array.isArray(o.inventory)&&Array.isArray(o.history)}
+try{const s=JSON.parse(localStorage.getItem(STORE)||'null');if(validData(s))db={...db,...s,expiry:Array.isArray(s.expiry)?s.expiry:[],settings:{...db.settings,...s.settings}}}catch(e){}
+// 기본 상품자료를 서버에 게시하지 않습니다. 기존 브라우저 저장자료는 유지합니다.
+for(const base of CATALOG){const old=db.products.find(p=>p.productCode===base.productCode||p.barcode===base.barcode||p.salesCode===base.salesCode);if(!old)db.products.push({...base});else {old.productCode ||= base.productCode;old.spec ||= base.spec;old.imageUrl ||= base.imageUrl;old.imageSource ||= base.imageSource;old.imageStatus ||= base.imageStatus}}
+for(const p of db.products){if(/^assets\//.test(p.imageUrl||'')){delete p.imageUrl;delete p.imageSource;delete p.imageStatus;}}
+persist();
+function photoMarkup(p){return p?.imageData||p?.imageUrl?`<img class="product-photo" loading="lazy" src="${escapeHTML(p.imageData||p.imageUrl)}" onerror="this.outerHTML='<span class=photo-missing>이미지<br>불러오기 실패</span>'" alt="${escapeHTML(p.name)}">`:'<div class="photo-missing">사진 없음</div>'}
+function photoSearch(p){toast('개인용 버전은 외부 상품 이미지 검색을 사용하지 않습니다. 직접 촬영해 등록하세요.')}
+function tab(t){if(t!=='scan')stopExpiryVoice();document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===t));if(t!=='scan')stopCamera();render()}
+document.querySelectorAll('.tab').forEach(x=>x.onclick=()=>tab(x.dataset.tab));
+function findProduct(code){const c=digits(code);return db.products.find(p=>p.barcode&&digits(p.barcode)===c)||db.products.find(p=>p.salesCode&&digits(p.salesCode)===c)||db.products.find(p=>p.scaleId&&digits(p.scaleId)===c)}
+function getInventoryKey(p,code){return p?'p:'+p.id:'u:'+digits(code)}
+function upsertInventory(p,code,delta){const k=getInventoryKey(p,code);const old=db.inventory[k]||{productId:p?p.id:null,barcode:digits(code),name:p?p.name:'미등록 상품',quantity:0,updated:''};old.quantity=Math.max(0,(Number(old.quantity)||0)+delta);old.updated=new Date().toISOString();if(p){old.productId=p.id;old.name=p.name;old.barcode=p.barcode||digits(code)}db.inventory[k]=old;persist()}
+let lastScan={code:'',at:0};let currentProduct=null;let currentCode='';
+let barcodePaused=false,scanResumeTimer=0,pendingScanProductPhoto=null;
+function setBarcodePaused(paused){
+ barcodePaused=paused;
+ const panel=el('scanPauseStatus');
+ panel.classList.toggle('paused',paused);
+ panel.textContent=paused?'✅ 상품 인식 완료 · 소비기한 등록 전까지 바코드 인식 일시 정지':'📷 다음 상품 바코드를 스캔할 수 있습니다.';
+ el('scanFrame').hidden=paused||!active;
+ el('skipExpiry').disabled=!paused;
+ if(paused)setStatus('상품을 인식했습니다. 소비기한을 등록하면 다음 스캔이 시작됩니다.','ok');
+}
+function resetSelectedScan(){
+ hideExpiryPopup();el('missingPhotoModal').hidden=true;stopExpiryVoice('저장 완료 · 다음 상품을 스캔하세요.');
+ currentProduct=null;currentCode='';pendingScanProductPhoto=null;
+ el('expiryDate').value='';el('saveExpiry').disabled=true;
+ el('expirySelected').className='status';el('expirySelected').textContent='다음 상품의 바코드를 비춰주세요.';
+ el('missingProductPhoto').hidden=true;el('pendingProductPhoto').hidden=true;
+ el('pendingProductPhotoPreview').removeAttribute('src');
+ el('productPhotoStatus').textContent='';
+ el('liveInfo').hidden=true;
+ el('scanRecognized').innerHTML='<div class="small">등록 완료! 다음 바코드를 인식하면 상품이미지와 상품명이 표시됩니다.</div>';
+}
+function resumeBarcodeScanning(){
+ clearTimeout(scanResumeTimer);
+ resetSelectedScan();
+ lastScan={code:'',at:0};
+ setBarcodePaused(false);
+ if(!active)startCamera();
+ else {setStatus('다음 상품 바코드 스캔 중','ok');el('scanFrame').hidden=false;}
+}
+
+function showExpiryPopup(){
+ if(!currentProduct)return;
+ const p=currentProduct;
+ el('expiryPopupProduct').innerHTML=`<div class="photo-row">${photoMarkup(p)}<div style="min-width:0"><div class="itemname">${escapeHTML(p.name||'미등록 상품')}</div><div class="itemcode">규격 ${escapeHTML(p.spec||'-')}<br>바코드 ${escapeHTML(currentCode)}</div></div></div>`;
+ el('expiryPopup').hidden=false;
+}
+function hideExpiryPopup(){el('expiryPopup').hidden=true;}
+el('expiryPopupSkip').onclick=()=>{if(confirm('소비기한을 등록하지 않고 다음 상품을 스캔할까요?'))resumeBarcodeScanning()};
+function scan(code,{force=false,suppressVoice=false}={}){if(barcodePaused){return}code=digits(code);if(!code){toast('바코드 번호를 입력해주세요');return}const now=Date.now();if(!force&&code===lastScan.code&&now-lastScan.at<30000)return;lastScan={code,at:now};setBarcodePaused(true);let p=findProduct(code);if(!p){p={id:uid(),barcode:code,salesCode:code,productCode:'',name:'상품 '+code,spec:'',scaleId:''};db.products.push(p);toast('새 바코드입니다. 상품 메뉴에서 상품명을 수정할 수 있습니다.')}const item={id:uid(),barcode:code,productId:p?.id||null,name:p?.name||'미등록 상품',scannedAt:new Date().toISOString()};db.history.unshift(item);if(db.history.length>20000)db.history.length=20000;if(db.settings.autoStock)upsertInventory(p,code,1);persist();showResult(code,p);showLiveInfo(code,p);selectExpiryProduct(code,p);render();if(!p.imageData&&!p.imageUrl){showMissingPhotoModal(p)}else {showExpiryPopup();if(p&&!suppressVoice&&el('autoVoiceExpiry')?.checked)startExpiryVoice(true)}if(db.settings.vibrate&&navigator.vibrate)navigator.vibrate(70);toast(p?'상품 인식 완료':'미등록 바코드 인식 완료')}
+function showResult(code,p){const x=el('result');x.hidden=false;x.innerHTML=`<div class="small">인식한 번호</div><div class="code">${escapeHTML(code)}</div><div class="space"></div><div class="photo-row">${photoMarkup(p)}<div><strong>${escapeHTML(p?.name||'미등록 상품')}</strong><div class="small">규격: ${escapeHTML(p?.spec||'-')} · 상품코드: ${escapeHTML(p?.productCode||'-')}</div></div></div><div class="itemcode">판매코드: ${escapeHTML(p?.salesCode||'-')} · 저울ID: ${escapeHTML(p?.scaleId||'-')}</div><div class="space"></div><div class="btnline"><button class="btn secondary" id="copyCode">번호 복사</button><button class="btn ${p?'secondary':'green'}" id="toProduct">${p?'상품 수정':'이 상품 등록'}</button><button class="btn" id="addQty">재고 +1</button></div>`;el('copyCode').onclick=()=>{if(navigator.clipboard?.writeText)navigator.clipboard.writeText(code).then(()=>toast('복사했습니다')).catch(()=>fallbackCopy(code));else fallbackCopy(code)};el('toProduct').onclick=()=>{tab('products');if(p)editProduct(p.id);else{clearForm();el('pBarcode').value=code;el('pName').focus()}};el('addQty').onclick=()=>{upsertInventory(p,code,1);render();toast('수량을 1개 추가했습니다')}}
+function showLiveInfo(code,p){const x=el('liveInfo');x.hidden=false;x.innerHTML=`<div class="photo-row">${photoMarkup(p)}<div style="min-width:0"><div class="itemname">${escapeHTML(p?.name||'미등록 상품')}</div><div class="itemcode">규격 ${escapeHTML(p?.spec||'-')}<br>상품코드 ${escapeHTML(p?.productCode||'-')}<br>판매코드 ${escapeHTML(p?.salesCode||code)}</div></div></div>`;const y=el('scanRecognized');if(y){y.hidden=false;y.innerHTML=`<div class="small">최근 인식 상품</div><div class="space"></div><div class="photo-row">${photoMarkup(p)}<div style="min-width:0"><div style="font-weight:800;font-size:18px;line-height:1.35">${escapeHTML(p?.name||'미등록 상품')}</div><div class="itemcode">규격 ${escapeHTML(p?.spec||'-')}<br>상품코드 ${escapeHTML(p?.productCode||'-')}<br>판매코드 ${escapeHTML(p?.salesCode||code)}</div></div></div>`}}
+function selectExpiryProduct(code,p){stopExpiryVoice();currentCode=code;currentProduct=p;pendingScanProductPhoto=null;el('pendingProductPhoto').hidden=true;el('pendingProductPhotoPreview').removeAttribute('src');el('productPhotoStatus').textContent='';el('missingProductPhoto').hidden=!!(p?.imageData||p?.imageUrl);const x=el('expirySelected');if(!p){x.className='status warn';x.textContent='미등록 상품입니다. 먼저 상품 정보를 등록해 주세요.';el('saveExpiry').disabled=true;return}x.className='status ok';x.textContent='선택됨: '+p.name+' · '+(p.spec||'규격 없음');el('saveExpiry').disabled=false;el('expiryDate').value=''}
+function fallbackCopy(s){el('manualCode').value=s;el('manualCode').focus();el('manualCode').select();toast('번호를 선택했습니다. 길게 눌러 복사하세요')}
+el('manualSubmit').onclick=()=>scan(el('manualCode').value,{force:true});el('manualCode').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();scan(el('manualCode').value,{force:true});el('manualCode').select()}};
+function editProduct(id){const p=db.products.find(x=>x.id===id);if(!p)return;el('editId').value=id;el('pBarcode').value=p.barcode||'';el('pName').value=p.name||'';el('pSales').value=p.salesCode||'';el('pScale').value=p.scaleId||'';el('pProductCode').value=p.productCode||'';el('pSpec').value=p.spec||'';el('imgPreview').src=p.imageData||p.imageUrl||'';el('imgPreview').hidden=!(p.imageData||p.imageUrl);el('productImageFile').value='';el('removePhoto').checked=false;el('pName').focus();window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
+function clearForm(){['editId','pBarcode','pName','pSales','pScale','pProductCode','pSpec'].forEach(x=>el(x).value='');pendingImage=null;el('imgPreview').hidden=true;el('imgPreview').removeAttribute('src');el('productImageFile').value='';el('removePhoto').checked=false};el('clearProduct').onclick=clearForm;
+let pendingImage=null;
+async function compressProductImage(file){const bmp=await createImageBitmap(file);try{const scale=Math.min(1,720/Math.max(bmp.width,bmp.height)),w=Math.max(1,Math.round(bmp.width*scale)),h=Math.max(1,Math.round(bmp.height*scale));const tmp=document.createElement('canvas');tmp.width=w;tmp.height=h;const c=tmp.getContext('2d',{willReadFrequently:true});c.fillStyle='#fff';c.fillRect(0,0,w,h);c.drawImage(bmp,0,0,w,h);const pix=c.getImageData(0,0,w,h).data;let x0=w,y0=h,x1=0,y1=0,found=false;for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){const i=(y*w+x)*4;const nearWhite=pix[i]>242&&pix[i+1]>242&&pix[i+2]>242; if(!nearWhite){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);found=true}}if(!found||((x1-x0)*(y1-y0)<w*h*.025)){x0=0;y0=0;x1=w-1;y1=h-1}const margin=Math.round(Math.min(w,h)*.025);x0=Math.max(0,x0-margin);y0=Math.max(0,y0-margin);x1=Math.min(w-1,x1+margin);y1=Math.min(h-1,y1+margin);const sw=x1-x0+1,sh=y1-y0+1,target=240,ratio=Math.min(1,target/Math.max(sw,sh));const canvas=document.createElement('canvas');canvas.width=Math.round(sw*ratio)||1;canvas.height=Math.round(sh*ratio)||1;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(tmp,x0,y0,sw,sh,0,0,canvas.width,canvas.height);const webp=canvas.toDataURL('image/webp',.65);return webp.startsWith('data:image/webp')?webp:canvas.toDataURL('image/jpeg',.65)}finally{bmp.close?.()}}
+
+// Show immediately on a successful live barcode scan when this product has no photo.
+function showMissingPhotoModal(p){
+ if(!p||p.imageData||p.imageUrl)return;
+ stopExpiryVoice();
+ el('missingModalProduct').textContent=p.name+' · '+(p.salesCode||p.barcode||currentCode);
+ el('missingModalStatus').textContent='사진은 이 휴대폰에만 저장됩니다.';
+ el('missingModalPreview').hidden=true;el('missingModalPreview').removeAttribute('src');
+ el('missingPhotoModal').hidden=false;
+}
+function closeMissingPhotoModal(){el('missingPhotoModal').hidden=true;if(currentProduct){showExpiryPopup();if(el('autoVoiceExpiry')?.checked)startExpiryVoice(true);}}
+el('missingModalCamera').onclick=()=>el('missingModalCameraFile').click();
+el('missingModalGallery').onclick=()=>el('missingModalGalleryFile').click();
+el('missingModalLater').onclick=()=>{closeMissingPhotoModal();el('expiryDate').focus();};
+async function saveMissingModalPhoto(e){
+ const file=e.target.files?.[0];e.target.value='';if(!file||!currentProduct)return;
+ const target=currentProduct;
+ el('missingModalStatus').textContent='사진을 저장하는 중입니다…';
+ try{
+  const data=await compressProductImage(file);
+  const before={imageData:target.imageData,imageUrl:target.imageUrl,imageSource:target.imageSource};
+  target.imageData=data;target.imageSource='개인 직접 등록';delete target.imageUrl;
+  if(!persist()){
+   if(before.imageData===undefined)delete target.imageData;else target.imageData=before.imageData;
+   if(before.imageUrl===undefined)delete target.imageUrl;else target.imageUrl=before.imageUrl;
+   if(before.imageSource===undefined)delete target.imageSource;else target.imageSource=before.imageSource;
+   el('missingModalStatus').textContent='휴대폰 저장 공간을 확인해주세요.';return;
+  }
+  el('missingModalPreview').src=data;el('missingModalPreview').hidden=false;
+  el('missingProductPhoto').hidden=true;
+  showLiveInfo(currentCode,target);showResult(currentCode,target);renderProducts();
+  el('missingModalStatus').textContent='✅ 상품 이미지 저장 완료! 소비기한을 입력하세요.';
+  setTimeout(()=>{if(currentProduct===target&&!el('missingPhotoModal').hidden)closeMissingPhotoModal()},650);
+ }catch(err){el('missingModalStatus').textContent='사진 처리 실패: '+(err.message||String(err))}
+}
+el('missingModalCameraFile').onchange=saveMissingModalPhoto;
+el('missingModalGalleryFile').onchange=saveMissingModalPhoto;
+
+// An image-less product can be photographed inside the expiry entry flow.
+el('takeProductPhoto').onclick=()=>el('takeProductPhotoFile').click();
+el('chooseProductPhoto').onclick=()=>el('chooseProductPhotoFile').click();
+async function captureProductPhoto(e){
+ const file=e.target.files?.[0];if(!file||!currentProduct)return;
+ el('productPhotoStatus').textContent='상품 사진 준비 중...';
+ try{
+  pendingScanProductPhoto=await compressProductImage(file);
+  el('pendingProductPhotoPreview').src=pendingScanProductPhoto;
+  el('pendingProductPhoto').hidden=false;
+  el('productPhotoStatus').textContent='사진 준비 완료 · 소비기한 저장 버튼을 누르면 함께 등록됩니다.';
+ }catch(err){el('productPhotoStatus').textContent='사진 처리 실패: '+(err.message||err);toast('상품 사진을 처리하지 못했습니다.')}
+ finally{e.target.value=''}
+}
+el('takeProductPhotoFile').onchange=captureProductPhoto;
+el('chooseProductPhotoFile').onchange=captureProductPhoto;
+el('removePendingPhoto').onclick=()=>{
+ pendingScanProductPhoto=null;el('pendingProductPhoto').hidden=true;
+ el('pendingProductPhotoPreview').removeAttribute('src');
+ el('productPhotoStatus').textContent='사진을 다시 촬영하거나 선택해주세요.';
+};
+el('skipExpiry').onclick=()=>{
+ if(!barcodePaused)return;
+ if(!confirm('소비기한을 저장하지 않고 다음 상품을 스캔할까요?'))return;
+ resumeBarcodeScanning();
+};
+el('productImageFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{pendingImage=await compressProductImage(f);el('imgPreview').src=pendingImage;el('imgPreview').hidden=false;el('removePhoto').checked=false;toast('사진을 상품 중심으로 축소했습니다')}catch(err){toast('사진 처리 실패: '+err.message)}};
+el('saveProduct').onclick=()=>{const id=el('editId').value||uid(),barcode=digits(el('pBarcode').value),name=norm(el('pName').value),salesCode=digits(el('pSales').value),scaleId=digits(el('pScale').value);if(!name){toast('상품명을 입력해주세요');return}if(barcode&&db.products.some(p=>p.id!==id&&p.barcode===barcode)){toast('이미 등록된 바코드입니다');return}const prior=db.products.find(p=>p.id===id)||{};const obj={...prior,id,barcode,name,salesCode,scaleId,productCode:digits(el('pProductCode').value),spec:norm(el('pSpec').value)};if(el('removePhoto').checked){delete obj.imageData;delete obj.imageUrl;delete obj.imageSource;delete obj.imageStatus}if(pendingImage){obj.imageData=pendingImage;delete obj.imageUrl;obj.imageStatus='사용자 등록 이미지'}const i=db.products.findIndex(p=>p.id===id);if(i>=0)db.products[i]=obj;else db.products.push(obj);Object.values(db.inventory).forEach(v=>{if(v.productId===id)v.name=name});persist();clearForm();render();toast('상품을 저장했습니다')};
+function deleteProduct(id){if(!confirm('상품만 삭제할까요? 기존 재고와 스캔기록은 유지됩니다.'))return;db.products=db.products.filter(x=>x.id!==id);persist();render()}
+function renderProducts(){const q=norm(el('productSearch').value).toLowerCase(),items=db.products.filter(p=>[p.name,p.spec,p.productCode,p.barcode,p.salesCode,p.scaleId].some(s=>String(s||'').toLowerCase().includes(q)));el('photoCount').textContent=`전체 ${db.products.length}종 · 사진 등록 ${db.products.filter(p=>p.imageData||p.imageUrl).length}종 · 검색 ${items.length}종`;el('productList').innerHTML=items.length?items.slice(0,500).map(p=>`<div class="listitem"><div class="itemtop"><div class="photo-row">${photoMarkup(p)}<div><div class="itemname">${escapeHTML(p.name)}</div><div class="itemcode">규격 ${escapeHTML(p.spec||'-')}<br>상품코드 ${escapeHTML(p.productCode||'-')}<br>판매/바코드 ${escapeHTML(p.salesCode||p.barcode||'-')} · 저울 ${escapeHTML(p.scaleId||'-')}</div></div></div></div><div class="image-actions"><button class="btn secondary" data-edit="${escapeHTML(p.id)}">상품·사진 수정</button><button class="btn secondary" data-image-search="${escapeHTML(p.id)}">웹 이미지 찾기</button><button class="btn danger" data-delete="${escapeHTML(p.id)}">삭제</button></div></div>`).join(''):'<div class="empty">검색된 상품이 없습니다.</div>';el('productList').querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editProduct(b.dataset.edit));el('productList').querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>deleteProduct(b.dataset.delete));el('productList').querySelectorAll('[data-image-search]').forEach(b=>b.onclick=()=>{const p=db.products.find(p=>p.id===b.dataset.imageSearch);if(p)photoSearch(p)})};el('productSearch').oninput=renderProducts;
+function renderInventory(){const arr=Object.entries(db.inventory),q=norm(el('inventorySearch').value).toLowerCase();el('skuCount').textContent=arr.filter(([k,v])=>Number(v.quantity)>0).length.toLocaleString();el('unitCount').textContent=arr.reduce((a,[k,v])=>a+(Number(v.quantity)||0),0).toLocaleString();el('eventCount').textContent=db.history.length.toLocaleString();const filtered=arr.filter(([k,v])=>[v.name,v.barcode].some(s=>String(s||'').toLowerCase().includes(q)));el('inventoryList').innerHTML=filtered.length?filtered.map(([k,v])=>`<div class="listitem"><div class="itemtop"><div><div class="itemname">${escapeHTML(v.name)}</div><div class="itemcode">${escapeHTML(v.barcode||'바코드 없음')}</div></div><div class="qty"><button data-minus="${escapeHTML(k)}" aria-label="수량 감소">−</button><input type="number" min="0" step="1" inputmode="numeric" data-qty="${escapeHTML(k)}" value="${Number(v.quantity)||0}" aria-label="재고 수량"><button data-plus="${escapeHTML(k)}" aria-label="수량 증가">+</button></div></div></div>`).join(''):'<div class="empty">조사한 상품이 없습니다.<br>스캔 화면에서 상품을 읽어보세요.</div>';el('inventoryList').querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.plus,1));el('inventoryList').querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>changeQty(b.dataset.minus,-1));el('inventoryList').querySelectorAll('[data-qty]').forEach(b=>b.onchange=()=>{const v=Number(b.value);if(!Number.isSafeInteger(v)||v<0){toast('0 이상의 정수를 입력해주세요');render();return}db.inventory[b.dataset.qty].quantity=v;db.inventory[b.dataset.qty].updated=new Date().toISOString();persist();render()});el('historyList').innerHTML=db.history.length?db.history.slice(0,80).map(v=>`<div class="listitem"><div class="itemtop"><div><div class="itemname">${escapeHTML(v.name)}</div><div class="itemcode">${escapeHTML(v.barcode)}</div></div><span class="small">${escapeHTML(new Date(v.scannedAt).toLocaleString('ko-KR'))}</span></div></div>`).join(''):'<div class="empty">스캔 기록이 없습니다.</div>'}
+function changeQty(k,delta){if(!db.inventory[k])return;db.inventory[k].quantity=Math.max(0,(Number(db.inventory[k].quantity)||0)+delta);db.inventory[k].updated=new Date().toISOString();persist();render()};el('inventorySearch').oninput=renderInventory;
+function render(){el('scanCount').textContent=db.history.length+'건';el('recent').innerHTML=db.history.length?db.history.slice(0,20).map(h=>`<div class="listitem"><div class="itemtop"><div><b>${escapeHTML(h.name)}</b><div class="itemcode">${escapeHTML(h.barcode)}</div></div><span class="small">${escapeHTML(new Date(h.scannedAt).toLocaleTimeString('ko-KR'))}</span></div></div>`).join(''):'<div class="empty">최근 기록이 없습니다.</div>';renderSoon();renderProducts();renderInventory();renderExpiry()}
+function renderSoon(){
+ if(!Array.isArray(db.expiry))db.expiry=[];
+ const today=todayLocal();
+ const rows=db.expiry.map(x=>{
+   const d=new Date(x.date+'T00:00:00');
+   const diff=Math.round((d-today)/86400000);
+   return {...x,diff};
+ }).filter(x=>Number.isFinite(x.diff)&&x.diff<=30).sort((a,b)=>a.diff-b.diff);
+ el('soonCount').textContent=rows.length+'건';
+ el('soonList').innerHTML=rows.length?rows.slice(0,100).map(x=>{
+ const product=db.products.find(p=>p.id===x.productId);
+ const dd=x.diff<0?'기한 경과 '+Math.abs(x.diff)+'일':x.diff===0?'D-day':'D-'+x.diff;
+ const state=(x.discountRate===20||x.discountRate===40)?'✓ '+x.discountRate+'% 할인 완료':'할인 미조치';
+ return `<div class="listitem v41-soon-card">
+  <div class="v41-soon-layout">
+   <div class="v41-soon-photo" title="사진을 누르면 확대합니다">${photoMarkup(product)}</div>
+   <div class="v41-soon-info">
+    <div class="v41-soon-title">${escapeHTML(product?.name||x.name||'상품명 미확인')} <span class="v41-soon-dday">(${escapeHTML(dd)})</span></div>
+    <div class="v41-soon-date">소비기한 ${escapeHTML(x.date)}</div>
+    <div class="itemcode">${escapeHTML(x.spec||product?.spec||'')} ${escapeHTML(x.barcode||'바코드 미등록')}</div>
+    <div class="v41-soon-discount-status ${state==='할인 미조치'?'pending':''}">${escapeHTML(state)}</div>
+    ${x.discountAppliedAt?'<span class="small">'+escapeHTML(new Date(x.discountAppliedAt).toLocaleString('ko-KR'))+'</span>':''}
+    <div class="v41-soon-actions">
+     <button type="button" class="btn secondary" data-soon-discount="20" data-id="${escapeHTML(x.id)}" ${x.diff<0?'disabled title="기한 경과 상품 할인 불가"':''}>20% 할인</button>
+     <button type="button" class="btn secondary" data-soon-discount="40" data-id="${escapeHTML(x.id)}" ${x.diff<0?'disabled title="기한 경과 상품 할인 불가"':''}>40% 할인</button>
+    </div>
+   </div>
+  </div>
+  <button type="button" class="btn green v41-soon-complete" data-soon-complete="${escapeHTML(x.id)}">✓ 처리 완료 · 목록에서 삭제</button>
+ </div>`;
+ }).join(''):'<div class="empty">D-30 이내 임박상품이 없습니다.</div>';
+ el('soonList').querySelectorAll('.v41-soon-photo img').forEach(img=>img.addEventListener('click',()=>{
+   const source=img.currentSrc||img.src;if(!source)return;
+   const win=window.open('','_blank');if(win){win.document.write('<html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="background:#111;display:grid;place-items:center;min-height:95vh;margin:0"><img style="max-width:100%;max-height:95vh;object-fit:contain" src="'+source+'"></body></html>');win.document.close()}
+ }));
+ el('soonList').querySelectorAll('[data-soon-discount]').forEach(btn=>btn.onclick=()=>{
+  const id=btn.dataset.id, rate=Number(btn.dataset.soonDiscount);
+  const rec=db.expiry.find(x=>String(x.id)===id);
+  if(!rec||![20,40].includes(rate))return;
+  const days=Math.round((new Date(rec.date+'T00:00:00')-todayLocal())/86400000);
+  if(days<0){toast('소비기한 경과 상품은 할인 처리할 수 없습니다.');return;}
+  if(!confirm(rec.name+'\n소비기한: '+rec.date+'\n\n'+rate+'% 할인 조치를 기록할까요?\n상품은 임박 목록에 계속 표시됩니다.'))return;
+  const prevRate=rec.discountRate,prevAt=rec.discountAppliedAt;
+  rec.discountRate=rate;rec.discountAppliedAt=new Date().toISOString();
+  if(!persist()){rec.discountRate=prevRate;rec.discountAppliedAt=prevAt;return;}
+  renderSoon();renderExpiry();toast(rate+'% 할인 조치를 기록했습니다.');
+ });
+ el('soonList').querySelectorAll('[data-soon-complete]').forEach(btn=>btn.onclick=async()=>{
+  const id=btn.dataset.soonComplete;
+  const rec=db.expiry.find(x=>String(x.id)===id);
+  if(!rec)return;
+  if(!confirm('처리 완료한 소비기한 기록을 삭제할까요?\n\n'+rec.name+'\n소비기한: '+rec.date+'\n\n같은 상품의 다른 날짜는 유지됩니다.'))return;
+  btn.disabled=true;btn.textContent='처리 중...';
+  db.expiry=db.expiry.filter(x=>String(x.id)!==id);persist();renderExpiry();toast('처리 완료: 목록에서 삭제했습니다')
+  renderSoon();
+ });
+}
+
+function showV41UrgentAlert(){
+ const today=todayLocal();
+ const urgent=(Array.isArray(db.expiry)?db.expiry:[]).map(x=>({...x,days:Math.round((new Date(x.date+'T00:00:00')-today)/86400000)}))
+   .filter(x=>Number.isFinite(x.days)&&x.days<=3).sort((a,b)=>a.days-b.days);
+ const modal=el('v41UrgentOverlay');
+ if(!urgent.length){modal.hidden=true;return}
+ el('v41UrgentSummary').textContent=urgent.length+'건 · 소비기한 D-3 이내 또는 경과 상품을 즉시 확인하세요.';
+ el('v41UrgentRows').innerHTML=urgent.map(x=>`<div class="v41-urgent-item">
+ <div class="v41-urgent-item-title">${escapeHTML(x.name||db.products.find(p=>p.id===x.productId)?.name||'상품명 미확인')} <span class="v41-urgent-level">(${x.days<0?'기한 경과 '+Math.abs(x.days)+'일':x.days===0?'D-day':'D-'+x.days})</span></div>
+ <div class="v41-urgent-item-date">소비기한 ${escapeHTML(x.date)} · ${escapeHTML(x.barcode||'바코드 미등록')}</div></div>`).join('');
+ modal.hidden=false;
+ el('v41UrgentClose').focus();
+}
+el('v41UrgentClose').addEventListener('click',()=>{el('v41UrgentOverlay').hidden=true});
+window.addEventListener('fish-v41-authenticated',showV41UrgentAlert);
+function download(name,content,mime){const blob=new Blob([content],{type:mime}),u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}
+function csvCell(v){let s=String(v??'');if(/^[\s]*[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}
+function csv(name,rows){download(name,'\ufeff'+rows.map(row=>row.map(csvCell).join(',')).join('\r\n'),'text/csv;charset=utf-8')}
+const dateSlug=()=>new Date().toLocaleDateString('en-CA').replaceAll('-','');
+const todayLocal=()=>{const d=new Date();return new Date(d.getFullYear(),d.getMonth(),d.getDate())};
+function dateISO(y,m,d){y=Number(y);m=Number(m);d=Number(d);if(y<100)y+=2000;const date=new Date(y,m-1,d);if(date.getFullYear()!==y||date.getMonth()!==m-1||date.getDate()!==d)return '';return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
+function spokenDate(input){
+ let s=String(input||'').trim().replace(/[,]/g,' ').replace(/\s+/g,' ');
+ const today=todayLocal();
+ let m=s.match(/(?:20\d{2}|\d{2})\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일?/);
+ if(m){const v=m[0].match(/(20\d{2}|\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})/);if(v)return dateISO(v[1],v[2],v[3])}
+ m=s.match(/\b(\d{4})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})\b/);if(m)return dateISO(m[1],m[2],m[3]);
+ m=s.match(/\b(\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})\b/);if(m)return dateISO(m[1],m[2],m[3]);
+ m=s.match(/(내년|올해|금년)?\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?/);
+ if(m){let y=today.getFullYear()+(m[1]==='내년'?1:0);if(!m[1]){const check=dateISO(y,m[2],m[3]);if(check&&check<dateISO(y,today.getMonth()+1,today.getDate()))y++}return dateISO(y,m[2],m[3])}
+ return '';
+}
+// A production/packing date + duration is distinct from a directly stated expiry date.
+// For omitted years, manufacturing/packing is this year unless the date is in the future,
+// in which case it means last year (not next year as with a future expiry date).
+function sourceDateFromSpeech(s){
+ const today=todayLocal();let m;
+ if(/(?:제조|포장|생산)\s*(?:일|날짜|한 날)?\s*(?:이|은|는|부터|이후|기준)?\s*(?:오늘|금일)/.test(s))return dateISO(today.getFullYear(),today.getMonth()+1,today.getDate());
+ if(/(?:제조|포장|생산)\s*(?:일|날짜|한 날)?\s*(?:이|은|는|부터|이후|기준)?\s*어제/.test(s)){const d=new Date(today);d.setDate(d.getDate()-1);return dateISO(d.getFullYear(),d.getMonth()+1,d.getDate())}
+ m=s.match(/(20\d{2}|\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?/);
+ if(m)return dateISO(m[1],m[2],m[3]);
+ m=s.match(/(?:^|\D)(20\d{2}|\d{2})\s*[.\-/]\s*(\d{1,2})\s*[.\-/]\s*(\d{1,2})(?:\D|$)/);
+ if(m)return dateISO(m[1],m[2],m[3]);
+ m=s.match(/(작년|지난해|올해|금년)?\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일?/);
+ if(!m)return '';
+ let y=today.getFullYear()-(m[1]==='작년'||m[1]==='지난해'?1:0);
+ if(!m[1]){const guess=dateISO(y,m[2],m[3]);if(guess&&guess>dateISO(y,today.getMonth()+1,today.getDate()))y--}
+ return dateISO(y,m[2],m[3]);
+}
+function addMonthsClamped(iso,count){const [y,m,d]=iso.split('-').map(Number);const monthTotal=y*12+(m-1)+count;const yy=Math.floor(monthTotal/12),mm=monthTotal%12+1;const days=new Date(yy,mm,0).getDate();return dateISO(yy,mm,Math.min(d,days))}
+function parseSpokenExpiry(input){
+ const phrase=String(input||'').trim();
+ const s=phrase.replace(/[，,]/g,' ').replace(/\s+/g,' ');
+ let mo=s.match(/(\d{1,3})\s*(?:개\s*월|개월|달)/);
+ // Preserve previously supported spoken Korean month amounts.
+ if(!mo){const words={한:1,하나:1,두:2,둘:2,세:3,셋:3,네:4,넷:4,여섯:6,육:6,삼:3,오:5,십:10,열두:12,열:10,일:1,이:2,사:4,칠:7,팔:8,구:9};const word=s.match(/(열두|여섯|하나|한|두|둘|세|셋|네|넷|육|삼|오|십|열|일|이|사|칠|팔|구)\s*(?:개\s*월|개월|달)/);if(word)mo=[word[0],String(words[word[1]])]}
+ const hasSource=/(?:제조|포장|생산|로부터|개월|개\s*월|달)/.test(s);
+ if(mo){
+   const months=Number(mo[1]);
+   if(!Number.isInteger(months)||months<1||months>120)return {error:'개월 수는 1~120개월로 말씀해주세요.'};
+   const explicitSource=/(?:제조|포장|생산|로부터|부터|기준)/.test(s);
+   // V42 quick order: "6개월 2026년 11월 17일" or "6개월 11월 17일".
+   // In the quick form without an explicit source label, a missing year means this year.
+   let source='';
+   if(explicitSource){source=sourceDateFromSpeech(s)}
+   else {
+     const dated=s.replace(mo[0],' ').trim();
+     const hasYear=/(?:20\d{2}|\d{2})\s*년/.test(dated)||/(?:^|\D)(?:20\d{2}|\d{2})\s*[.\/-]\s*\d{1,2}\s*[.\/-]\s*\d{1,2}/.test(dated);
+     if(hasYear)source=sourceDateFromSpeech(dated);
+     else {
+       const d=dated.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일?/);
+       if(d)source=dateISO(todayLocal().getFullYear(),d[1],d[2]);
+     }
+   }
+   if(!source)return {error:'개월 수 다음에 날짜를 말해주세요. 예: “6개월 2026년 11월 17일”'};
+   return {date:addMonthsClamped(source,months),source,months,calculated:true,phrase};
+ }
+ if(hasSource&&/(?:제조|포장|생산)/.test(s))return {error:'제조일·포장일 기준이라면 “6개월”처럼 기간도 말씀해주세요.'};
+ const date=spokenDate(s);
+ if(date)return {date,calculated:false,phrase};
+ return {error:'날짜를 인식하지 못했습니다. “6개월 11월 17일” 또는 “2027년 3월 15일”처럼 말씀해주세요.'};
+}
+let voiceRecognition=null;
+let voiceSession=null;
+const SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+function voiceUpdateControls(){
+ const listening=!!voiceSession;
+ el('voiceExpiry').classList.toggle('voice-busy',listening);
+ el('voiceExpiry').textContent=listening?'■ 듣기 중지':'🎙️ 말하기';
+}
+function stopExpiryVoice(reason=''){
+ const session=voiceSession;
+ if(!session)return;
+ voiceSession=null;
+ clearTimeout(session.restartTimer);
+ clearInterval(session.countdownTimer);
+ if(voiceRecognition){
+   const rec=voiceRecognition;
+   voiceRecognition=null;
+   try{rec.abort()}catch(e){}
+ }
+ voiceUpdateControls();
+ if(reason){
+   el('voiceTimer').textContent=reason;
+ }
+}
+function voiceRemaining(session){return Math.max(0,Math.ceil((session.endsAt-Date.now())/1000))}
+function startExpiryVoice(auto=false){
+ if(!currentProduct){el('voiceStatus').textContent='먼저 상품을 바코드로 인식해주세요.';return}
+ if(!SpeechRec){el('voiceStatus').className='status warn';el('voiceStatus').textContent='이 브라우저는 음성인식을 지원하지 않습니다. 소비기한을 직접 입력해주세요.';return}
+ // Tapping the button again stops the active 60-second session.
+ if(voiceSession){if(auto){stopExpiryVoice();}else{stopExpiryVoice('음성 듣기를 중지했습니다.');return}}
+ const session={productId:currentProduct.id,endsAt:Date.now()+60000,restartTimer:null,countdownTimer:null,recognized:false,pendingMonths:null};
+ voiceSession=session;
+ el('voiceStatus').className='status';
+ el('voiceStatus').textContent='🎙️ 예: “6개월 2026년 11월 17일” 또는 “6개월” 다음 “11월 17일”';
+ el('voiceTimer').textContent='최대 60초 동안 음성을 듣습니다.';
+ voiceUpdateControls();
+ session.countdownTimer=setInterval(()=>{
+   if(voiceSession!==session)return;
+   const sec=voiceRemaining(session);
+   el('voiceTimer').textContent=sec>0?'🎙️ 남은 듣기 시간 '+sec+'초':'듣기 시간 종료';
+   if(sec===0)stopExpiryVoice('1분 듣기가 종료되었습니다. 다시 말하려면 🎙️ 말하기를 누르세요.');
+ },1000);
+ function restart(){
+   if(voiceSession!==session||!currentProduct||currentProduct.id!==session.productId)return;
+   if(voiceRemaining(session)<=0){stopExpiryVoice('1분 듣기가 종료되었습니다.');return}
+   try{
+     const rec=new SpeechRec();
+     voiceRecognition=rec;
+     rec.lang='ko-KR';rec.continuous=true;rec.interimResults=false;rec.maxAlternatives=5;
+     rec.onresult=e=>{
+       if(voiceSession!==session||!currentProduct||currentProduct.id!==session.productId)return;
+       for(let i=e.resultIndex;i<e.results.length;i++){
+         if(!e.results[i].isFinal)continue;
+         const alternatives=Array.from(e.results[i]).map(x=>x.transcript.trim());
+         // Support a pause between the month count and the date within the same 60-second session.
+         const options=alternatives.map(t=>parseSpokenExpiry(session.pendingMonths ? session.pendingMonths+' '+t : t));
+         const found=options.find(x=>x.date);
+         if(found){
+           session.pendingMonths=null;
+           el('expiryDate').value=found.date;
+           session.recognized=true;
+           el('voiceStatus').className='status ok';
+           el('voiceStatus').textContent=found.calculated?`“${found.phrase}” → 기준일 ${found.source} + ${found.months}개월 = 소비기한 ${found.date} (확인 후 저장)`:`“${found.phrase}” → 소비기한 ${found.date} (확인 후 저장)`;
+         }else if(!session.recognized){
+           const onlyMonths=alternatives.map(t=>t.match(/^\s*(\d{1,3})\s*(?:개\s*월|개월|달)\s*$/)).find(Boolean);
+           if(onlyMonths && Number(onlyMonths[1])>=1 && Number(onlyMonths[1])<=120){
+             session.pendingMonths=onlyMonths[0].trim();
+             el('voiceStatus').className='status';
+             el('voiceStatus').textContent='🎙️ '+session.pendingMonths+' 인식 완료. 이어서 날짜를 말씀하세요. 예: “11월 17일”';
+           }else{
+             el('voiceStatus').className='status warn';
+             el('voiceStatus').textContent=options[0]?.error||'날짜를 인식하지 못했습니다. 다시 말씀해주세요.';
+           }
+         }
+       }
+     };
+     rec.onerror=e=>{
+       if(voiceSession!==session)return;
+       // Permission/service failures cannot be fixed by retrying automatically.
+       if(['not-allowed','service-not-allowed','audio-capture','language-not-supported'].includes(e.error)){
+         stopExpiryVoice('마이크 권한 또는 브라우저 제한으로 종료되었습니다.');
+         el('voiceStatus').className='status warn';
+         el('voiceStatus').textContent='음성인식 제한: '+e.error+' · 마이크 권한을 확인하고 말하기 버튼을 눌러주세요.';
+       }
+       // no-speech/network errors may end this recognition instance; onend retries.
+     };
+     rec.onend=()=>{
+       if(voiceRecognition===rec)voiceRecognition=null;
+       if(voiceSession!==session)return;
+       if(voiceRemaining(session)<=0){stopExpiryVoice('1분 듣기가 종료되었습니다. 다시 말하려면 🎙️ 말하기를 누르세요.');return}
+       clearTimeout(session.restartTimer);
+       session.restartTimer=setTimeout(restart,300);
+     };
+     rec.start();
+   }catch(err){
+     if(voiceSession!==session)return;
+     // Some mobile browsers block automatic repeated start attempts.
+     stopExpiryVoice('브라우저가 음성 재시작을 제한했습니다. 말하기 버튼을 다시 눌러주세요.');
+     el('voiceStatus').className='status warn';
+     el('voiceStatus').textContent='음성인식 재시작 실패: '+err.message;
+   }
+ }
+ restart();
+}
+el('voiceExpiry').onclick=()=>startExpiryVoice(false);
+el('saveExpiry').onclick=async()=>{if(!currentProduct){toast('먼저 바코드를 인식해주세요');return}const date=el('expiryDate').value;if(!date||!dateISO(...date.split('-'))){toast('소비기한 날짜를 확인해주세요');return}if(!Array.isArray(db.expiry))db.expiry=[];const exists=db.expiry.some(x=>x.productId===currentProduct.id&&x.date===date);if(exists){toast('같은 상품의 동일 소비기한이 이미 있습니다');return}const oldPhoto={imageData:currentProduct.imageData,imageUrl:currentProduct.imageUrl,imageSource:currentProduct.imageSource};
+if(pendingScanProductPhoto){currentProduct.imageData=pendingScanProductPhoto;currentProduct.imageSource='직접 촬영';delete currentProduct.imageUrl;}
+const item={id:uid(),productId:currentProduct.id,barcode:currentCode,name:currentProduct.name,spec:currentProduct.spec||'',date,createdAt:new Date().toISOString()};
+db.expiry.unshift(item);if(!persist()){db.expiry.shift();currentProduct.imageData=oldPhoto.imageData;currentProduct.imageSource=oldPhoto.imageSource;currentProduct.imageUrl=oldPhoto.imageUrl;return}renderExpiry();renderSoon();renderProducts();
+const photoAdded=!!pendingScanProductPhoto;
+resumeBarcodeScanning();
+toast('소비기한 '+date+(photoAdded?' · 상품 사진':'')+' 등록 완료 · 다음 스캔')};
+function renderExpiry(){if(!Array.isArray(db.expiry))db.expiry=[];el('expiryCount').textContent=db.expiry.length+'건';const q=norm(el('expirySearch').value).toLowerCase();const a=db.expiry.filter(x=>[x.name,x.barcode,x.date,x.spec].some(v=>String(v||'').toLowerCase().includes(q)));el('expiryList').innerHTML=a.length?a.slice(0,400).map(x=>`<div class="listitem"><div class="photo-row">${photoMarkup(db.products.find(p=>p.id===x.productId))}<div style="min-width:0"><div class="itemname">${escapeHTML(x.name)}</div><div class="itemcode">${escapeHTML(x.spec||'')} · ${escapeHTML(x.barcode)}</div></div></div><div class="row" style="margin-top:8px"><span class="expiry-pill">${escapeHTML(x.date)}</span><button class="btn danger" style="flex:0 0 auto;min-height:36px;padding:6px 12px" data-expiry-delete="${escapeHTML(x.id)}">삭제</button></div></div>`).join(''):'<div class="empty">등록된 소비기한이 없습니다.</div>';el('expiryList').querySelectorAll('[data-expiry-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('이 소비기한 기록을 삭제할까요?'))return;db.expiry=db.expiry.filter(x=>x.id!==b.dataset.expiryDelete);persist();renderExpiry();renderSoon()})}
+el('expirySearch').oninput=renderExpiry;
+el('expiryExport').onclick=()=>csv('소비기한_'+dateSlug()+'.csv',[['상품명','규격','판매코드','소비기한','등록시간'],...db.expiry.map(x=>[x.name,x.spec,x.barcode,x.date,x.createdAt])]);
+
+el('inventoryExport').onclick=()=>csv('재고조사_'+dateSlug()+'.csv',[['바코드','상품명','판매코드','저울ID','재고수량','마지막변경'],...Object.values(db.inventory).map(v=>{const p=db.products.find(p=>p.id===v.productId);return [v.barcode,v.name,p?.salesCode||'',p?.scaleId||'',v.quantity,v.updated]})]);el('historyExport').onclick=()=>csv('스캔기록_'+dateSlug()+'.csv',[['스캔시간','바코드','상품명'],...db.history.map(h=>[h.scannedAt,h.barcode,h.name])]);el('productsExport').onclick=()=>csv('상품목록_'+dateSlug()+'.csv',[['바코드','상품명','판매코드','상품코드','규격','저울ID','이미지출처'],...db.products.map(p=>[p.barcode,p.name,p.salesCode,p.productCode||'',p.spec||'',p.scaleId,p.imageSource||''])]);el('template').onclick=()=>csv('상품등록_양식.csv',[['바코드','상품명','판매코드','상품코드','규격','저울ID'],['8801234567890','상품명 예시','8801234567890','1000000001','80G','101']]);
+el('backup').onclick=()=>download('바코드전체백업_'+dateSlug()+'.json',JSON.stringify({type:'fish-barcode-backup',version:1,exportedAt:new Date().toISOString(),...db},null,2),'application/json');
+el('restoreBtn').onclick=()=>el('restoreFile').click();el('restoreFile').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{const d=JSON.parse(await file.text());if(!validData(d))throw Error('형식 오류');if(!confirm('현재 모든 자료를 백업 파일 내용으로 대체할까요?'))return;const before=db;db={products:d.products,inventory:d.inventory,history:d.history,expiry:Array.isArray(d.expiry)?d.expiry:[],settings:{autoStock:false,vibrate:true,...d.settings}};if(!persist()){db=before;throw Error('기기 저장 공간 부족')}applySettings();render();toast('복원이 완료되었습니다')}catch(err){alert('백업 파일을 읽을 수 없습니다: '+err.message)}finally{e.target.value=''}};
+el('clearInventory').onclick=()=>{if(confirm('재고 수량을 모두 삭제할까요? 상품과 스캔기록은 유지됩니다.')){db.inventory={};persist();render()}};el('clearHistory').onclick=()=>{if(confirm('스캔 기록을 모두 삭제할까요? 상품과 재고는 유지됩니다.')){db.history=[];persist();render()}};el('clearAll').onclick=()=>{if(confirm('상품, 재고, 스캔기록을 모두 삭제합니다. 복구가 불가능할 수 있습니다. 진행할까요?')&&confirm('정말로 모든 자료를 삭제할까요?')){db={products:[],inventory:{},history:[],expiry:[],settings:{autoStock:false,vibrate:true}};persist();applySettings();clearForm();el('result').hidden=true;render()}};
+function applySettings(){el('autoStock').checked=!!db.settings.autoStock;el('vibrate').checked=!!db.settings.vibrate};['autoStock','vibrate'].forEach(k=>el(k).onchange=e=>{db.settings[k]=e.target.checked;persist()});applySettings();
+// Native BarcodeDetector first, then ZXing browser library CDN fallback (internet required).
+let detector=null,stream=null,raf=0,active=false,scanning=false,zxing=null,zxingLoading=null;
+async function loadZXing(){if(window.ZXingBrowser)return window.ZXingBrowser;if(zxingLoading)return zxingLoading;zxingLoading=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js';s.onload=()=>window.ZXingBrowser?resolve(window.ZXingBrowser):reject(Error('라이브러리 로드 오류'));s.onerror=()=>reject(Error('인터넷 연결 또는 보안 정책으로 보조 인식기를 불러오지 못했습니다'));document.head.appendChild(s)});return zxingLoading}
+async function decoder(){if('BarcodeDetector'in window){try{const formats=await BarcodeDetector.getSupportedFormats?.();const use=['ean_13','ean_8','code_128','code_39','upc_a','upc_e','itf','qr_code','codabar'].filter(f=>!formats||formats.includes(f));if(use.length){detector=new BarcodeDetector({formats:use});return 'native'}}catch(e){}}const zx=await loadZXing();zxing=new zx.BrowserMultiFormatReader();return 'zxing'}
+function setStatus(msg,kind=''){el('scannerStatus').className='status '+kind;el('scannerStatus').textContent=msg}
+async function startCamera(){
+ if(active)return;
+ if(location.protocol==='file:'){
+  setStatus('다운로드한 HTML 파일로 실행 중입니다. 삼성 인터넷에서는 실시간 카메라가 제한됩니다. HTTPS 배포 후 웹주소로 실행하세요. HTTPS 웹주소에서 다시 실행해주세요.','warn');
+  el('cameraFallback').hidden=false;
+  return;
+ }
+ if(!navigator.mediaDevices?.getUserMedia){
+  const local=location.protocol==='file:';
+  setStatus(local?'다운로드한 HTML 파일에서는 삼성 인터넷의 보안 제한으로 실시간 카메라가 차단될 수 있습니다. HTTPS 주소에 올려 실행하세요.':'카메라 API를 사용할 수 없습니다. HTTPS 사이트와 삼성 인터넷 카메라 권한을 확인해주세요.','warn');
+  el('cameraFallback').hidden=false;
+  return;
+ }
+ el('start').disabled=true;
+ try{
+  // Ask for camera first, rather than waiting for the remote barcode decoder to load.
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}})}
+  catch(firstError){
+   // Some Samsung devices reject strict/ideal camera constraints. Try a basic stream.
+   if(firstError.name==='OverconstrainedError')stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment'}});
+   else throw firstError;
+  }
+  const video=el('video');video.srcObject=stream;video.style.display='block';el('cameraText').style.display='none';el('scanFrame').hidden=false;
+  await video.play();active=true;setStatus('카메라 실행 성공 · 바코드 인식기 준비 중','ok');
+  try{
+   const mode=await decoder();
+   if(!active)return;
+   setStatus('실시간 스캔 중 · '+(mode==='native'?'기본 인식기':'보조 인식기')+' 사용','ok');
+   processFrame();
+  }catch(decodeError){
+   setStatus('카메라는 켜졌으나 바코드 인식기 로딩에 실패했습니다. 인터넷 연결을 확인해주세요. ('+decodeError.message+')','warn');
+   el('cameraFallback').hidden=false;
+  }
+ }catch(e){
+  stopCamera();
+  const reason=e.name==='NotAllowedError'||e.name==='PermissionDeniedError'?'카메라 사용 권한이 거부되었습니다. 삼성 인터넷의 사이트 카메라 권한과 휴대폰 앱 권한을 허용해주세요.':e.name==='NotReadableError'?'카메라가 다른 앱에서 사용 중입니다. 카메라 앱을 닫고 다시 시도해주세요.':e.name==='SecurityError'?'이 페이지에서 카메라 사용이 제한되었습니다. HTTPS 주소로 실행하세요.':'카메라 실행 실패: '+(e.message||e.name);
+  setStatus(reason,'warn');el('cameraFallback').hidden=false;
+ }finally{el('start').disabled=false}
+}
+async function processFrame(){if(!active||scanning)return;if(barcodePaused){raf=setTimeout(processFrame,250);return}scanning=true;try{if(detector){const hits=await detector.detect(el('video'));if(hits?.[0]?.rawValue)scan(hits[0].rawValue)}else if(zxing){try{const v=el('video');if(v.videoWidth&&v.videoHeight){const c=document.createElement('canvas');c.width=Math.min(960,v.videoWidth);c.height=Math.round(v.videoHeight*c.width/v.videoWidth);c.getContext('2d').drawImage(v,0,0,c.width,c.height);const r=await zxing.decodeFromCanvas(c);if(r?.getText())scan(r.getText())}}catch(e){}}}catch(e){}finally{scanning=false;if(active)raf=setTimeout(processFrame,160)}}
+function stopCamera(){active=false;if(raf)clearTimeout(raf);raf=0;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}el('video').pause();el('video').srcObject=null;el('video').style.display='none';el('cameraText').style.display='';el('scanFrame').hidden=true;setStatus('카메라 중지됨. 다시 시작할 수 있습니다.');}
+el('start').onclick=startCamera;el('stop').onclick=stopCamera;document.addEventListener('visibilitychange',()=>{if(document.hidden){if(active)stopCamera();stopExpiryVoice('화면이 비활성화되어 음성 입력을 중단했습니다.')}});
+async function decodeImage(file){let img;try{img=await createImageBitmap(file);if(!detector&&!zxing)await decoder();if(detector){const out=await detector.detect(img);if(out?.length)return out[0].rawValue}if(zxing){const can=document.createElement('canvas');const scale=Math.min(1,1800/Math.max(img.width,img.height));can.width=Math.max(1,Math.round(img.width*scale));can.height=Math.max(1,Math.round(img.height*scale));can.getContext('2d').drawImage(img,0,0,can.width,can.height);const z=await zxing.decodeFromCanvas(can);return z?.getText()}throw Error('바코드를 찾을 수 없습니다. 더 가까이 밝게 촬영해주세요')}finally{img?.close?.()}}
+async function handleBarcodePhoto(e){const f=e.target.files?.[0];if(!f)return;if(barcodePaused){toast('먼저 현재 상품의 소비기한을 등록해주세요.');e.target.value='';return}setStatus('사진에서 바코드 인식 중...');el('barcodePhotoStatus').textContent='사진에서 바코드 인식 중...';try{const code=await decodeImage(f);if(!code)throw Error('바코드를 읽지 못했습니다.');scan(code,{force:true});setStatus('사진 인식 성공: '+code,'ok');el('barcodePhotoStatus').textContent='바코드 인식 성공: '+code}catch(err){setStatus('사진 인식 실패: '+err.message,'warn');el('barcodePhotoStatus').textContent='사진 인식 실패: '+err.message}finally{e.target.value=''}}
+el('photo').onchange=handleBarcodePhoto;el('cameraPhoto').onchange=handleBarcodePhoto;
+el('barcodeGalleryBtn').onclick=()=>el('photo').click();el('barcodeCameraBtn').onclick=()=>el('cameraPhoto').click();
+el('dateGalleryBtn').onclick=()=>el('datePhoto').click();el('dateCameraBtn').onclick=()=>el('dateCameraPhoto').click();
+let ocrWorker=null;
+async function ensureOCR(){
+ if(!window.Tesseract){await new Promise((resolve,reject)=>{const sc=document.createElement('script');sc.src='https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';sc.onload=resolve;sc.onerror=()=>reject(new Error('OCR 프로그램을 내려받지 못했습니다. 인터넷 연결을 확인해주세요.'));document.head.appendChild(sc)})}
+ if(!ocrWorker){ocrWorker=await Tesseract.createWorker('kor+eng',1,{logger:m=>{if(m.status==='recognizing text')el('ocrStatus').textContent='사진 글자 인식 중 '+Math.round((m.progress||0)*100)+'%'}})}
+ return ocrWorker;
+}
+function rawDateCandidates(raw){
+ const lines=String(raw||'').normalize('NFKC').replace(/[|]/g,' ').split(/\n/).map(x=>x.trim()).filter(Boolean);
+ const full=lines.join(' ').replace(/[，]/g,' ').replace(/[。]/g,'.').replace(/[／]/g,'/');
+ const found=new Map();
+ function push(date,reason,priority){
+  if(!date)return;
+  const y=Number(date.slice(0,4));
+  // A product use-by date far outside the usual operational range needs manual entry.
+  if(y<2020||y>2045)return;
+  const old=found.get(date);
+  if(!old||priority>old.priority)found.set(date,{date,reason,priority});
+ }
+ const durationRe=/(\d{1,3})\s*(?:개\s*월|개월|달)/g;
+ const durations=[...full.matchAll(durationRe)];
+ for(const m of durations){
+  const months=Number(m[1]);if(months<1||months>120)continue;
+  for(let i=0;i<lines.length;i++){
+   if(!/(제조|포장|생산|MFG|PROD|PACK)/i.test(lines[i]))continue;
+   const around=lines.slice(Math.max(0,i-1),Math.min(lines.length,i+3)).join(' ');
+   for(const date of extractNumericDates(around,'source'))push(addMonthsClamped(date,months),'제조·포장일 + '+months+'개월 (계산)',7);
+  }
+ }
+ for(let i=0;i<lines.length;i++){
+  const line=lines[i];
+  const expiry=/(소비|유통|기한|까지|EXP|BEST\s*BEFORE|사용기한)/i.test(line);
+  const source=/(제조|포장|생산|MFG|PROD|PACK)/i.test(line);
+  const context=line+' '+(lines[i+1]||'');
+  for(const d of extractNumericDates(context,expiry?'expiry':'neutral')){
+   if(expiry)push(d,'소비기한 표시 또는 「까지」 문구',9);
+   else if(!source)push(d,'날짜 추정 · 포장 문구 확인 필요',2);
+  }
+ }
+ return [...found.values()].sort((a,b)=>b.priority-a.priority||a.date.localeCompare(b.date)).slice(0,15);
+}
+function extractNumericDates(s,kind){
+ // Handle OCR spacing, full-width characters, and common separators without assuming the
+ // first numeric sequence is a correct expiration date.
+ const out=[],seen=new Set();
+ const normalized=String(s||'').normalize('NFKC').replace(/[．。·•]/g,'.').replace(/[／]/g,'/').replace(/[－–—]/g,'-').replace(/2[OＯ]([0-9]{2})/g,'20$1').replace(/(20[0-9]{2})\s*[,，:]\s*(\d{1,2})\s*[,，:]\s*(\d{1,2})/g,'$1.$2.$3');
+ const pats=[
+  /(?:^|[^0-9])((?:20)?\d{2})\s*(?:년|[.\-/])\s*(\d{1,2})\s*(?:월|[.\-/])\s*(\d{1,2})\s*일?/g,
+  /(?:^|[^0-9])((?:20)?\d{2})\s+(\d{1,2})\s+(\d{1,2})(?!\d)/g,
+  /(?:^|[^0-9])((?:20)?\d{2})(\d{2})(\d{2})(?!\d)/g
+ ];
+ for(const re of pats){let m;while((m=re.exec(normalized))){
+  const date=dateISO(m[1],m[2],m[3]);
+  if(date&&!seen.has(date)){seen.add(date);out.push(date)}
+ }}
+ return out;
+}
+// Samsung Internet photo OCR helper: enlarge small package lettering, improve
+// brightness/contrast and retry only when the first pass finds no usable date.
+async function preprocessDateImage(file, aggressive=false){
+ const bitmap=await createImageBitmap(file).catch(()=>null);
+ if(!bitmap)return file;
+ try{
+  const scale=Math.min(3.2,Math.max(1,2000/Math.max(bitmap.width,bitmap.height)));
+  const w=Math.max(1,Math.round(bitmap.width*scale));const h=Math.max(1,Math.round(bitmap.height*scale));
+  const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+  const ctx=canvas.getContext('2d',{willReadFrequently:aggressive});
+  ctx.drawImage(bitmap,0,0,w,h);
+  if(aggressive){
+   const im=ctx.getImageData(0,0,w,h),d=im.data;
+   for(let i=0;i<d.length;i+=4){const lum=.299*d[i]+.587*d[i+1]+.114*d[i+2];
+    const value=lum>165?255:lum<100?0:Math.max(0,Math.min(255,Math.round((lum-100)*255/65)));
+    d[i]=d[i+1]=d[i+2]=value;
+   }
+   ctx.putImageData(im,0,0);
+  }else{
+   const im=ctx.getImageData(0,0,w,h),d=im.data;
+   for(let i=0;i<d.length;i+=4){for(let k=0;k<3;k++)d[i+k]=Math.max(0,Math.min(255,Math.round((d[i+k]-128)*1.30+144)))}
+   ctx.putImageData(im,0,0);
+  }
+  return canvas;
+ }finally{bitmap.close()}
+}
+// Adaptive OCR for sideways packages and small date stamps.
+// Extra passes are only performed if the standard pass detects no valid date.
+async function ocrVariantImage(file, variant){
+ const bmp=await createImageBitmap(file);
+ try{
+  const rot=variant.rotation||0;
+  const sw=bmp.width,sh=bmp.height;
+  const source=document.createElement('canvas');
+  source.width=(rot%180===0)?sw:sh;
+  source.height=(rot%180===0)?sh:sw;
+  const ctx=source.getContext('2d');
+  ctx.translate(source.width/2,source.height/2);
+  ctx.rotate(rot*Math.PI/180);
+  ctx.drawImage(bmp,-sw/2,-sh/2);
+  const side=variant.side||'full';
+  let sx=0,sy=0,cw=source.width,ch=source.height;
+  if(side==='bottom'){sy=Math.floor(ch*.46);ch-=sy}
+  if(side==='top'){ch=Math.floor(ch*.54)}
+  if(side==='left'){cw=Math.floor(cw*.57)}
+  if(side==='right'){sx=Math.floor(cw*.43);cw-=sx}
+  if(variant.region){
+   const [col,row,cols,rows]=variant.region;
+   const overlap=.09;
+   const left=Math.max(0,(col/cols)-overlap);
+   const top=Math.max(0,(row/rows)-overlap);
+   const right=Math.min(1,((col+1)/cols)+overlap);
+   const bottom=Math.min(1,((row+1)/rows)+overlap);
+   sx=Math.floor(source.width*left);sy=Math.floor(source.height*top);
+   cw=Math.max(1,Math.floor(source.width*(right-left)));
+   ch=Math.max(1,Math.floor(source.height*(bottom-top)));
+  }
+  const cap=variant.crop?2200:1950;
+  const factor=Math.min(3.6,Math.max(.7,cap/Math.max(cw,ch)));
+  const result=document.createElement('canvas');
+  result.width=Math.max(1,Math.round(cw*factor));result.height=Math.max(1,Math.round(ch*factor));
+  const out=result.getContext('2d',{willReadFrequently:true});
+  out.drawImage(source,sx,sy,cw,ch,0,0,result.width,result.height);
+  if(variant.contrast){
+   const img=out.getImageData(0,0,result.width,result.height);
+   const px=img.data;
+   for(let i=0;i<px.length;i+=4){
+    const lum=.299*px[i]+.587*px[i+1]+.114*px[i+2];
+    const val=Math.max(0,Math.min(255,Math.round((lum-128)*1.65+145)));
+    px[i]=px[i+1]=px[i+2]=val;
+   }
+   out.putImageData(img,0,0);
+  }
+  return result;
+ }finally{bmp.close()}
+}
+async function readDateOCR(file,showStatus){
+ const worker=await ensureOCR();
+ let raw='', observed=new Map();
+ const passes=[
+  {rotation:0,side:'full',psm:11,label:'전체 사진에서 날짜 탐색 중…'},
+  {rotation:90,side:'full',psm:11,label:'사진을 오른쪽으로 돌려 읽는 중…'},
+  {rotation:270,side:'full',psm:11,label:'사진을 왼쪽으로 돌려 읽는 중…'},
+  {rotation:180,side:'full',psm:11,label:'거꾸로 된 날짜 확인 중…'},
+  {rotation:0,side:'bottom',crop:true,contrast:true,psm:11,label:'아래쪽 날짜 확대 중…'},
+  {rotation:0,side:'top',crop:true,contrast:true,psm:11,label:'위쪽 날짜 확대 중…'},
+  {rotation:0,side:'full',contrast:true,psm:11,label:'글자 명암을 보정해 다시 읽는 중…'}
+ ];
+ // The small dot-matrix date is often a tiny patch. Crop different regions at a
+ // higher effective DPI. Avoid this expensive pass when a labelled date is clear.
+ for(const [col,row] of [[0,2],[1,2],[2,2],[0,1],[1,1],[2,1],[0,0],[1,0],[2,0]]){
+  passes.push({rotation:0,region:[col,row,3,3],crop:true,contrast:true,psm:11,label:`날짜가 인쇄된 구역 확대 탐색 (${row*3+col+1}/9)…`});
+ }
+ for(const pass of passes){
+  if(typeof showStatus==='function')showStatus(pass.label);
+  let input=file;
+  try{input=await ocrVariantImage(file,pass)}catch(_){input=file}
+  try{await worker.setParameters({tessedit_pageseg_mode:String(pass.psm||11),preserve_interword_spaces:'1'})}catch(_){}
+  let part='';try{const result=await worker.recognize(input);part=result?.data?.text||''}catch(_){}
+  if(part)raw+=(raw?'\n':'')+part;
+  // Evaluate each pass independently; joining unrelated OCR lines might create
+  // misleading dates or artificially attach a label from a different crop.
+  for(const hit of rawDateCandidates(part)){
+   const old=observed.get(hit.date);
+   const repetitions=(old?.repetitions||0)+1;
+   const score=Math.max(old?.priority||0,hit.priority);
+   observed.set(hit.date,{...hit,priority:score,repetitions});
+  }
+  const best=[...observed.values()].sort((x,y)=>(y.priority+(y.repetitions>1?1:0))-(x.priority+(x.repetitions>1?1:0)))[0];
+  // Do not spend ~16 OCR passes on all 50 uploaded photos when a labelled expiry
+  // has already been found. Source-date+months also qualifies as strong evidence.
+  if(best&&best.priority>=7)break;
+  if(best&&best.priority>=2&&pass.rotation===180)break; // keep human review for unlabeled dates
+ }
+ const dates=[...observed.values()].sort((x,y)=>y.priority-x.priority||y.repetitions-x.repetitions).map(x=>({date:x.date,reason:x.reason+(x.repetitions>1?' · 반복 확인':'') ,priority:x.priority}));
+ return {raw,dates:dates.slice(0,15)};
+}
+async function handleDatePhoto(e){
+ const f=e.target.files?.[0];if(!f)return;
+ const status=el('ocrStatus');const preview=el('datePhotoPreview');
+ status.className='status';status.textContent='사진 인식 준비 중...';el('ocrCandidates').innerHTML='';el('ocrDetails').hidden=true;
+ const u=URL.createObjectURL(f);preview.src=u;preview.hidden=false;preview.onload=()=>URL.revokeObjectURL(u);
+ try{const {raw,dates:candidates}=await readDateOCR(f,msg=>{status.textContent=msg});el('ocrRaw').textContent=raw||'(인식된 글자 없음)';el('ocrDetails').hidden=false;
+ if(!candidates.length){status.className='status warn';status.textContent='날짜를 찾지 못했습니다. 날짜 부분을 화면 가득 가까이 촬영해 다시 시도하거나 직접 입력해주세요.';return}
+ status.className='status ok';status.textContent='날짜 후보 '+candidates.length+'개를 찾았습니다. 상품 표시사항과 맞는 날짜를 선택해주세요.';
+ const area=el('ocrCandidates');area.innerHTML=candidates.map((v,i)=>`<button type="button" class="ocr-option" data-ocr="${i}">${escapeHTML(v.date)} · ${escapeHTML(v.reason)}</button>`).join('');
+ area.querySelectorAll('[data-ocr]').forEach(b=>b.onclick=()=>{const v=candidates[Number(b.dataset.ocr)];el('expiryDate').value=v.date;status.className='status ok';status.textContent='선택한 소비기한: '+v.date+' · '+v.reason+' — 표시사항을 확인한 후 저장하세요.';toast('소비기한 입력란에 날짜를 넣었습니다. 저장 버튼을 눌러주세요.')});
+ }catch(err){status.className='status warn';status.textContent='사진 날짜 인식 실패: '+(err.message||String(err))+' · 날짜를 직접 입력할 수 있습니다.'}
+ finally{e.target.value=''}
+}
+el('datePhoto').onchange=handleDatePhoto;el('dateCameraPhoto').onchange=handleDatePhoto;
+
+// V28 photo batch. Every image gets barcode AND OCR analysis; each candidate is
+// validated in an explicit, edit-capable review dialog before any local write.
+let combinedRecognitionBusy=false,batchCancelled=false,batchRows=[],batchImages=[],batchImageUrls=[],reviewIndex=0;
+function batchSetBusy(flag){combinedRecognitionBusy=flag;el('combinedGalleryBtn').disabled=flag;el('combinedCameraBtn').disabled=flag;el('batchCancel').hidden=!flag}
+function batchClearURLs(){batchImageUrls.forEach(u=>{try{URL.revokeObjectURL(u)}catch(_){}});batchImageUrls=[];batchImages=[]}
+function batchPhotoURL(i){return batchImageUrls[i]||''}
+function batchPreview(i){let img=batchImages[i];return img?`${i+1}번 사진 · ${img.code?'바코드 판독됨':'바코드 없음'} · ${img.raw?.trim()?'문자 판독됨':'문자 없음'}`:`${i+1}번 사진`}
+function batchSourceDate(raw){
+ const t=String(raw||'').replace(/[|]/g,' ').split(/\n/);
+ for(let i=0;i<t.length;i++){
+  if(!/(제조|포장|생산|MFG|PROD|PACK)/i.test(t[i]))continue;
+  for(const x of [t[i],t[i]+' '+(t[i+1]||''),t.slice(Math.max(0,i-1),i+2).join(' ')]){
+   const dates=extractNumericDates(x,'source');if(dates.length)return dates[0]
+  }
+ }
+ return '';
+}
+function batchMonths(raw){
+ const m=String(raw||'').match(/(\d{1,3})\s*(?:개\s*월|개월|달)/);
+ return m&&Number(m[1])>=1&&Number(m[1])<=120?Number(m[1]):'';
+}
+function batchCombinedCandidates(indices){
+ const raw=indices.map(i=>batchImages[i]?.raw||'').join('\n');
+ const source=batchSourceDate(raw), months=batchMonths(raw), computed=source&&months?addMonthsClamped(source,months):'';
+ const direct=indices.flatMap(i=>batchImages[i]?.dates||[]).filter(x=>x.reason==='표시된 소비기한');
+ let suggested=direct.length===1?direct[0].date:'';
+ if(!suggested&&computed)suggested=computed;
+ const dates=[...direct];if(computed&&!dates.some(x=>x.date===computed))dates.unshift({date:computed,reason:'제조·포장일 + '+months+'개월 (계산)',priority:5});
+ for(const i of indices)for(const d of (batchImages[i]?.dates||[]))if(!dates.some(x=>x.date===d.date))dates.push(d);
+ return {source,months,computed,suggested,dates};
+}
+function batchPair(images){
+ // A new detected barcode starts the next product. The current item may use 1, 2, or 3
+ // consecutive photos; do not pretend orphan photos have a certain product identity.
+ const out=[];let current=null;
+ for(let i=0;i<images.length;i++){
+  const x=images[i];
+  if(x.code){
+   current={code:x.code,indices:[i],selected:true,reviewed:false};out.push(current);
+  }else if(current&&current.indices.length<3&&(!batchCombinedCandidates(current.indices).suggested || (batchSourceDate(current.indices.map(j=>images[j]?.raw||'').join(' ')) && !batchMonths(current.indices.map(j=>images[j]?.raw||'').join(' '))))){current.indices.push(i)}
+  else {current=null;out.push({code:'',indices:[i],selected:false,reviewed:false})}
+ }
+ for(const r of out){
+  const hints=batchCombinedCandidates(r.indices);
+  Object.assign(r,{sourceDate:hints.source,months:hints.months,dates:hints.dates,chosen:hints.suggested||'',pairQuality:r.indices.length===3?'사진 3장(바코드·제조/포장일·보관기간) 후보':r.indices.length===2?'사진 2장 연결 후보':r.indices.length===1?'사진 1장 후보':'사진 검토 필요'});
+  // Only explicit expiration or a computed manufacturing date can be prefilled.
+  // User must actively review even prefilled dates.
+ }
+ return out;
+}
+function batchDraw(){
+ const a=el('batchResults');a.innerHTML='';
+ batchRows.forEach((r,i)=>{
+  let item=document.createElement('div');item.className='batch-item';
+  const name=r.code?findProduct(r.code)?.name:'';
+  item.innerHTML=`<div class="batch-title">${i+1}. ${escapeHTML(name||r.code||'미확인 상품')}</div><div class="small">사진 ${r.indices.map(x=>x+1).join(', ')}번 · ${r.reviewed?'✅ 검수 완료':'⚠️ 검수 필요'} · ${escapeHTML(r.chosen||'날짜 미확인')}</div>`;
+  const btn=document.createElement('button');btn.type='button';btn.className='btn secondary';btn.textContent='사진 확대 · 날짜 수정 · 검수';btn.onclick=()=>batchOpenReview(i);item.appendChild(btn);a.appendChild(item);
+ });
+ el('batchSummary').hidden=false;
+ el('batchSummary').textContent=`상품 후보 ${batchRows.length}건 · 검수 완료 ${batchRows.filter(r=>r.reviewed&&r.selected).length}건. 검수 팝업에서 사진을 확인한 뒤 등록하세요.`;
+ batchUpdateCounts();
+}
+function batchUpdateCounts(){
+ const ready=batchRows.filter(r=>r.selected&&r.reviewed&&r.code&&r.chosen&&/^\d{4}-\d{2}-\d{2}$/.test(r.chosen)&&dateISO(...r.chosen.split('-'))).length;
+ el('batchSave').textContent=`검수 완료 ${ready}건 일괄 등록`;
+ el('batchSave').hidden=!batchRows.length;el('batchSave').disabled=ready===0;
+ el('reviewSave').textContent=`검수 완료 ${ready}건 일괄 등록`;el('reviewSave').disabled=ready===0;
+}
+function batchPhotoSelect(label,role,r){
+ const section=document.createElement('div');section.className='review-field';
+ const lab=document.createElement('label');lab.textContent=label;section.appendChild(lab);
+ const select=document.createElement('select');select.dataset.role=role;
+ select.innerHTML='<option value="">없음 / 미확인</option>';
+ for(let i=0;i<batchImages.length;i++){const opt=document.createElement('option');opt.value=String(i);opt.textContent=`${i+1}번 사진${batchImages[i].code?' · 바코드':''}`;select.appendChild(opt)}
+ const v=r[role];select.value=v===undefined||v===null?'':String(v);
+ select.onchange=()=>{r[role]=select.value===''?null:Number(select.value);r.reviewed=false;batchUpdateFromRoles(r);batchOpenReview(reviewIndex)};
+ section.appendChild(select);return section;
+}
+function batchUpdateFromRoles(r){
+ const ids=[r.barcodePhoto,r.datePhoto,r.durationPhoto].filter(i=>Number.isInteger(i));r.indices=[...new Set(ids)];
+ const h=batchCombinedCandidates(r.indices);
+ r.dates=h.dates;r.sourceDate=h.source||r.sourceDate;r.months=h.months||r.months;
+ const candidate=h.suggested||'';
+ if(candidate&&!r.chosen)r.chosen=candidate;
+}
+function batchReviewTextField(label,value,onchange,type='text'){
+ const w=document.createElement('div');w.className='review-field';const lab=document.createElement('label');lab.textContent=label;w.appendChild(lab);
+ const inp=document.createElement('input');inp.type=type;inp.value=value??'';inp.onchange=()=>onchange(inp.value);w.appendChild(inp);return w;
+}
+function batchOpenReview(idx){
+ if(!batchRows.length)return;
+ reviewIndex=Math.max(0,Math.min(idx,batchRows.length-1));
+ const r=batchRows[reviewIndex];const box=el('reviewContent');box.innerHTML='';
+ el('reviewProgress').textContent=`${reviewIndex+1} / ${batchRows.length} 상품 · ${r.reviewed?'검수 완료':'검수 전'} · 사진을 눌러 확대할 수 있습니다.`;
+ const grp=document.createElement('div');grp.className='review-grid';
+ // The three role previews are intentionally separate and individually zoomable.
+ const roleList=[['바코드 사진','barcodePhoto'],['날짜 사진','datePhoto'],['보관기간 안내 사진','durationPhoto']];
+ for(const [name,role] of roleList){
+  const pos=r[role];const tile=document.createElement('button');tile.type='button';tile.className='review-photo';
+  if(Number.isInteger(pos)&&batchPhotoURL(pos)){
+   const im=document.createElement('img');im.src=batchPhotoURL(pos);im.alt=name;tile.appendChild(im);
+   const caption=document.createElement('span');caption.textContent=`${name} · ${pos+1}번 (확대)`;tile.appendChild(caption);tile.onclick=()=>batchZoom(pos,name);
+  }else {const lab=document.createElement('span');lab.textContent=name+' · 미지정';tile.appendChild(lab);tile.disabled=true}
+  grp.appendChild(tile);
+ }
+ box.appendChild(grp);
+ const hint=document.createElement('p');hint.className='review-note';hint.textContent='사진 1장에 바코드와 날짜가 모두 있으면 동일한 사진 번호를 두 역할에 선택해도 됩니다. 사진 3장이면 바코드·날짜·기간 안내 사진을 각각 지정하세요.';box.appendChild(hint);
+ const roleSelectRow=document.createElement('div');roleSelectRow.className='review-role-row';for(const [name,role] of roleList)roleSelectRow.appendChild(batchPhotoSelect(name+' 선택 / 수정',role,r));box.appendChild(roleSelectRow);
+ box.appendChild(batchReviewTextField('바코드 번호 (수정 가능)',r.code,v=>{r.code=digits(v);r.reviewed=false;batchUpdateCounts()}));
+ const p=r.code?findProduct(r.code):null;
+ let pName=document.createElement('p');pName.className='review-note';pName.textContent=`조회된 상품: ${p?.name||'미등록 상품 (저장 시 코드로 신규 생성)'}`;box.appendChild(pName);
+ // Unlike barcode/date evidence images, this is the product's catalog picture.
+ // It is staged in the review row and persisted only during final batch registration.
+ const effectiveImage=r.productImageData||p?.imageData||p?.imageUrl;
+ const imageSection=document.createElement('div');imageSection.className='review-photo-register';
+ const imageHeading=document.createElement('strong');imageHeading.textContent=effectiveImage?'🖼️ 상품 이미지 확인 / 교체':'📸 상품 이미지 없음 · 바로 등록';imageSection.appendChild(imageHeading);
+ const imageTip=document.createElement('p');imageTip.className='review-note';
+ imageTip.textContent=effectiveImage?'등록된 상품 이미지입니다. 필요하면 새 사진을 선택해 교체할 수 있습니다.':'사진으로 인식한 상품에 등록 이미지가 없습니다. 사진을 촬영하거나 갤러리에서 선택하세요.';imageSection.appendChild(imageTip);
+ if(effectiveImage){const img=document.createElement('img');img.src=effectiveImage;img.alt='상품 이미지 미리보기';imageSection.appendChild(img)}
+ const photoBtns=document.createElement('div');photoBtns.className='btnline';
+ for(const capture of [true,false]){
+  const btn=document.createElement('button');btn.type='button';btn.className=capture?'btn green':'btn secondary';btn.textContent=capture?'📷 상품사진 촬영':'🖼️ 갤러리에서 선택';
+  const file=document.createElement('input');file.type='file';file.accept='image/*';file.hidden=true;if(capture)file.setAttribute('capture','environment');
+  btn.onclick=()=>file.click();
+  file.onchange=async()=>{
+   const chosen=file.files?.[0];file.value='';if(!chosen)return;
+   btn.disabled=true;btn.textContent='사진 처리 중…';
+   try{r.productImageData=await compressProductImage(chosen);r.reviewed=false;batchOpenReview(reviewIndex);}
+   catch(err){alert('상품 이미지 처리 실패: '+(err.message||String(err)));btn.disabled=false;btn.textContent=capture?'📷 상품사진 촬영':'🖼️ 갤러리에서 선택'}
+  };
+  photoBtns.append(btn,file);
+ }
+ imageSection.appendChild(photoBtns);
+ const imgInfo=document.createElement('div');imgInfo.className='review-note';imgInfo.textContent='바코드·날짜 증빙사진과 별도로 상품 대표 이미지를 저장합니다. 검수 완료 후 일괄등록할 때 저장됩니다.';imageSection.appendChild(imgInfo);
+ box.appendChild(imageSection);
+ const dates=document.createElement('div');dates.className='review-field';
+ const label=document.createElement('label');label.textContent='OCR로 찾은 날짜 후보';dates.appendChild(label);
+ const opts=document.createElement('select');const init=document.createElement('option');init.value='';init.textContent='날짜 직접 입력 또는 후보 선택';opts.appendChild(init);
+ const uniq=new Set();r.dates.forEach(d=>{if(uniq.has(d.date))return;uniq.add(d.date);const opt=document.createElement('option');opt.value=d.date;opt.textContent=d.date+' · '+d.reason;opts.appendChild(opt)});
+ opts.onchange=()=>{if(opts.value){r.chosen=opts.value;r.reviewed=false;batchOpenReview(reviewIndex)}};dates.appendChild(opts);box.appendChild(dates);
+ const two=document.createElement('div');two.className='review-two';
+ two.appendChild(batchReviewTextField('제조일 / 포장일',r.sourceDate,v=>{r.sourceDate=v;r.reviewed=false;batchOpenReview(reviewIndex)},'date'));
+ two.appendChild(batchReviewTextField('보관 기간 (개월)',r.months,v=>{r.months=Number(v)||'';r.reviewed=false;batchOpenReview(reviewIndex)},'number'));box.appendChild(two);
+ const calc=document.createElement('div');calc.className='review-field';
+ const calculate=document.createElement('button');calculate.type='button';calculate.className='btn secondary wide';calculate.textContent='제조·포장일 + 개월 수 → 소비기한 계산';
+ calculate.onclick=()=>{
+  if(!r.sourceDate||!r.months){alert('제조일·포장일과 보관 개월 수를 입력하세요.');return}
+  const d=addMonthsClamped(r.sourceDate,Number(r.months));if(!d){alert('날짜와 개월 수를 확인하세요.');return}
+  r.chosen=d;r.reviewed=false;batchOpenReview(reviewIndex)
+ };calc.appendChild(calculate);box.appendChild(calc);
+ box.appendChild(batchReviewTextField('최종 소비기한 (수정 가능)',r.chosen,v=>{r.chosen=v;r.reviewed=false;batchUpdateCounts()},'date'));
+ const check=document.createElement('label');check.className='batch-check';check.style.marginTop='15px';
+ const checked=document.createElement('input');checked.type='checkbox';checked.checked=r.selected;checked.onchange=()=>{r.selected=checked.checked;r.reviewed=false;batchUpdateCounts()};check.append(checked,document.createTextNode(' 이 상품 일괄등록 대상에 포함'));box.appendChild(check);
+ const note=document.createElement('div');note.className='review-note review-warning';note.textContent='주의: OCR 날짜와 사진 연결은 틀릴 수 있습니다. 사진에 표시된 소비기한 또는 보관기간 안내를 직접 확인한 후 「이 상품 검수 완료」를 눌러주세요.';box.appendChild(note);
+ el('reviewPrev').disabled=reviewIndex===0;el('reviewNext').disabled=reviewIndex===batchRows.length-1;
+ el('reviewConfirm').textContent=r.reviewed?'✅ 검수 완료 (다시 확인 가능)':'✅ 이 상품 검수 완료';
+ el('batchReviewModal').hidden=false;batchUpdateCounts();
+}
+function batchZoom(i,label){if(!batchPhotoURL(i))return;el('photoZoomImg').src=batchPhotoURL(i);el('photoZoomCaption').textContent=`${i+1}번 원본 · ${label} · 확대하여 표시`;el('photoZoom').hidden=false}
+el('photoZoomClose').onclick=()=>{el('photoZoom').hidden=true;el('photoZoomImg').src=''};
+el('reviewClose').onclick=()=>{el('batchReviewModal').hidden=true;batchDraw()};
+el('reviewPrev').onclick=()=>batchOpenReview(reviewIndex-1);
+el('reviewNext').onclick=()=>batchOpenReview(reviewIndex+1);
+el('reviewConfirm').onclick=()=>{
+ const r=batchRows[reviewIndex];if(!r.selected){alert('등록 대상에 포함해야 검수 완료할 수 있습니다.');return}
+ if(!r.code||!r.chosen||!dateISO(...r.chosen.split('-'))){alert('바코드와 올바른 소비기한 날짜를 입력해 주세요.');return}
+ if(!Number.isInteger(r.barcodePhoto)||!Number.isInteger(r.datePhoto)){
+  if(!confirm('바코드 또는 날짜 사진이 지정되지 않았습니다. 사진을 다시 확인했으며, 직접 입력한 정보가 맞습니까?'))return
+ }
+ r.reviewed=true;batchDraw();if(reviewIndex+1<batchRows.length)batchOpenReview(reviewIndex+1);else batchOpenReview(reviewIndex);
+};
+el('reviewSave').onclick=()=>el('batchSave').click();
+el('combinedGalleryBtn').onclick=()=>{if(barcodePaused){toast('현재 스캔한 상품을 먼저 등록하거나 건너뛰세요.');return}if(!combinedRecognitionBusy)el('combinedPhotos').click()};
+el('combinedCameraBtn').onclick=()=>{if(barcodePaused){toast('현재 스캔한 상품을 먼저 등록하거나 건너뛰세요.');return}if(!combinedRecognitionBusy)el('combinedCameraPhoto').click()};
+el('batchCancel').onclick=()=>{batchCancelled=true;el('combinedStatus').textContent='분석 중지 요청… 현재 사진 판독 완료 후 중단됩니다.'};
+async function batchRead(file){
+ let code='',dates=[],raw='',barcodeError='';
+ try{code=digits(await decodeImage(file))}catch(e){barcodeError=e.message||String(e)}
+ if(batchCancelled)return {code,dates,raw,barcodeError};
+ try{const result=await readDateOCR(file);raw=result.raw;dates=result.dates}catch(e){raw='OCR 실패: '+(e.message||String(e))}
+ return {code,dates,raw,barcodeError};
+}
+async function recognizeCombinedPhotos(e){
+ const files=Array.from(e.target.files||[]);e.target.value='';if(!files.length)return;
+ if(combinedRecognitionBusy)return;
+ if(barcodePaused){toast('현재 스캔한 상품을 먼저 등록하거나 건너뛰세요.');return}
+ if(files.length>50){el('combinedStatus').className='status warn';el('combinedStatus').textContent='한 번에 최대 50장입니다. 다시 선택해주세요.';return}
+ batchClearURLs();batchSetBusy(true);batchCancelled=false;batchRows=[];
+ el('batchReviewModal').hidden=true;el('batchResults').innerHTML='';el('batchSave').hidden=true;el('batchSummary').hidden=true;
+ const status=el('combinedStatus');status.className='status';status.textContent=`총 ${files.length}장 분석 준비 중`;
+ const thumbs=el('combinedImagePreviews');thumbs.innerHTML='';
+ batchImageUrls=files.map(f=>URL.createObjectURL(f));
+ files.forEach((f,i)=>{const im=document.createElement('img');im.src=batchImageUrls[i];im.alt=`${i+1}번 사진`;im.style.cssText='width:65px;height:70px;object-fit:cover;border:1px solid #dbe4f0;border-radius:8px';im.onclick=()=>batchZoom(i,'원본 사진');thumbs.appendChild(im)});
+ try{
+  for(let i=0;i<files.length;i++){
+   if(batchCancelled)break;
+   status.textContent=`사진 ${i+1} / ${files.length}장 · 바코드 + 날짜 OCR 판독 중`;
+   batchImages.push(await batchRead(files[i]));
+   await new Promise(ok=>setTimeout(ok,0));
+  }
+  if(batchCancelled){status.className='status warn';status.textContent=`${batchImages.length}장까지 분석 후 중지했습니다. 저장하지 않았습니다.`;return}
+  batchRows=batchPair(batchImages);
+  // Three role selectors allow users to correct unexpected OCR grouping without re-upload.
+  batchRows.forEach(r=>{
+   r.barcodePhoto=r.indices.find(i=>!!batchImages[i]?.code)??r.indices[0]??null;
+   r.datePhoto=r.indices.find(i=>batchImages[i]?.dates?.some(d=>d.reason==='표시된 소비기한'))??r.indices.find(i=>!!batchSourceDate(batchImages[i]?.raw))??r.indices.find(i=>!!batchImages[i]?.dates?.length)??r.indices[0]??null;
+   r.durationPhoto=r.indices.find(i=>batchMonths(batchImages[i]?.raw))??null;
+  });
+  status.className='status ok';status.textContent=`${files.length}장 분석 완료 · 상품 후보 ${batchRows.length}건. 검수 팝업에서 사진과 날짜를 확인해주세요.`;
+  batchDraw();batchOpenReview(0);
+ }catch(err){status.className='status warn';status.textContent='사진 분석 오류: '+(err.message||String(err))}
+ finally{batchSetBusy(false)}
+}
+el('combinedPhotos').onchange=recognizeCombinedPhotos;
+el('combinedCameraPhoto').onchange=recognizeCombinedPhotos;
+el('batchSave').onclick=()=>{
+ if(combinedRecognitionBusy)return;
+ const selected=batchRows.filter(r=>r.selected);
+ const unfinished=selected.filter(r=>!r.reviewed);
+ if(unfinished.length){alert(`검수하지 않은 상품 ${unfinished.length}건이 있습니다. 검수 완료 후 등록하거나 등록대상 체크를 해제하세요.`);batchOpenReview(batchRows.indexOf(unfinished[0]));return}
+ const valid=selected.filter(r=>r.code&&r.chosen&&dateISO(...r.chosen.split('-')));
+ if(!valid.length){alert('검수 완료 후 등록할 상품이 없습니다.');return}
+ const unique=new Set(),toCreate=[],toInsert=[],dupes=[];
+ for(const r of valid){const code=digits(r.code),d=r.chosen,key=code+'|'+d;if(unique.has(key)){dupes.push(key);continue}unique.add(key);
+  let product=findProduct(code)||toCreate.find(x=>x.barcode===code);
+  if(!product){product={id:uid(),barcode:code,salesCode:code,productCode:'',name:'상품 '+code,spec:'',scaleId:''};toCreate.push(product)}
+  if(db.expiry.some(x=>x.date===d&&(x.productId===product.id||digits(x.barcode)===code))){dupes.push(key);continue}
+  toInsert.push({id:uid(),productId:product.id,barcode:code,name:product.name,spec:product.spec||'',date:d,createdAt:new Date().toISOString()});
+ }
+ if(!toInsert.length){alert('새로 등록할 소비기한이 없습니다. 중복 항목을 확인해주세요.');return}
+ if(!confirm(`검수 완료한 소비기한 ${toInsert.length}건을 일괄 등록할까요?\n중복 제외 ${dupes.length}건\n\n원본 사진의 날짜와 상품 연결을 모두 확인하셨습니까?`))return;
+ const oldPhotos=[];
+ for(const r of valid){
+  if(!r.productImageData)continue;
+  const product=findProduct(digits(r.code))||toCreate.find(x=>x.barcode===digits(r.code));if(!product)continue;
+  if(oldPhotos.some(x=>x.product===product))continue;
+  oldPhotos.push({product,oldData:product.imageData,oldUrl:product.imageUrl,oldSource:product.imageSource});
+  product.imageData=r.productImageData;product.imageSource='사진 일괄등록';delete product.imageUrl;
+ }
+ db.products.push(...toCreate);db.expiry.unshift(...toInsert);
+ if(!persist()){
+  db.products.splice(db.products.length-toCreate.length,toCreate.length);db.expiry.splice(0,toInsert.length);
+  for(const old of oldPhotos){
+   if(old.oldData===undefined)delete old.product.imageData;else old.product.imageData=old.oldData;
+   if(old.oldUrl===undefined)delete old.product.imageUrl;else old.product.imageUrl=old.oldUrl;
+   if(old.oldSource===undefined)delete old.product.imageSource;else old.product.imageSource=old.oldSource;
+  }
+  return;
+ }
+ render();batchRows=[];el('batchResults').innerHTML='';el('batchSave').hidden=true;el('batchReviewModal').hidden=true;
+ el('batchSummary').textContent=`등록 완료 ${toInsert.length}건 · 중복 제외 ${dupes.length}건.`;
+ el('combinedStatus').className='status ok';el('combinedStatus').textContent='검수한 상품의 소비기한 일괄 등록 완료 · D-30 임박상품에 반영됩니다.';
+ batchClearURLs();el('combinedImagePreviews').innerHTML='';toast(`${toInsert.length}건 등록 완료`)
+};
+
+// Simple RFC-4180 CSV parser; XLSX library loaded on demand only.
+function parseCSV(src){src=src.replace(/^\ufeff/,'');let rows=[],row=[],cell='',quoted=false;for(let i=0;i<src.length;i++){const c=src[i];if(quoted){if(c==='"'&&src[i+1]==='"'){cell+='"';i++}else if(c==='"')quoted=false;else cell+=c}else{if(c==='"')quoted=true;else if(c===','){row.push(cell);cell=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&src[i+1]==='\n')i++;row.push(cell);if(row.some(x=>x.trim()))rows.push(row);row=[];cell=''}else cell+=c}}row.push(cell);if(row.some(x=>x.trim()))rows.push(row);return rows}
+async function loadXLSX(){if(window.XLSX)return;await new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=resolve;s.onerror=()=>reject(Error('엑셀 파일 해석에 필요한 라이브러리를 불러올 수 없습니다. 인터넷 연결 후 다시 시도하거나 CSV로 저장해주세요.'));document.head.appendChild(s)})}
+function headerIndex(headers,aliases){return headers.findIndex(x=>aliases.includes(norm(x).toLowerCase().replace(/\s/g,'')))}
+el('importBtn').onclick=async()=>{const f=el('importFile').files?.[0];if(!f){toast('파일을 선택해주세요');return}try{let rows;if(/\.csv$/i.test(f.name)){rows=parseCSV(await f.text())}else{await loadXLSX();const wb=XLSX.read(await f.arrayBuffer(),{type:'array',raw:true});rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:'',raw:true})}if(rows.length<2)throw Error('자료가 비어 있습니다');const h=rows[0].map(String),bi=headerIndex(h,['바코드','barcode','ean','ean13','상품바코드']),ni=headerIndex(h,['상품명','name','product','productname','품명']),si=headerIndex(h,['판매코드','salescode','판매id','판매번호','품번']),ci=headerIndex(h,['상품코드','productcode','상품','품목코드']),fi=headerIndex(h,['규격','spec','specification']),li=headerIndex(h,['저울id','저울코드','scaleid','scale','저울번호']);if(ni<0)throw Error('상품명 열이 없습니다. 첫 번째 행에 상품명 헤더를 넣어주세요');let added=0,updated=0,skipped=0;for(const r of rows.slice(1)){const name=norm(r[ni]);if(!name){skipped++;continue}const barcode=bi<0?'':digits(r[bi]),salesCode=si<0?'':digits(r[si]),scaleId=li<0?'':digits(r[li]),productCode=ci<0?'':digits(r[ci]),spec=fi<0?'':norm(r[fi]);let p=barcode?db.products.find(p=>p.barcode===barcode):null;if(!p&&salesCode)p=db.products.find(p=>p.salesCode===salesCode);if(p){Object.assign(p,{name,barcode:barcode||p.barcode,salesCode:salesCode||p.salesCode,scaleId:scaleId||p.scaleId,productCode:productCode||p.productCode,spec:spec||p.spec});updated++}else{db.products.push({id:uid(),name,barcode,salesCode,scaleId,productCode,spec});added++}}persist();render();toast(`신규 ${added}건 · 갱신 ${updated}건 · 제외 ${skipped}건`);el('importFile').value=''}catch(err){alert('가져오기 오류: '+err.message)}};
+render();el('saveExpiry').disabled=true;
+if(location.protocol==='file:'){setStatus('현재 다운로드 파일 직접 실행 중: 실시간 카메라 사용 불가. HTTPS 웹주소로 실행하거나 아래 대체 촬영을 이용하세요.','warn')}
+else if(!window.isSecureContext){setStatus('현재 주소는 보안 연결(HTTPS)이 아닙니다. 카메라를 사용하려면 HTTPS로 접속하세요.','warn')}
+
+
+
+
+// V35: non-destructive verified JSON import, representative image select / retake.
+let reviewImportRows=[];
+let v35MissingPopupIdx=-1;
+const importPhoto=(src)=>/^data:image\/(jpeg|png|webp);base64,[a-zA-Z0-9+/=]+$/.test(src||'')?src:'';
+function v35PhotoFromFile(file){return compressProductImage(file)}
+function v35ChoosePhoto(i,choice){
+ const r=reviewImportRows[i];if(!r)return;
+ let data='';
+ if(choice==='custom')data=r.customPhoto||'';
+ else data=r.evidence[Number(choice)]?.data||'';
+ if(!data){alert('해당 사진이 없습니다. 새 사진을 촬영하거나 갤러리에서 선택해 주세요.');return;}
+ r.photoChoice=choice;r.imageData=data;
+ v35RefreshPhoto(i);
+}
+function v35RefreshPhoto(i){
+ const r=reviewImportRows[i];const card=el('reviewImportList').querySelector(`[data-import-row="${i}"]`);if(!card)return;
+ card.querySelectorAll('[data-v35-choice]').forEach(b=>{const selected=b.dataset.v35Choice===String(r.photoChoice);b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});
+ const img=card.querySelector('[data-v35-main-photo]');
+ const wrap=card.querySelector('[data-v35-photo-preview]');
+ if(r.imageData){wrap.hidden=false;img.src=r.imageData;}else{wrap.hidden=true;img.removeAttribute('src');}
+ const missing=card.querySelector('[data-v35-missing]');missing.hidden=!!r.imageData;
+ const custom=card.querySelector('[data-v35-custom-choice]');custom.hidden=!r.customPhoto;const customImg=custom.querySelector('img');if(r.customPhoto)customImg.src=r.customPhoto;
+}
+function v35OpenMissing(i){
+ const r=reviewImportRows[i];if(!r)return;v35MissingPopupIdx=i;
+ el('v35PhotoNoticeMessage').textContent=`${i+1}번 후보 · ${r.name||'상품명 미확인'}: 사진이 없습니다. 촬영 또는 갤러리 선택으로 대표 이미지를 등록할 수 있습니다.`;
+ el('v35PhotoNotice').hidden=false;
+}
+function v35CloseMissing(){v35MissingPopupIdx=-1;el('v35PhotoNotice').hidden=true;}
+async function v35UploadPhoto(i,file){if(!file)return;try{
+ const data=await v35PhotoFromFile(file);const r=reviewImportRows[i];if(!r)return;r.customPhoto=data;r.imageData=data;r.photoChoice='custom';
+ v35RefreshPhoto(i);v35CloseMissing();
+}catch(err){alert('사진을 읽지 못했습니다: '+err.message)}}
+async function v35ModalUpload(e){const file=e.target.files?.[0];if(file&&v35MissingPopupIdx>=0)await v35UploadPhoto(v35MissingPopupIdx,file);e.target.value='';}
+el('v35NoticeCamera').onchange=v35ModalUpload;el('v35NoticeGallery').onchange=v35ModalUpload;
+el('v35NoticeLater').onclick=v35CloseMissing;
+// V39: Match by exact barcode only; protect existing product name and photograph.
+function v39ExactMatch(code){
+ const normalized=String(code||'').replace(/\D/g,'');
+ return normalized?db.products.find(p=>p.barcode&&String(p.barcode).replace(/\D/g,'')===normalized)||null:null;
+}
+function v39UnknownName(name){return !String(name||'').trim()||/확인\s*필요|미확인/.test(String(name||''));}
+function v39RefreshMatch(i){
+ const r=reviewImportRows[i];
+ const card=el('reviewImportList').querySelector(`[data-import-row="${i}"]`);
+ if(!r||!card)return;
+ const code=card.querySelector('[data-import-field="barcode"]').value.replace(/\D/g,'');
+ const nameField=card.querySelector('[data-import-field="name"]');
+ const matched=v39ExactMatch(code);
+ const view=card.querySelector('[data-v39-match]');
+ const img=card.querySelector('[data-v39-existing-photo]');
+ const note=card.querySelector('[data-v39-photo-note]');
+ const oldMatch=r.v39MatchedBarcode||'';
+ if(matched){
+   if(v39UnknownName(nameField.value)||oldMatch&&oldMatch!==code){nameField.value=matched.name;}
+   nameField.readOnly=true;
+   nameField.value=matched.name;
+   r.v39MatchedBarcode=code;
+   view.className='status ok';
+   view.textContent='✅ 기존 바코드 연결 · '+matched.name+((matched.imageData||matched.imageUrl)?' · 기존 이미지 유지':' · 대표 이미지 미등록 → 아래에서 선택 후 함께 저장');
+   if(matched.imageData||matched.imageUrl){img.src=matched.imageData||matched.imageUrl;img.hidden=false;note.textContent='기존 등록 대표 이미지 유지';}
+   else{img.hidden=true;img.removeAttribute('src');note.textContent='📸 기존 상품에 이미지 없음 · 아래 사진을 대표 이미지로 선택하거나 촬영할 수 있습니다. 선택한 사진은 등록할 때 함께 저장됩니다. (사진 없이 등록 가능)';}
+   if(r.v39AutoSelectOnMatch){card.querySelector('[data-import-field="checked"]').checked=true;r.v39AutoSelectOnMatch=false;}
+ }else{
+   if(oldMatch&&nameField.value===r.v39LastExistingName)nameField.value=r.v39OriginalName||'';
+   nameField.readOnly=false;
+   r.v39MatchedBarcode='';
+   view.className='status warn';
+   view.textContent='🆕 등록되지 않은 바코드 · 상품명·대표 사진 확인 후 신규 등록';
+   img.hidden=true;img.removeAttribute('src');note.textContent='신규 상품: 아래에서 선택한 사진을 대표 이미지로 사용';
+ }
+ if(matched)r.v39LastExistingName=matched.name;
+}
+function v35RenderImport(){
+ const matches=reviewImportRows.filter(r=>v39ExactMatch(r.barcode)).length;
+ el('reviewImportStatus').textContent=`사진 판독 후보 ${reviewImportRows.length}건 · 기존 바코드 연결 ${matches}건 · 신규 ${reviewImportRows.length-matches}건. 저장 전 반드시 확인하세요.`;
+ el('reviewImportList').innerHTML=reviewImportRows.map((r,i)=>`<div class="batch-item" data-import-row="${i}">
+  <div class="batch-title">${i+1}번 후보</div>
+  <div class="row" style="gap:8px;align-items:center"><label style="flex:0 0 auto"><input data-import-field="checked" type="checkbox" ${r.checked?'checked':''}> 등록 선택</label><span class="small">${escapeHTML(r.note)}</span></div>
+  <div class="status" data-v39-match></div>
+  <div class="v39-matched-preview"><img data-v39-existing-photo hidden alt="기존 등록 대표 이미지"><span class="small" data-v39-photo-note></span></div>
+  <div class="v35-photo-grid">${r.evidence.map((v,j)=>`<button class="v35-photo-choice ${String(r.photoChoice)===String(j)?'selected':''}" type="button" data-v35-choice="${j}" aria-pressed="${String(r.photoChoice)===String(j)}"><img src="${v.data}" alt="${escapeHTML(v.label||'상품 사진')}" loading="lazy"><span class="v35-choice-label">${j===0?'앞면 사진 선택':j===1?'뒷면 사진 선택':'안내 사진 선택'}</span><span class="small">${escapeHTML(v.label)}</span></button>`).join('')}
+  <button class="v35-photo-choice ${r.photoChoice==='custom'?'selected':''}" data-v35-custom-choice type="button" data-v35-choice="custom" ${r.customPhoto?'':'hidden'}><img src="${r.customPhoto||''}" alt="새로 찍은 사진"><span class="v35-choice-label">새 사진 선택</span></button></div>
+  <div class="v35-preview-wrap" data-v35-photo-preview ${r.imageData?'':'hidden'}><img data-v35-main-photo src="${r.imageData}" alt="선택한 대표 이미지 미리보기" title="눌러 확대"><div><b>선택한 대표 이미지</b><div class="small">기존 사진이 있으면 유지 · 사진이 없는 상품에는 이 이미지를 추가 저장 · 사진 확대는 미리보기 누르기</div></div></div>
+  <div class="v35-photo-warning" data-v35-missing ${r.imageData?'hidden':''}>선택한 대표 이미지가 없습니다. 사진을 촬영·갤러리에서 선택하거나 사진 없이 등록할 수 있습니다.</div>
+  <div class="v35-photo-actions"><label>📷 사진 촬영<input data-v35-upload="${i}" type="file" accept="image/*" capture="environment" hidden></label><label>🖼️ 갤러리 선택<input data-v35-upload="${i}" type="file" accept="image/*" hidden></label></div>
+  <label>상품명 <input data-import-field="name" value="${escapeHTML(r.name)}" type="text" placeholder="상품명을 입력하세요"></label>
+  <label>바코드 <input data-import-field="barcode" value="${escapeHTML(r.barcode)}" inputmode="numeric" type="text" placeholder="바코드 입력"></label>
+  <label>소비기한 <input data-import-field="date" type="date" value="${escapeHTML(r.date)}"></label>
+ </div>`).join('');
+ el('reviewImportList').querySelectorAll('[data-v35-choice]').forEach(btn=>btn.onclick=()=>v35ChoosePhoto(Number(btn.closest('[data-import-row]').dataset.importRow),btn.dataset.v35Choice));
+ el('reviewImportList').querySelectorAll('[data-v35-upload]').forEach(inp=>inp.onchange=async e=>{const file=e.target.files?.[0];if(file)await v35UploadPhoto(Number(inp.dataset.v35Upload),file);e.target.value='';});
+ el('reviewImportList').querySelectorAll('[data-v35-main-photo]').forEach(img=>img.onclick=()=>{if(img.src)window.open(img.src,'_blank')});
+ el('reviewImportList').querySelectorAll('[data-v39-existing-photo]').forEach(img=>img.onclick=()=>{if(img.src)window.open(img.src,'_blank')});
+ el('reviewImportList').querySelectorAll('.v35-photo-choice img').forEach(img=>img.ondblclick=e=>{e.preventDefault();if(img.src)window.open(img.src,'_blank')});
+ el('reviewImportList').querySelectorAll('[data-import-field="barcode"]').forEach(inp=>inp.oninput=()=>v39RefreshMatch(Number(inp.closest('[data-import-row]').dataset.importRow)));
+ reviewImportRows.forEach((_,i)=>v39RefreshMatch(i));
+ el('reviewImportSave').hidden=false;
+}
+el('reviewImportFile').onchange=async e=>{
+ reviewImportRows=[];el('reviewImportSave').hidden=true;el('reviewImportList').innerHTML='';
+ const f=e.target.files?.[0];if(!f)return;
+ try{
+  if(f.size>8*1024*1024)throw Error('검수 파일은 8MB 이하만 지원합니다.');
+  const payload=JSON.parse(await f.text());
+  if(payload.type!=='fish-expiry-reviewed-import-v1'||!Array.isArray(payload.items)||payload.items.length>50)throw Error('이 앱 전용 검수파일이 아닙니다.');
+  reviewImportRows=payload.items.map(x=>{
+   const evidence=(Array.isArray(x.evidence)?x.evidence:[]).slice(0,3).map(v=>({label:String(v.label||''),data:importPhoto(v.data)})).filter(v=>v.data);
+   const existing=importPhoto(x.imageData);
+   const choice=evidence.findIndex(v=>v.data===existing);
+   const barcode=String(x.barcode||'').replace(/\D/g,'');
+   const originalName=String(x.name||'').slice(0,100);
+   const match=v39ExactMatch(barcode);
+   const canAutoSelect=!!match&&v39UnknownName(originalName);
+   return {barcode,name:match?match.name:originalName,v39OriginalName:originalName,v39MatchedBarcode:'',v39AutoSelectOnMatch:canAutoSelect,date:String(x.date||'').slice(0,10),checked:!!x.verified||canAutoSelect,note:String(x.note||''),evidence,customPhoto:existing&&choice<0?existing:'',photoChoice:choice>=0?String(choice):existing?'custom':'',imageData:existing||evidence[0]?.data||''};
+  });
+  reviewImportRows.forEach(r=>{if(!r.photoChoice&&r.evidence.length)r.photoChoice='0';});
+  v35RenderImport();
+  const missing=reviewImportRows.findIndex(r=>{const p=v39ExactMatch(r.barcode);return r.checked&&!r.imageData&&!(p&&(p.imageData||p.imageUrl));});
+  if(missing>=0)v35OpenMissing(missing);
+ }catch(err){el('reviewImportStatus').textContent='파일 분석 실패: '+err.message;}
+};
+el('reviewImportSave').onclick=()=>{
+ const selected=[],issues=[];
+ el('reviewImportList').querySelectorAll('[data-import-row]').forEach(card=>{
+  const i=Number(card.dataset.importRow);const get=field=>card.querySelector(`[data-import-field="${field}"]`);
+  if(!get('checked').checked)return;
+  const name=get('name').value.trim(),code=get('barcode').value.replace(/\D/g,''),date=get('date').value;
+  const match=v39ExactMatch(code);
+  if(!code||!/^(19|20)\d\d-\d\d-\d\d$/.test(date)||isNaN(new Date(date+'T00:00:00').getTime())||!match&&v39UnknownName(name)){
+   issues.push(`${i+1}번: ${match?'바코드·날짜':'신규 상품명·바코드·날짜'}를 확인해 주세요.`);return;
+  }
+  selected.push({name:match?match.name:name,code,date,imageData:reviewImportRows[i].imageData,matchId:match?.id||null});
+ });
+ if(issues.length){alert(issues.join('\n'));return;}
+ if(!selected.length){alert('등록할 항목을 선택하세요.');return;}
+ const connected=selected.filter(r=>r.matchId).length;
+ const photoFill=selected.filter(r=>{const p=v39ExactMatch(r.code);return !!(p&&!p.imageData&&!p.imageUrl&&importPhoto(r.imageData));}).length;
+ if(!confirm(`${selected.length}건 중 기존 바코드 연결 ${connected}건, 신규 상품 ${selected.length-connected}건, 대표 이미지 없는 기존 상품 보완 ${photoFill}건입니다.\n기존 대표 이미지는 교체하지 않고 소비기한만 추가·중복 제외합니다. 계속할까요?`))return;
+ const previous=JSON.stringify(db);let added=0,duplicated=0,newProducts=0,photosAdded=0;
+ try{
+  for(const r of selected){
+   let p=v39ExactMatch(r.code);
+   if(!p){p={id:uid(),barcode:r.code,salesCode:r.code,productCode:'',name:r.name,spec:'',scaleId:'',imageData:importPhoto(r.imageData)||'',imageSource:importPhoto(r.imageData)?'신규 상품 검수 등록':''};db.products.push(p);newProducts++;}
+   else if(!p.imageData&&!p.imageUrl&&importPhoto(r.imageData)){
+    p.imageData=importPhoto(r.imageData);p.imageSource='V40 대표 이미지 추가 등록';photosAdded++;
+   }
+   // 이미 동일 소비기한을 등록했더라도 누락된 대표 이미지는 보완합니다.
+   if(db.expiry.some(x=>(x.productId===p.id||String(x.barcode||'').replace(/\D/g,'')===r.code)&&x.date===r.date)){duplicated++;continue;}
+   db.expiry.unshift({id:uid(),productId:p.id,barcode:r.code,name:p.name,spec:p.spec||'',date:r.date,createdAt:new Date().toISOString()});added++;
+  }
+  if(!persist())throw Error('저장 공간이 부족합니다. 이전 자료로 되돌렸습니다.');
+  render();alert(`등록 완료: ${added}건 / 중복 제외: ${duplicated}건 / 신규 상품: ${newProducts}건 / 기존 상품의 대표 이미지 신규 등록: ${photosAdded}건 / 기존 이미지 교체: 0건`);
+ }catch(err){db=JSON.parse(previous);alert('가져오기에 실패했습니다: '+err.message);}
+};
+
+</script><script>
+/* V36: standalone non-destructive legacy Excel import; requires review-export-v1 input. */
+(()=>{
+let pending=null;
+const file=document.getElementById('legacyBulkFile');
+const status=document.getElementById('legacyBulkStatus');
+const preview=document.getElementById('legacyBulkPreview');
+const apply=document.getElementById('legacyBulkImport');
+const iso=v=>/^\d{4}-\d{2}-\d{2}$/.test(v||'')&&!Number.isNaN(new Date(v+'T00:00:00').getTime());
+const clean=v=>String(v??'').trim();
+const normName=v=>clean(v).replace(/\s+/g,' ').toLowerCase();
+const legacyId=r=>clean(r.sourceId)||('ROW-'+clean(r.sourceNumber));
+const key=r=>`${legacyId(r)}|${clean(r.expiryDate)}`;
+file.onchange=async e=>{
+  pending=null;apply.hidden=true;preview.textContent='';
+  const f=e.target.files?.[0];if(!f)return;
+  try{
+    const x=JSON.parse(await f.text());
+    if(x.format!=='expiry-review-import'||!Array.isArray(x.records)||x.records.length<1||x.records.length>500)throw Error('기존 엑셀 전용 등록 JSON이 아닙니다.');
+    const errs=x.records.filter(r=>!r||!legacyId(r)||!iso(r.expiryDate));
+    if(errs.length)throw Error('소비기한 날짜 또는 원본번호 오류 '+errs.length+'건');
+    const keys=x.records.map(key);
+    if(new Set(keys).size!==keys.length)throw Error('파일 내부 원본번호·날짜 중복이 있습니다.');
+    pending=x.records;
+    const noName=pending.filter(r=>!clean(r.name)).length;
+    const noPhoto=pending.filter(r=>!/^data:image\//.test(r.representativeImage||'')).length;
+    const noCode=pending.filter(r=>!clean(r.barcode)).length;
+    const prior=pending.filter(r=>db.expiry.some(e=>e.legacySourceKey===key(r))).length;
+    status.textContent=`파일 검증 완료 · 총 ${pending.length}건 · 이미 가져온 항목 ${prior}건`;
+    preview.textContent=`상품명 미등록 ${noName}건 (원본 고유번호로 보존)\n사진 없는 항목 ${noPhoto}건\n바코드 없는 항목 ${noCode}건 (임의의 바코드 생성 안 함)\n등록 가능 최대 ${pending.length-prior}건\n※ 기존 데이터가 브라우저 저장용량을 차지하므로 사전 전체 백업을 권장합니다.`;
+    apply.hidden=false;
+  }catch(err){status.textContent='파일 검사 실패: '+err.message;}
+};
+apply.onclick=()=>{
+  if(!pending)return;
+  if(!confirm(`원본 ${pending.length}건을 확인했습니다. 기존 상품과 소비기한은 유지하고 중복을 제외해 추가할까요? 등록 전에 현재 데이터를 전체 백업해 두는 것이 안전합니다.`))return;
+  const previous=JSON.stringify(db);
+  let added=0,skipped=0,productsAdded=0,photosAdded=0;
+  try{
+    const seen=new Set(db.expiry.map(e=>e.legacySourceKey).filter(Boolean));
+    const existingNameDates=new Set(db.expiry.filter(e=>!e.legacySourceKey&&clean(e.name)).map(e=>normName(e.name)+'|'+e.date));
+    for(const r of pending){
+      const sourceKey=key(r),date=clean(r.expiryDate),named=clean(r.name);
+      const name=named||`상품명 미확인 (원본 ${clean(r.sourceNumber)||legacyId(r)})`;
+      const code=clean(r.barcode).replace(/\D/g,'');
+      if(seen.has(sourceKey)||named&&existingNameDates.has(normName(named)+'|'+date)){skipped++;continue;}
+      // Barcodeless records remain without a barcode. Reuse only exactly matching named, barcodeless products.
+      let p=code?findProduct(code):null;
+      if(!p&&named){p=db.products.find(q=>normName(q.name)===normName(named)&&(!code?!clean(q.barcode):clean(q.barcode)===code));}
+      if(!p){p={id:uid(),barcode:code,salesCode:'',productCode:'',name,spec:'',scaleId:'',imageData:'',imageSource:'',legacySourceId:legacyId(r)};db.products.push(p);productsAdded++;}
+      const photo=clean(r.representativeImage);
+      if(!p.imageData&&/^data:image\/(?:jpeg|png|webp);base64,/.test(photo)){p.imageData=photo;p.imageSource='기존 엑셀 사진';photosAdded++;}
+      db.expiry.unshift({id:uid(),productId:p.id,barcode:code,name:p.name,spec:p.spec||'',date,createdAt:new Date().toISOString(),legacySourceKey:sourceKey,legacySourceId:legacyId(r),legacyRecordType:clean(r.recordType),legacyManufactureOrPackDate:clean(r.manufactureOrPackDate),legacyManagementPeriodDays:r.managementPeriodDays??null,legacyActionStatus:clean(r.actionStatus),legacyNote:clean(r.note),needsNameReview:!named,needsImageReview:!p.imageData});
+      added++;seen.add(sourceKey);
+    }
+    if(!persist())throw Error('브라우저 저장공간이 부족합니다. 기존 기록은 유지했습니다.');
+    render();
+    status.textContent=`추가 ${added}건 · 중복 제외 ${skipped}건 · 신규 상품 ${productsAdded}종 · 사진 반영 ${photosAdded}종`;
+    preview.textContent='등록 완료. 기존 자료는 삭제하거나 덮어쓰지 않았습니다. 전체 백업 (JSON)으로 합쳐진 데이터를 저장하세요.';
+    apply.hidden=true;pending=null;
+    alert(status.textContent);
+  }catch(err){db=JSON.parse(previous);status.textContent='등록 중단: '+err.message;alert(status.textContent);}
+};
+})();
+</script><script>
+/* 간편 잠금: 비밀번호는 클라이언트 코드에 포함됩니다. 강력한 계정 보안이 아닙니다. */
+(()=>{
+ const gate=document.getElementById('entryLock');
+ const pin=document.getElementById('entryPin');
+ const message=document.getElementById('entryMessage');
+ const voiceBtn=document.getElementById('entryVoice');
+ const key='expiry-manager-device-lock-v1';
+ const phrase=document.getElementById('newPhrase');
+ const saved=JSON.parse(localStorage.getItem(key)||'null');
+ if(!saved){
+   phrase.hidden=false;phrase.required=true;voiceBtn.disabled=true;
+   message.textContent='첫 사용입니다. 이 기기에서 사용할 숫자 4자리와 음성 암호를 등록하세요.';
+ }
+ async function digest(salt,value){
+   const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(salt+':'+value));
+   return Array.from(new Uint8Array(hash),n=>n.toString(16).padStart(2,'0')).join('');
+ }
+ let active=null;
+ const normalized=s=>String(s||'').normalize('NFKC').replace(/[\s.,!?~·。\-]/g,'');
+ function openApp(){
+  if(active){try{active.abort()}catch(_){ }active=null}
+  gate.hidden=true;document.body.classList.remove('app-locked');
+  pin.value='';
+  try{window.scrollTo(0,0)}catch(_){ }
+  window.dispatchEvent(new Event('fish-v41-authenticated'));
+ }
+ document.getElementById('entryForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(!saved){
+    const salt=crypto.randomUUID(), spoken=normalized(phrase.value);
+    if(!spoken){message.textContent='음성 암호를 입력하세요.';return}
+    try{localStorage.setItem(key,JSON.stringify({salt,pin:await digest(salt,pin.value),voice:await digest(salt,spoken)}));location.reload()}catch{message.textContent='기기 저장에 실패했습니다.'}
+    return;
+  }
+  if(await digest(saved.salt,pin.value)===saved.pin)openApp();
+  else {message.textContent='비밀번호가 일치하지 않습니다.';pin.value='';pin.focus()}
+ });
+ voiceBtn.addEventListener('click',()=>{
+  const Recognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Recognition){message.textContent='이 브라우저는 음성인식을 지원하지 않습니다. 숫자 비밀번호로 접속해주세요.';return}
+  if(active){try{active.abort()}catch(_){ }active=null}
+  const rec=new Recognition();active=rec;
+  rec.lang='ko-KR';rec.interimResults=false;rec.continuous=false;rec.maxAlternatives=3;
+  voiceBtn.textContent='🎙️ 듣고 있습니다…';message.textContent='음성 암호를 말씀하세요.';
+  rec.onresult=async e=>{
+   const alternatives=Array.from(e.results[0]||[]);
+   if((await Promise.all(alternatives.map(x=>digest(saved.salt,normalized(x.transcript))))).includes(saved.voice)){openApp();return}
+   message.textContent='음성 암호가 일치하지 않습니다. 다시 말씀하시거나 숫자로 접속해주세요.';
+  };
+  rec.onerror=e=>{if(!gate.hidden)message.textContent='마이크 오류: '+(e.error||'인식 실패')+' · 숫자 비밀번호로도 접속할 수 있습니다.'};
+  rec.onend=()=>{if(active===rec)active=null;if(!gate.hidden)voiceBtn.textContent='🎤 음성으로 잠금 해제'};
+  try{rec.start()}catch(e){message.textContent='음성인식을 시작할 수 없습니다. 숫자 비밀번호를 사용해주세요.';voiceBtn.textContent='🎤 음성으로 잠금 해제'}
+ });
+})();
+</script></body></html>
