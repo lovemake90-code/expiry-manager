@@ -133,6 +133,31 @@ body.app-locked .wrap,body.app-locked #toast{display:none!important}
 .v41-urgent-footer{padding:13px;border-top:1px solid #ecd0d0;background:#fff}
 .v41-urgent-footer .btn{width:100%;min-height:50px;font-size:16px}
 @media(max-width:380px){.v41-soon-layout{grid-template-columns:minmax(110px,37%) minmax(0,1fr);gap:9px}.v41-soon-photo .product-photo,.v41-soon-photo .photo-missing{height:186px}.v41-soon-title{font-size:17px}.v41-soon-date{font-size:13px}}
+
+/* Foldable scan workspace: keep a single registration form across layout changes. */
+.scan-workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:start}
+.scan-workspace .card{margin:0}
+.scan-workspace [hidden]{display:none!important}
+.scan-workspace .scan-entry{min-width:0}
+.scan-workspace .expiry-popup-backdrop,.scan-workspace .missing-photo-overlay{display:block;position:static;padding:0;background:none}
+.scan-workspace .expiry-popup-sheet,.scan-workspace .missing-photo-panel{width:100%;max-height:none;box-shadow:none;border:1px solid #dfe7f2}
+.scan-workspace .expiry-popup-sheet{overflow:visible}
+.scan-workspace .expiry-popup-scroll{overflow:visible;padding:8px 12px 0}
+.scan-workspace #expiryEditor{padding:0}
+.scan-workspace #expiryPopupProduct{margin:0 0 6px!important;padding:6px}
+.scan-workspace #expiryPopupProduct .product-photo{width:52px;height:56px;flex-basis:52px}
+.scan-workspace .scan-fields{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:8px}
+.scan-workspace .scan-fields input,.scan-workspace .expiry-input input{min-width:0;min-height:44px}
+.scan-workspace .scan-help{margin:6px 0;font-size:12px}
+.scan-workspace .scan-submit{position:sticky;bottom:0;z-index:2;padding:8px 0 calc(8px + env(safe-area-inset-bottom));background:#fff}
+.scan-workspace .scan-submit button{min-height:44px}
+.scan-workspace .scan-photo-view{width:100%;height:min(35dvh,300px);object-fit:cover;border-radius:12px;background:#14233a}
+#scan.scan-compact[data-phase="entry"] #scanCameraCard,#scan.scan-compact[data-phase="photo"] #scanCameraCard,
+#scan.scan-compact:not([data-phase="scan"])>.scan-extra{display:none}
+#scan.scan-wide .scan-workspace{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+@media(horizontal-viewport-segments:2){
+ #scan.scan-wide .scan-workspace{column-gap:max(12px,calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0)))}
+}
 </style>
 <link rel="manifest" href="manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"></head><body class="app-locked"><div id="entryLock" aria-label="접속 비밀번호 확인"><div class="entry-box">
 <div style="font-size:38px">🔐</div><h1>개인용 소비기한 매니저</h1><p>접속하려면 음성 암호를 말씀하시거나 숫자 비밀번호를 입력하세요.</p>
@@ -142,8 +167,43 @@ body.app-locked .wrap,body.app-locked #toast{display:none!important}
 <form id="entryForm" autocomplete="off"><input id="entryPin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="••••" aria-label="숫자 비밀번호 4자리" autocomplete="off" required><input id="newPhrase" type="password" placeholder="등록할 음성 암호" aria-label="등록할 음성 암호" hidden><button class="btn" type="submit">접속하기</button></form>
 <div id="entryMessage" role="status" aria-live="polite"></div></div></div><div class="wrap"><header><h1>▦ 개인용 소비기한 매니저</h1><p>개인기기 저장 · 음성 소비기한 · D-30 관리</p></header>
 <nav class="tabs" aria-label="주요 메뉴"><button class="tab active" data-tab="scan">📷 스캔</button><button class="tab" data-tab="history">🕘 최근 스캔</button><button class="tab" data-tab="products">🔍 상품</button><button class="tab" data-tab="inventory">📦 재고</button><button class="tab" data-tab="settings">⚙️ 자료</button></nav><main class="content">
-<section class="panel active" id="scan"><div class="card" style="background:#f1faf4;border-color:#b8e5c5"><strong>🔒 개인 사용 모드</strong><p class="hint">상품·소비기한 기록은 이 브라우저에 저장됩니다. 공용 서버 연결 기능은 제거했습니다. 회사 내부자료는 승인 없이 입력하거나 외부로 전송하지 마세요. 정기 백업을 권장합니다.</p></div><div class="card"><h2>카메라 바코드 스캔</h2><div class="camera" id="camera"><span id="cameraText">카메라 시작 버튼을 눌러주세요</span><video id="video" playsinline muted autoplay style="display:none"></video><div class="scanline" id="scanFrame" hidden></div><div id="liveInfo" class="live-info" hidden></div></div><div class="space"></div><div class="btnline"><button class="btn green" id="start">카메라 시작</button><button class="btn secondary" id="stop">카메라 중지</button></div><div id="scanRecognized" class="result" style="margin-top:12px"><div class="small">바코드를 인식하면 여기 아래에 상품이미지와 상품명이 표시됩니다.</div></div><div id="scanPauseStatus" role="status" aria-live="polite">📷 다음 상품 바코드를 스캔할 수 있습니다.</div><div id="cameraFallback" hidden style="display:none"></div><div class="status" id="scannerStatus" role="status">카메라 기능은 HTTPS 주소 또는 localhost에서 실행할 때 사용 가능합니다. 파일을 직접 열면 브라우저에 따라 차단될 수 있습니다.</div></div>
-<div class="card" id="photoRecognition"><h2>🖼️ 사진 최대 50장 일괄 인식 · 팝업 검수</h2>
+<section class="panel active" id="scan" data-phase="scan"><div class="card scan-extra" style="background:#f1faf4;border-color:#b8e5c5"><strong>🔒 개인 사용 모드</strong><p class="hint">상품·소비기한 기록은 이 브라우저에 저장됩니다. 공용 서버 연결 기능은 제거했습니다. 회사 내부자료는 승인 없이 입력하거나 외부로 전송하지 마세요. 정기 백업을 권장합니다.</p></div><div class="scan-workspace"><div class="card" id="scanCameraCard"><h2>카메라 바코드 스캔</h2><div class="camera" id="camera"><span id="cameraText">카메라 시작 버튼을 눌러주세요</span><video id="video" playsinline muted autoplay style="display:none"></video><div class="scanline" id="scanFrame" hidden></div><div id="liveInfo" class="live-info" hidden></div></div><div class="space"></div><div class="btnline"><button class="btn green" id="start">카메라 시작</button><button class="btn secondary" id="stop">카메라 중지</button></div><div id="scanRecognized" class="result" style="margin-top:12px"><div class="small">바코드를 인식하면 여기 아래에 상품이미지와 상품명이 표시됩니다.</div></div><div id="scanPauseStatus" role="status" aria-live="polite">📷 다음 상품 바코드를 스캔할 수 있습니다.</div><div id="cameraFallback" hidden style="display:none"></div><div class="status" id="scannerStatus" role="status">카메라 기능은 HTTPS 주소 또는 localhost에서 실행할 때 사용 가능합니다. 파일을 직접 열면 브라우저에 따라 차단될 수 있습니다.</div></div>
+<div class="scan-entry" id="scanEntry"><div id="missingPhotoModal" class="missing-photo-overlay" hidden role="region" aria-label="상품 사진 등록">
+ <div class="missing-photo-panel"><h2>📸 상품 이미지가 없습니다</h2>
+ <p id="missingModalProduct" class="status"></p>
+ <p class="hint">바코드는 인식되었습니다. 상품을 카메라에 맞추고 촬영하세요. 사진과 소비기한은 등록 버튼을 누르면 함께 저장됩니다.</p>
+ <video id="scanProductVideo" class="scan-photo-view" playsinline muted autoplay hidden></video>
+ <div class="btnline"><button type="button" id="captureScanProduct" class="btn green" hidden>이 화면 촬영</button><button type="button" id="missingModalCamera" class="btn green">📷 지금 촬영</button><button type="button" id="missingModalGallery" class="btn secondary">🖼️ 사진 선택</button></div>
+ <input id="missingModalCameraFile" type="file" accept="image/*" capture="environment" hidden>
+ <input id="missingModalGalleryFile" type="file" accept="image/*" hidden>
+ <img id="missingModalPreview" class="missing-photo-preview" alt="선택한 상품 사진" hidden>
+ <div id="missingModalStatus" class="hint" aria-live="polite"></div>
+ <button type="button" id="missingModalLater" class="btn secondary wide" style="margin-top:12px">사진 없이 소비기한 먼저 입력</button>
+ </div></div>
+<div id="expiryPopup" class="expiry-popup-backdrop" hidden role="region" aria-label="바코드 인식 상품 소비기한 입력">
+<div class="expiry-popup-sheet"><div class="expiry-popup-head"><strong>✅ 상품 인식 완료 · 소비기한 등록</strong><button id="expiryPopupSkip" type="button" class="btn secondary">건너뛰기</button></div>
+<div class="expiry-popup-scroll"><div id="expiryPopupProduct" class="result" style="margin:0 0 12px"></div>
+<div class="card" id="expiryEditor">
+<div class="scan-fields">
+ <div class="field"><label for="scanProductName">상품명</label><input id="scanProductName" required autocomplete="off"></div>
+ <div class="field"><label for="scanProductSpec">규격</label><input id="scanProductSpec" autocomplete="off"></div>
+</div>
+<div id="expirySelected" class="status" hidden></div>
+<details class="scan-help"><summary>사진 변경 · 음성 설정</summary><label><input type="checkbox" id="autoVoiceExpiry" checked> 자동 음성 입력</label><div id="missingProductPhoto" hidden>
+ <strong>📸 상품 이미지가 없습니다</strong><p class="hint">소비기한을 입력하면서 상품 사진을 촬영하세요. 저장 버튼을 누르면 상품 사진과 소비기한이 함께 등록됩니다.</p>
+ <div class="btnline"><button type="button" id="takeProductPhoto" class="btn secondary">📷 상품 사진 촬영</button><button type="button" id="chooseProductPhoto" class="btn secondary">🖼️ 갤러리 선택</button></div>
+ <input id="takeProductPhotoFile" type="file" accept="image/*" capture="environment" hidden><input id="chooseProductPhotoFile" type="file" accept="image/*" hidden>
+ <div id="pendingProductPhoto" hidden style="margin-top:10px"><img id="pendingProductPhotoPreview" class="image-preview" alt="등록할 상품 사진"><div class="small">이 사진은 소비기한 등록 버튼을 누르면 함께 저장됩니다.</div><button type="button" class="btn secondary" id="removePendingPhoto" style="margin-top:6px">사진 다시 선택</button></div>
+ <div id="productPhotoStatus" class="hint" aria-live="polite"></div>
+</div></details>
+<div class="field" style="margin-top:11px"><label for="expiryDate">소비기한</label><div class="expiry-input"><input id="expiryDate" type="date"><button class="btn green" id="voiceExpiry" type="button">🎙️ 말하기</button></div></div>
+<div id="voiceStatus" class="status" role="status" aria-live="polite">예: “6개월 2026년 11월 17일”, “6개월 11월 17일”, “소비기한 2027년 3월 15일”</div>
+<div id="voiceTimer" class="hint" aria-live="polite"></div>
+</div></div><div class="scan-submit"><button class="btn wide" id="saveExpiry" type="button">등록 · 다음 스캔</button>
+<button id="skipExpiry" type="button" hidden disabled>다음 스캔</button>
+</div></div></div>
+<div class="card" id="scanEntryIdle" hidden>바코드를 인식하면 이곳에 상품 등록 화면이 열립니다.</div></div></div>
+<div class="card scan-extra" id="photoRecognition"><h2>🖼️ 사진 최대 50장 일괄 인식 · 팝업 검수</h2>
 <p class="hint"><b>사진 1~50장</b>을 동시에 선택할 수 있습니다. 상품별 사진은 <b>1장(바코드+소비기한), 2장(바코드+날짜), 3장(바코드+제조/포장일+보관기간 안내)</b>을 연속으로 선택하세요. 분석 후 검수 팝업에서 원본 사진을 확대하고 인식값을 수정하여 등록합니다.</p>
 <div class="btnline"><button type="button" class="btn green" id="combinedGalleryBtn">🖼️ 갤러리 선택 (최대 50장)</button><button type="button" class="btn secondary" id="combinedCameraBtn">📷 사진 촬영 (1장)</button></div>
 <input id="combinedPhotos" type="file" accept="image/*" multiple hidden><input id="combinedCameraPhoto" type="file" accept="image/*" capture="environment" hidden>
@@ -158,42 +218,14 @@ body.app-locked .wrap,body.app-locked #toast{display:none!important}
  <div class="review-footer"><button type="button" id="reviewPrev" class="btn secondary">이전 상품</button><button type="button" id="reviewConfirm" class="btn green">이 상품 검수 완료</button><button type="button" id="reviewNext" class="btn secondary">다음 상품</button></div>
  <div class="review-footer"><button type="button" id="reviewSave" class="btn green wide">검수 완료 항목 일괄 등록</button></div></div>
 </div>
-<div id="missingPhotoModal" class="missing-photo-overlay" hidden role="dialog" aria-modal="true" aria-label="상품 사진 등록">
- <div class="missing-photo-panel"><h2>📸 상품 이미지가 없습니다</h2>
- <p id="missingModalProduct" class="status"></p>
- <p class="hint">바코드는 인식되었습니다. 사진을 찍거나 갤러리에서 골라 이 상품에 바로 등록할 수 있습니다. 소비기한은 이어서 입력하세요.</p>
- <div class="btnline"><button type="button" id="missingModalCamera" class="btn green">📷 지금 촬영</button><button type="button" id="missingModalGallery" class="btn secondary">🖼️ 사진 선택</button></div>
- <input id="missingModalCameraFile" type="file" accept="image/*" capture="environment" hidden>
- <input id="missingModalGalleryFile" type="file" accept="image/*" hidden>
- <img id="missingModalPreview" class="missing-photo-preview" alt="선택한 상품 사진" hidden>
- <div id="missingModalStatus" class="hint" aria-live="polite"></div>
- <button type="button" id="missingModalLater" class="btn secondary wide" style="margin-top:12px">사진 없이 소비기한 먼저 입력</button>
- </div></div>
 <div id="photoZoom" class="photo-zoom" hidden role="dialog" aria-modal="true" aria-label="사진 확대"><button id="photoZoomClose" type="button" class="zoom-close">✕ 닫기</button><img id="photoZoomImg" alt="원본 사진 확대"><div id="photoZoomCaption"></div></div>
-<div id="combinedBarcodeResult" class="status" hidden></div>
-<div id="ocrStatus" class="status" role="status" hidden></div><p class="hint">※ 휴대폰 OCR은 AI 이미지 이해와 동일하지 않습니다. 후보를 눌러 실제 포장지 날짜와 대조하세요.</p><div id="ocrCandidates" style="margin-top:8px"></div>
-<details id="ocrDetails" style="margin-top:8px" hidden><summary style="font-size:12px">사진에서 읽은 글자 확인</summary><pre id="ocrRaw" style="white-space:pre-wrap;word-break:break-word;font-size:12px"></pre></details>
+<div class="scan-extra" id="combinedBarcodeResult" class="status" hidden></div>
+<div id="ocrStatus" class="status scan-extra" role="status" hidden></div><p class="hint scan-extra">※ 휴대폰 OCR은 AI 이미지 이해와 동일하지 않습니다. 후보를 눌러 실제 포장지 날짜와 대조하세요.</p><div class="scan-extra" id="ocrCandidates" style="margin-top:8px"></div>
+<details class="scan-extra" id="ocrDetails" style="margin-top:8px" hidden><summary style="font-size:12px">사진에서 읽은 글자 확인</summary><pre id="ocrRaw" style="white-space:pre-wrap;word-break:break-word;font-size:12px"></pre></details>
 <!-- Legacy photo elements retained hidden for compatibility with existing handlers. -->
 <div hidden style="display:none" aria-hidden="true"><input id="photo" type="file" accept="image/*"><input id="cameraPhoto" type="file" accept="image/*" capture="environment"><div id="barcodePhotoStatus"></div><button type="button" id="barcodeGalleryBtn"></button><button type="button" id="barcodeCameraBtn"></button><input id="datePhoto" type="file" accept="image/*"><input id="dateCameraPhoto" type="file" accept="image/*" capture="environment"><button type="button" id="dateGalleryBtn"></button><button type="button" id="dateCameraBtn"></button><img id="datePhotoPreview" alt="날짜 사진"></div></div>
 <div hidden style="display:none" aria-hidden="true"><input id="manualCode" inputmode="numeric"><button id="manualSubmit" type="button"></button><div id="result" hidden></div></div>
-<div id="expiryPopup" class="expiry-popup-backdrop" hidden role="dialog" aria-modal="true" aria-label="바코드 인식 상품 소비기한 입력">
-<div class="expiry-popup-sheet"><div class="expiry-popup-head"><strong>✅ 상품 인식 완료 · 소비기한 등록</strong><button id="expiryPopupSkip" type="button" class="btn secondary">건너뛰기</button></div>
-<div class="expiry-popup-scroll"><div id="expiryPopupProduct" class="result" style="margin:0 0 12px"></div>
-<div class="card" id="expiryEditor"><h2>🗣️ 소비기한 입력 · 음성인식</h2>
-<p class="hint">바코드 인식 후 최대 1분간 음성을 듣습니다. 예: “6개월 2026년 11월 17일” / “6개월 11월 17일” / “6개월” 다음 “11월 17일” / “포장일 2026년 11월 12일 6개월” / “소비기한 2027년 3월 15일”.</p><label class="row" style="align-items:center;gap:8px;margin:8px 0 12px"><input type="checkbox" id="autoVoiceExpiry" checked style="width:20px;height:20px;flex:0 0 auto"><span style="font-size:14px">바코드 인식 후 자동으로 음성 듣기</span></label>
-<div id="expirySelected" class="status">먼저 상품을 스캔해주세요.</div>
-<div id="missingProductPhoto" hidden>
- <strong>📸 상품 이미지가 없습니다</strong><p class="hint">소비기한을 입력하면서 상품 사진을 촬영하세요. 저장 버튼을 누르면 상품 사진과 소비기한이 함께 등록됩니다.</p>
- <div class="btnline"><button type="button" id="takeProductPhoto" class="btn secondary">📷 상품 사진 촬영</button><button type="button" id="chooseProductPhoto" class="btn secondary">🖼️ 갤러리 선택</button></div>
- <input id="takeProductPhotoFile" type="file" accept="image/*" capture="environment" hidden><input id="chooseProductPhotoFile" type="file" accept="image/*" hidden>
- <div id="pendingProductPhoto" hidden style="margin-top:10px"><img id="pendingProductPhotoPreview" class="image-preview" alt="등록할 상품 사진"><div class="small">이 사진은 소비기한 등록 버튼을 누르면 함께 저장됩니다.</div><button type="button" class="btn secondary" id="removePendingPhoto" style="margin-top:6px">사진 다시 선택</button></div>
- <div id="productPhotoStatus" class="hint" aria-live="polite"></div>
-</div>
-<div class="field" style="margin-top:11px"><label for="expiryDate">소비기한</label><div class="expiry-input"><input id="expiryDate" type="date"><button class="btn green" id="voiceExpiry" type="button">🎙️ 말하기</button></div></div>
-<div id="voiceStatus" class="status" role="status" aria-live="polite">예: “6개월 2026년 11월 17일”, “6개월 11월 17일”, “소비기한 2027년 3월 15일”</div>
-<div id="voiceTimer" class="hint" aria-live="polite" style="margin-top:6px"></div><div class="space"></div><button class="btn wide" id="saveExpiry" type="button">소비기한·상품 사진 등록 완료 → 다음 스캔</button><div class="space"></div><button class="btn secondary wide" id="skipExpiry" type="button" disabled>이 상품 건너뛰고 다음 스캔</button>
-</div></div></div></div>
-<div class="card"><h2>⏰ 소비기한 임박상품 <span class="pill" id="soonCount">0건</span></h2><p class="hint">D-30 이내 상품과 소비기한이 지난 상품을 표시합니다.</p><div id="soonList"></div></div></section>
+<div class="card scan-extra"><h2>⏰ 소비기한 임박상품 <span class="pill" id="soonCount">0건</span></h2><p class="hint">D-30 이내 상품과 소비기한이 지난 상품을 표시합니다.</p><div id="soonList"></div></div></section>
 <section class="panel" id="history"><div class="card"><h2>최근 스캔 <span class="pill" id="scanCount">0건</span></h2><p class="hint">최근 인식한 상품 기록입니다.</p><div id="recent"></div></div></section>
 <section class="panel" id="products"><div class="card"><h2>상품 검색</h2><input type="search" id="productSearch" placeholder="상품명 / 바코드 / 판매코드 / 저울ID"><p class="hint">바코드와 판매코드는 서로 다른 번호입니다. 상품정보에 두 번호를 등록하면 연결됩니다.</p><div class="hint">상품 목록은 이 휴대폰의 브라우저에만 보관됩니다. 새 바코드를 인식하면 임시 상품을 만들고 상품 메뉴에서 이름을 수정할 수 있습니다.</div><div id="photoCount" class="count-chip"></div><div id="productList"></div></div><div class="card"><h2>상품 등록 / 수정</h2><input type="hidden" id="editId"><div class="field"><label for="pProductCode">상품코드 (내부코드)</label><input id="pProductCode" inputmode="numeric"></div><div class="field"><label for="pSpec">규격</label><input id="pSpec" placeholder="예: 80G / 4.5G*20봉"></div><div class="field"><label for="pBarcode">바코드</label><input id="pBarcode" inputmode="numeric" placeholder="예: 8801234567890"></div><div class="field"><label for="pName">상품명 *</label><input id="pName" placeholder="예: 생물오징어"></div><div class="grid"><div class="field"><label for="pSales">판매코드</label><input id="pSales" inputmode="numeric"></div><div class="field"><label for="pScale">저울ID</label><input id="pScale" inputmode="numeric"></div></div><div class="field"><label for="productImageFile">상품 사진 등록 (자동 축소 · 흰 여백 제거)</label><div class="row"><input id="productImageFile" type="file" accept="image/*" style="min-width:0"/><img id="imgPreview" class="image-preview" hidden alt="상품사진 미리보기"></div><p class="hint">등록할 사진은 상품만 보이게 촬영하세요. 이미지 너비 최대 240px, WebP/JPEG 품질 65%로 축소해 기기에 저장합니다.</p><label><input type="checkbox" id="removePhoto"> 등록된 사진 삭제</label></div><div class="row"><button class="btn" id="saveProduct">상품 저장</button><button class="btn secondary" id="clearProduct">입력 초기화</button></div><p class="hint">바코드가 없는 상품도 판매코드·저울ID로 등록할 수 있습니다. 바코드는 상품별로 중복 등록되지 않습니다.</p></div></section>
 <section class="panel" id="inventory">
@@ -233,13 +265,62 @@ for(const p of db.products){if(/^assets\//.test(p.imageUrl||'')){delete p.imageU
 persist();
 function photoMarkup(p){return p?.imageData||p?.imageUrl?`<img class="product-photo" loading="lazy" src="${escapeHTML(p.imageData||p.imageUrl)}" onerror="this.outerHTML='<span class=photo-missing>이미지<br>불러오기 실패</span>'" alt="${escapeHTML(p.name)}">`:'<div class="photo-missing">사진 없음</div>'}
 function photoSearch(p){toast('개인용 버전은 외부 상품 이미지 검색을 사용하지 않습니다. 직접 촬영해 등록하세요.')}
-function tab(t){if(t!=='scan')stopExpiryVoice();document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===t));if(t!=='scan')stopCamera();render()}
+function tab(t){if(t!=='scan')stopExpiryVoice();document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===t));if(t!=='scan')stopCamera();else if(scanPhase==='photo'){if(pendingScanProductPhoto)openScanEntry();else if(!active)startCamera();}render()}
 document.querySelectorAll('.tab').forEach(x=>x.onclick=()=>tab(x.dataset.tab));
 function findProduct(code){const c=digits(code);return db.products.find(p=>p.barcode&&digits(p.barcode)===c)||db.products.find(p=>p.salesCode&&digits(p.salesCode)===c)||db.products.find(p=>p.scaleId&&digits(p.scaleId)===c)}
 function getInventoryKey(p,code){return p?'p:'+p.id:'u:'+digits(code)}
 function upsertInventory(p,code,delta){const k=getInventoryKey(p,code);const old=db.inventory[k]||{productId:p?p.id:null,barcode:digits(code),name:p?p.name:'미등록 상품',quantity:0,updated:''};old.quantity=Math.max(0,(Number(old.quantity)||0)+delta);old.updated=new Date().toISOString();if(p){old.productId=p.id;old.name=p.name;old.barcode=p.barcode||digits(code)}db.inventory[k]=old;persist()}
 let lastScan={code:'',at:0};let currentProduct=null;let currentCode='';
-let barcodePaused=false,scanResumeTimer=0,pendingScanProductPhoto=null;
+let barcodePaused=false,pendingScanProductPhoto=null,suppressScanVoice=false;
+let holdBarcode='',emptyFrames=0,scanVoicePending=false;
+const scanWidth=matchMedia('(min-width: 600px)');
+const foldSegments=matchMedia('(horizontal-viewport-segments: 2)');
+let scanPhase='scan',wideScan=false;
+function setScanPhase(phase){
+ scanPhase=phase;el('scan').dataset.phase=phase;
+ el('expiryPopup').hidden=phase!=='entry';
+ el('missingPhotoModal').hidden=phase!=='photo';
+ el('scanEntryIdle').hidden=phase!=='scan'||!wideScan;
+ syncPhotoPreview();
+}
+function syncPhotoPreview(){
+ const preview=el('scanProductVideo');
+ const photoStream=scanPhase==='photo'&&el('scan').classList.contains('active')?stream:null;
+ if(preview.srcObject!==photoStream)preview.srcObject=photoStream;
+ preview.hidden=!photoStream;
+ el('captureScanProduct').hidden=!photoStream;
+ if(photoStream)preview.play().catch(()=>{if(preview.srcObject===photoStream)el('missingModalStatus').textContent='사진 미리보기를 사용할 수 없습니다. 지금 촬영 버튼을 눌러주세요.'});
+}
+function refreshScanLayout(){
+ const next=scanWidth.matches||foldSegments.matches;
+ const changed=next!==wideScan;
+ wideScan=next;el('scan').classList.toggle('scan-wide',wideScan);el('scan').classList.toggle('scan-compact',!wideScan);
+ el('scanEntryIdle').hidden=scanPhase!=='scan'||!wideScan;
+ if(!changed||!el('scan').classList.contains('active'))return;
+ if(scanPhase==='entry'){
+  if(wideScan&&!active)startCamera();
+  else if(!wideScan)stopCamera();
+ }
+}
+function startScanVoice(){
+ if(suppressScanVoice||!el('autoVoiceExpiry').checked)return;
+ scanVoicePending=document.hidden;
+ if(!scanVoicePending)startExpiryVoice(true);
+}
+function openScanEntry(){
+ showExpiryPopup();
+ if(!wideScan)stopCamera();
+ else if(!active)startCamera();
+ if(!wideScan)el('scanEntry').scrollIntoView({block:'start',behavior:'instant'});
+ startScanVoice();
+}
+function scanFrameResult(result){
+ if(barcodePaused)return;
+ const code=digits(result);
+ if(!code){if(++emptyFrames>=3)holdBarcode='';return;}
+ emptyFrames=0;
+ if(code!==holdBarcode)scan(code);
+}
 function setBarcodePaused(paused){
  barcodePaused=paused;
  const panel=el('scanPauseStatus');
@@ -250,8 +331,8 @@ function setBarcodePaused(paused){
  if(paused)setStatus('상품을 인식했습니다. 소비기한을 등록하면 다음 스캔이 시작됩니다.','ok');
 }
 function resetSelectedScan(){
- hideExpiryPopup();el('missingPhotoModal').hidden=true;stopExpiryVoice('저장 완료 · 다음 상품을 스캔하세요.');
- currentProduct=null;currentCode='';pendingScanProductPhoto=null;
+ setScanPhase('scan');stopExpiryVoice('저장 완료 · 다음 상품을 스캔하세요.');
+ currentProduct=null;currentCode='';pendingScanProductPhoto=null;scanPhotoJob=null;scanVoicePending=false;el('captureScanProduct').disabled=false;
  el('expiryDate').value='';el('saveExpiry').disabled=true;
  el('expirySelected').className='status';el('expirySelected').textContent='다음 상품의 바코드를 비춰주세요.';
  el('missingProductPhoto').hidden=true;el('pendingProductPhoto').hidden=true;
@@ -261,7 +342,7 @@ function resetSelectedScan(){
  el('scanRecognized').innerHTML='<div class="small">등록 완료! 다음 바코드를 인식하면 상품이미지와 상품명이 표시됩니다.</div>';
 }
 function resumeBarcodeScanning(){
- clearTimeout(scanResumeTimer);
+ holdBarcode=currentCode;emptyFrames=0;
  resetSelectedScan();
  lastScan={code:'',at:0};
  setBarcodePaused(false);
@@ -273,14 +354,13 @@ function showExpiryPopup(){
  if(!currentProduct)return;
  const p=currentProduct;
  el('expiryPopupProduct').innerHTML=`<div class="photo-row">${photoMarkup(p)}<div style="min-width:0"><div class="itemname">${escapeHTML(p.name||'미등록 상품')}</div><div class="itemcode">규격 ${escapeHTML(p.spec||'-')}<br>바코드 ${escapeHTML(currentCode)}</div></div></div>`;
- el('expiryPopup').hidden=false;
+ setScanPhase('entry');
 }
-function hideExpiryPopup(){el('expiryPopup').hidden=true;}
 el('expiryPopupSkip').onclick=()=>{if(confirm('소비기한을 등록하지 않고 다음 상품을 스캔할까요?'))resumeBarcodeScanning()};
-function scan(code,{force=false,suppressVoice=false}={}){if(barcodePaused){return}code=digits(code);if(!code){toast('바코드 번호를 입력해주세요');return}const now=Date.now();if(!force&&code===lastScan.code&&now-lastScan.at<30000)return;lastScan={code,at:now};setBarcodePaused(true);let p=findProduct(code);if(!p){p={id:uid(),barcode:code,salesCode:code,productCode:'',name:'상품 '+code,spec:'',scaleId:''};db.products.push(p);toast('새 바코드입니다. 상품 메뉴에서 상품명을 수정할 수 있습니다.')}const item={id:uid(),barcode:code,productId:p?.id||null,name:p?.name||'미등록 상품',scannedAt:new Date().toISOString()};db.history.unshift(item);if(db.history.length>20000)db.history.length=20000;if(db.settings.autoStock)upsertInventory(p,code,1);persist();showResult(code,p);showLiveInfo(code,p);selectExpiryProduct(code,p);render();if(!p.imageData&&!p.imageUrl){showMissingPhotoModal(p)}else {showExpiryPopup();if(p&&!suppressVoice&&el('autoVoiceExpiry')?.checked)startExpiryVoice(true)}if(db.settings.vibrate&&navigator.vibrate)navigator.vibrate(70);toast(p?'상품 인식 완료':'미등록 바코드 인식 완료')}
+function scan(code,{force=false,suppressVoice=false}={}){if(barcodePaused){return}code=digits(code);if(!code){toast('바코드 번호를 입력해주세요');return}const now=Date.now();if(!force&&code===lastScan.code&&now-lastScan.at<30000)return;lastScan={code,at:now};setBarcodePaused(true);let p=findProduct(code);if(!p){p={id:uid(),barcode:code,salesCode:code,productCode:'',name:'상품 '+code,spec:'',scaleId:''};db.products.push(p);toast('새 바코드입니다. 상품 메뉴에서 상품명을 수정할 수 있습니다.')}const item={id:uid(),barcode:code,productId:p?.id||null,name:p?.name||'미등록 상품',scannedAt:new Date().toISOString()};db.history.unshift(item);if(db.history.length>20000)db.history.length=20000;if(db.settings.autoStock)upsertInventory(p,code,1);persist();showResult(code,p);showLiveInfo(code,p);selectExpiryProduct(code,p);render();suppressScanVoice=suppressVoice;if(!p.imageData&&!p.imageUrl){showMissingPhotoModal(p)}else openScanEntry();if(db.settings.vibrate&&navigator.vibrate)navigator.vibrate(70);toast(p?'상품 인식 완료':'미등록 바코드 인식 완료')}
 function showResult(code,p){const x=el('result');x.hidden=false;x.innerHTML=`<div class="small">인식한 번호</div><div class="code">${escapeHTML(code)}</div><div class="space"></div><div class="photo-row">${photoMarkup(p)}<div><strong>${escapeHTML(p?.name||'미등록 상품')}</strong><div class="small">규격: ${escapeHTML(p?.spec||'-')} · 상품코드: ${escapeHTML(p?.productCode||'-')}</div></div></div><div class="itemcode">판매코드: ${escapeHTML(p?.salesCode||'-')} · 저울ID: ${escapeHTML(p?.scaleId||'-')}</div><div class="space"></div><div class="btnline"><button class="btn secondary" id="copyCode">번호 복사</button><button class="btn ${p?'secondary':'green'}" id="toProduct">${p?'상품 수정':'이 상품 등록'}</button><button class="btn" id="addQty">재고 +1</button></div>`;el('copyCode').onclick=()=>{if(navigator.clipboard?.writeText)navigator.clipboard.writeText(code).then(()=>toast('복사했습니다')).catch(()=>fallbackCopy(code));else fallbackCopy(code)};el('toProduct').onclick=()=>{tab('products');if(p)editProduct(p.id);else{clearForm();el('pBarcode').value=code;el('pName').focus()}};el('addQty').onclick=()=>{upsertInventory(p,code,1);render();toast('수량을 1개 추가했습니다')}}
 function showLiveInfo(code,p){const x=el('liveInfo');x.hidden=false;x.innerHTML=`<div class="photo-row">${photoMarkup(p)}<div style="min-width:0"><div class="itemname">${escapeHTML(p?.name||'미등록 상품')}</div><div class="itemcode">규격 ${escapeHTML(p?.spec||'-')}<br>상품코드 ${escapeHTML(p?.productCode||'-')}<br>판매코드 ${escapeHTML(p?.salesCode||code)}</div></div></div>`;const y=el('scanRecognized');if(y){y.hidden=false;y.innerHTML=`<div class="small">최근 인식 상품</div><div class="space"></div><div class="photo-row">${photoMarkup(p)}<div style="min-width:0"><div style="font-weight:800;font-size:18px;line-height:1.35">${escapeHTML(p?.name||'미등록 상품')}</div><div class="itemcode">규격 ${escapeHTML(p?.spec||'-')}<br>상품코드 ${escapeHTML(p?.productCode||'-')}<br>판매코드 ${escapeHTML(p?.salesCode||code)}</div></div></div>`}}
-function selectExpiryProduct(code,p){stopExpiryVoice();currentCode=code;currentProduct=p;pendingScanProductPhoto=null;el('pendingProductPhoto').hidden=true;el('pendingProductPhotoPreview').removeAttribute('src');el('productPhotoStatus').textContent='';el('missingProductPhoto').hidden=!!(p?.imageData||p?.imageUrl);const x=el('expirySelected');if(!p){x.className='status warn';x.textContent='미등록 상품입니다. 먼저 상품 정보를 등록해 주세요.';el('saveExpiry').disabled=true;return}x.className='status ok';x.textContent='선택됨: '+p.name+' · '+(p.spec||'규격 없음');el('saveExpiry').disabled=false;el('expiryDate').value=''}
+function selectExpiryProduct(code,p){stopExpiryVoice();currentCode=code;currentProduct=p;el('scanProductName').value=p?.name||'';el('scanProductSpec').value=p?.spec||'';pendingScanProductPhoto=null;el('pendingProductPhoto').hidden=true;el('pendingProductPhotoPreview').removeAttribute('src');el('productPhotoStatus').textContent='';el('missingProductPhoto').hidden=!!(p?.imageData||p?.imageUrl);const x=el('expirySelected');if(!p){x.className='status warn';x.textContent='미등록 상품입니다. 먼저 상품 정보를 등록해 주세요.';el('saveExpiry').disabled=true;return}x.className='status ok';x.textContent='선택됨: '+p.name+' · '+(p.spec||'규격 없음');el('saveExpiry').disabled=false;el('expiryDate').value=''}
 function fallbackCopy(s){el('manualCode').value=s;el('manualCode').focus();el('manualCode').select();toast('번호를 선택했습니다. 길게 눌러 복사하세요')}
 el('manualSubmit').onclick=()=>scan(el('manualCode').value,{force:true});el('manualCode').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();scan(el('manualCode').value,{force:true});el('manualCode').select()}};
 function editProduct(id){const p=db.products.find(x=>x.id===id);if(!p)return;el('editId').value=id;el('pBarcode').value=p.barcode||'';el('pName').value=p.name||'';el('pSales').value=p.salesCode||'';el('pScale').value=p.scaleId||'';el('pProductCode').value=p.productCode||'';el('pSpec').value=p.spec||'';el('imgPreview').src=p.imageData||p.imageUrl||'';el('imgPreview').hidden=!(p.imageData||p.imageUrl);el('productImageFile').value='';el('removePhoto').checked=false;el('pName').focus();window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})}
@@ -294,50 +374,59 @@ function showMissingPhotoModal(p){
  stopExpiryVoice();
  el('missingModalProduct').textContent=p.name+' · '+(p.salesCode||p.barcode||currentCode);
  el('missingModalStatus').textContent='사진은 이 휴대폰에만 저장됩니다.';
- el('missingModalPreview').hidden=true;el('missingModalPreview').removeAttribute('src');
- el('missingPhotoModal').hidden=false;
+ el('missingModalPreview').hidden=true;
+ setScanPhase('photo');
+ if(!wideScan)el('scanEntry').scrollIntoView({block:'start',behavior:'instant'});
 }
-function closeMissingPhotoModal(){el('missingPhotoModal').hidden=true;if(currentProduct){showExpiryPopup();if(el('autoVoiceExpiry')?.checked)startExpiryVoice(true);}}
 el('missingModalCamera').onclick=()=>el('missingModalCameraFile').click();
 el('missingModalGallery').onclick=()=>el('missingModalGalleryFile').click();
-el('missingModalLater').onclick=()=>{closeMissingPhotoModal();el('expiryDate').focus();};
-async function saveMissingModalPhoto(e){
- const file=e.target.files?.[0];e.target.value='';if(!file||!currentProduct)return;
+el('missingModalLater').onclick=openScanEntry;
+let scanPhotoJob=null;
+async function prepareScanPhoto(file,statusId,fromPrompt){
+ if(!file||!currentProduct||scanPhotoJob)return;
+ const job={};scanPhotoJob=job;
  const target=currentProduct;
- el('missingModalStatus').textContent='사진을 저장하는 중입니다…';
+ const status=el(statusId);
+ const capture=el('captureScanProduct');
+ capture.disabled=true;status.textContent='사진 준비 중…';
  try{
   const data=await compressProductImage(file);
-  const before={imageData:target.imageData,imageUrl:target.imageUrl,imageSource:target.imageSource};
-  target.imageData=data;target.imageSource='개인 직접 등록';delete target.imageUrl;
-  if(!persist()){
-   if(before.imageData===undefined)delete target.imageData;else target.imageData=before.imageData;
-   if(before.imageUrl===undefined)delete target.imageUrl;else target.imageUrl=before.imageUrl;
-   if(before.imageSource===undefined)delete target.imageSource;else target.imageSource=before.imageSource;
-   el('missingModalStatus').textContent='휴대폰 저장 공간을 확인해주세요.';return;
-  }
-  el('missingModalPreview').src=data;el('missingModalPreview').hidden=false;
-  el('missingProductPhoto').hidden=true;
-  showLiveInfo(currentCode,target);showResult(currentCode,target);renderProducts();
-  el('missingModalStatus').textContent='✅ 상품 이미지 저장 완료! 소비기한을 입력하세요.';
-  setTimeout(()=>{if(currentProduct===target&&!el('missingPhotoModal').hidden)closeMissingPhotoModal()},650);
- }catch(err){el('missingModalStatus').textContent='사진 처리 실패: '+(err.message||String(err))}
+  if(scanPhotoJob!==job||currentProduct!==target||!barcodePaused)return;
+  pendingScanProductPhoto=data;
+  el('pendingProductPhotoPreview').src=data;
+  el('pendingProductPhoto').hidden=false;
+  el('productPhotoStatus').textContent='사진 준비 완료 · 등록 버튼을 누르면 함께 저장됩니다.';
+  if(!el('scan').classList.contains('active'))return;
+  if(fromPrompt&&scanPhase==='photo')openScanEntry();
+  else if(!voiceSession)startScanVoice();
+ }catch(err){if(scanPhotoJob===job&&currentProduct===target)status.textContent='사진 처리 실패: '+err.message;}
+ finally{if(scanPhotoJob===job){scanPhotoJob=null;capture.disabled=false;}}
+}
+async function saveMissingModalPhoto(e){
+ const file=e.target.files?.[0];e.target.value='';
+ await prepareScanPhoto(file,'missingModalStatus',true);
 }
 el('missingModalCameraFile').onchange=saveMissingModalPhoto;
 el('missingModalGalleryFile').onchange=saveMissingModalPhoto;
+el('captureScanProduct').onclick=()=>{
+ const preview=el('scanProductVideo'),target=currentProduct;
+ if(!preview.videoWidth){el('missingModalStatus').textContent='미리보기가 준비되면 다시 눌러주세요.';return;}
+ const canvas=document.createElement('canvas');
+ canvas.width=preview.videoWidth;canvas.height=preview.videoHeight;
+ canvas.getContext('2d').drawImage(preview,0,0);
+ canvas.toBlob(blob=>{
+  if(target!==currentProduct||scanPhase!=='photo')return;
+  if(!blob){el('missingModalStatus').textContent='사진을 촬영하지 못했습니다. 다시 시도해주세요.';return;}
+  prepareScanPhoto(blob,'missingModalStatus',true);
+ },'image/jpeg',.9);
+};
 
 // An image-less product can be photographed inside the expiry entry flow.
 el('takeProductPhoto').onclick=()=>el('takeProductPhotoFile').click();
 el('chooseProductPhoto').onclick=()=>el('chooseProductPhotoFile').click();
 async function captureProductPhoto(e){
- const file=e.target.files?.[0];if(!file||!currentProduct)return;
- el('productPhotoStatus').textContent='상품 사진 준비 중...';
- try{
-  pendingScanProductPhoto=await compressProductImage(file);
-  el('pendingProductPhotoPreview').src=pendingScanProductPhoto;
-  el('pendingProductPhoto').hidden=false;
-  el('productPhotoStatus').textContent='사진 준비 완료 · 소비기한 저장 버튼을 누르면 함께 등록됩니다.';
- }catch(err){el('productPhotoStatus').textContent='사진 처리 실패: '+(err.message||err);toast('상품 사진을 처리하지 못했습니다.')}
- finally{e.target.value=''}
+ const file=e.target.files?.[0];e.target.value='';
+ await prepareScanPhoto(file,'productPhotoStatus',false);
 }
 el('takeProductPhotoFile').onchange=captureProductPhoto;
 el('chooseProductPhotoFile').onchange=captureProductPhoto;
@@ -598,21 +687,42 @@ function startExpiryVoice(auto=false){
    }catch(err){
      if(voiceSession!==session)return;
      // Some mobile browsers block automatic repeated start attempts.
-     stopExpiryVoice('브라우저가 음성 재시작을 제한했습니다. 말하기 버튼을 다시 눌러주세요.');
+     stopExpiryVoice('브라우저가 음성 입력을 제한했습니다. 말하기 버튼 또는 직접 입력을 사용해주세요.');
      el('voiceStatus').className='status warn';
-     el('voiceStatus').textContent='음성인식 재시작 실패: '+err.message;
    }
  }
  restart();
 }
 el('voiceExpiry').onclick=()=>startExpiryVoice(false);
-el('saveExpiry').onclick=async()=>{if(!currentProduct){toast('먼저 바코드를 인식해주세요');return}const date=el('expiryDate').value;if(!date||!dateISO(...date.split('-'))){toast('소비기한 날짜를 확인해주세요');return}if(!Array.isArray(db.expiry))db.expiry=[];const exists=db.expiry.some(x=>x.productId===currentProduct.id&&x.date===date);if(exists){toast('같은 상품의 동일 소비기한이 이미 있습니다');return}const oldPhoto={imageData:currentProduct.imageData,imageUrl:currentProduct.imageUrl,imageSource:currentProduct.imageSource};
-if(pendingScanProductPhoto){currentProduct.imageData=pendingScanProductPhoto;currentProduct.imageSource='직접 촬영';delete currentProduct.imageUrl;}
-const item={id:uid(),productId:currentProduct.id,barcode:currentCode,name:currentProduct.name,spec:currentProduct.spec||'',date,createdAt:new Date().toISOString()};
-db.expiry.unshift(item);if(!persist()){db.expiry.shift();currentProduct.imageData=oldPhoto.imageData;currentProduct.imageSource=oldPhoto.imageSource;currentProduct.imageUrl=oldPhoto.imageUrl;return}renderExpiry();renderSoon();renderProducts();
-const photoAdded=!!pendingScanProductPhoto;
-resumeBarcodeScanning();
-toast('소비기한 '+date+(photoAdded?' · 상품 사진':'')+' 등록 완료 · 다음 스캔')};
+el('saveExpiry').onclick=()=>{
+ if(!currentProduct||!barcodePaused||scanPhase!=='entry'||scanPhotoJob)return;
+ const name=norm(el('scanProductName').value),spec=norm(el('scanProductSpec').value);
+ if(!name){toast('상품명을 입력해주세요');el('scanProductName').focus();return;}
+ const date=el('expiryDate').value;
+ if(!date||!dateISO(...date.split('-'))){toast('소비기한 날짜를 확인해주세요');el('expiryDate').focus();return;}
+ if(db.expiry.some(x=>x.productId===currentProduct.id&&x.date===date)){toast('같은 상품의 동일 소비기한이 이미 있습니다');return;}
+ const product=currentProduct;
+ const changed=['name','spec','imageData','imageSource','imageUrl'];
+ const before=Object.fromEntries(changed.map(key=>[key,product[key]]));
+ const photoAdded=!!pendingScanProductPhoto&&!product.imageData&&!product.imageUrl;
+ product.name=name;product.spec=spec;
+ if(photoAdded){product.imageData=pendingScanProductPhoto;product.imageSource='직접 등록';}
+ const scanEvent=db.history.find(x=>x.productId===product.id&&x.barcode===currentCode);
+ const stock=db.inventory[getInventoryKey(product,currentCode)];
+ const beforeScan=scanEvent?.name,beforeStock=stock?.name;
+ if(scanEvent)scanEvent.name=name;
+ if(stock)stock.name=name;
+ db.expiry.unshift({id:uid(),productId:product.id,barcode:currentCode,name,spec,date,createdAt:new Date().toISOString()});
+ if(!persist()){
+  db.expiry.shift();
+  for(const key of changed){if(before[key]===undefined)delete product[key];else product[key]=before[key];}
+  if(scanEvent)scanEvent.name=beforeScan;
+  if(stock)stock.name=beforeStock;
+  return;
+ }
+ render();resumeBarcodeScanning();
+ toast('소비기한 '+date+(photoAdded?' · 상품 사진':'')+' 등록 완료 · 다음 스캔');
+};
 function renderExpiry(){if(!Array.isArray(db.expiry))db.expiry=[];el('expiryCount').textContent=db.expiry.length+'건';const q=norm(el('expirySearch').value).toLowerCase();const a=db.expiry.filter(x=>[x.name,x.barcode,x.date,x.spec].some(v=>String(v||'').toLowerCase().includes(q)));el('expiryList').innerHTML=a.length?a.slice(0,400).map(x=>`<div class="listitem"><div class="photo-row">${photoMarkup(db.products.find(p=>p.id===x.productId))}<div style="min-width:0"><div class="itemname">${escapeHTML(x.name)}</div><div class="itemcode">${escapeHTML(x.spec||'')} · ${escapeHTML(x.barcode)}</div></div></div><div class="row" style="margin-top:8px"><span class="expiry-pill">${escapeHTML(x.date)}</span><button class="btn danger" style="flex:0 0 auto;min-height:36px;padding:6px 12px" data-expiry-delete="${escapeHTML(x.id)}">삭제</button></div></div>`).join(''):'<div class="empty">등록된 소비기한이 없습니다.</div>';el('expiryList').querySelectorAll('[data-expiry-delete]').forEach(b=>b.onclick=async()=>{if(!confirm('이 소비기한 기록을 삭제할까요?'))return;db.expiry=db.expiry.filter(x=>x.id!==b.dataset.expiryDelete);persist();renderExpiry();renderSoon()})}
 el('expirySearch').oninput=renderExpiry;
 el('expiryExport').onclick=()=>csv('소비기한_'+dateSlug()+'.csv',[['상품명','규격','판매코드','소비기한','등록시간'],...db.expiry.map(x=>[x.name,x.spec,x.barcode,x.date,x.createdAt])]);
@@ -623,12 +733,12 @@ el('restoreBtn').onclick=()=>el('restoreFile').click();el('restoreFile').onchang
 el('clearInventory').onclick=()=>{if(confirm('재고 수량을 모두 삭제할까요? 상품과 스캔기록은 유지됩니다.')){db.inventory={};persist();render()}};el('clearHistory').onclick=()=>{if(confirm('스캔 기록을 모두 삭제할까요? 상품과 재고는 유지됩니다.')){db.history=[];persist();render()}};el('clearAll').onclick=()=>{if(confirm('상품, 재고, 스캔기록을 모두 삭제합니다. 복구가 불가능할 수 있습니다. 진행할까요?')&&confirm('정말로 모든 자료를 삭제할까요?')){db={products:[],inventory:{},history:[],expiry:[],settings:{autoStock:false,vibrate:true}};persist();applySettings();clearForm();el('result').hidden=true;render()}};
 function applySettings(){el('autoStock').checked=!!db.settings.autoStock;el('vibrate').checked=!!db.settings.vibrate};['autoStock','vibrate'].forEach(k=>el(k).onchange=e=>{db.settings[k]=e.target.checked;persist()});applySettings();
 // Native BarcodeDetector first, then ZXing browser library CDN fallback (internet required).
-let detector=null,stream=null,raf=0,active=false,scanning=false,zxing=null,zxingLoading=null;
+let detector=null,stream=null,raf=0,active=false,scanning=false,zxing=null,zxingLoading=null,cameraEpoch=0,cameraPending=false;
 async function loadZXing(){if(window.ZXingBrowser)return window.ZXingBrowser;if(zxingLoading)return zxingLoading;zxingLoading=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js';s.onload=()=>window.ZXingBrowser?resolve(window.ZXingBrowser):reject(Error('라이브러리 로드 오류'));s.onerror=()=>reject(Error('인터넷 연결 또는 보안 정책으로 보조 인식기를 불러오지 못했습니다'));document.head.appendChild(s)});return zxingLoading}
 async function decoder(){if('BarcodeDetector'in window){try{const formats=await BarcodeDetector.getSupportedFormats?.();const use=['ean_13','ean_8','code_128','code_39','upc_a','upc_e','itf','qr_code','codabar'].filter(f=>!formats||formats.includes(f));if(use.length){detector=new BarcodeDetector({formats:use});return 'native'}}catch(e){}}const zx=await loadZXing();zxing=new zx.BrowserMultiFormatReader();return 'zxing'}
 function setStatus(msg,kind=''){el('scannerStatus').className='status '+kind;el('scannerStatus').textContent=msg}
 async function startCamera(){
- if(active)return;
+ if(active||cameraPending)return;
  if(location.protocol==='file:'){
   setStatus('다운로드한 HTML 파일로 실행 중입니다. 삼성 인터넷에서는 실시간 카메라가 제한됩니다. HTTPS 배포 후 웹주소로 실행하세요. HTTPS 웹주소에서 다시 실행해주세요.','warn');
   el('cameraFallback').hidden=false;
@@ -640,35 +750,70 @@ async function startCamera(){
   el('cameraFallback').hidden=false;
   return;
  }
+ const epoch=++cameraEpoch;cameraPending=true;let acquired;
  el('start').disabled=true;
  try{
   // Ask for camera first, rather than waiting for the remote barcode decoder to load.
-  try{stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}})}
+  try{acquired=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}})}
   catch(firstError){
    // Some Samsung devices reject strict/ideal camera constraints. Try a basic stream.
-   if(firstError.name==='OverconstrainedError')stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment'}});
+   if(firstError.name==='OverconstrainedError')acquired=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:'environment'}});
    else throw firstError;
   }
+  if(epoch!==cameraEpoch){acquired.getTracks().forEach(t=>t.stop());return;}
+  stream=acquired;
   const video=el('video');video.srcObject=stream;video.style.display='block';el('cameraText').style.display='none';el('scanFrame').hidden=false;
-  await video.play();active=true;setStatus('카메라 실행 성공 · 바코드 인식기 준비 중','ok');
+  await video.play();if(epoch!==cameraEpoch)return;active=true;syncPhotoPreview();setStatus('카메라 실행 성공 · 바코드 인식기 준비 중','ok');
   try{
    const mode=await decoder();
-   if(!active)return;
+   if(!active||epoch!==cameraEpoch)return;
    setStatus('실시간 스캔 중 · '+(mode==='native'?'기본 인식기':'보조 인식기')+' 사용','ok');
-   processFrame();
+   processFrame(epoch);
   }catch(decodeError){
+   if(epoch!==cameraEpoch)return;
    setStatus('카메라는 켜졌으나 바코드 인식기 로딩에 실패했습니다. 인터넷 연결을 확인해주세요. ('+decodeError.message+')','warn');
    el('cameraFallback').hidden=false;
   }
  }catch(e){
+  if(epoch!==cameraEpoch)return;
   stopCamera();
   const reason=e.name==='NotAllowedError'||e.name==='PermissionDeniedError'?'카메라 사용 권한이 거부되었습니다. 삼성 인터넷의 사이트 카메라 권한과 휴대폰 앱 권한을 허용해주세요.':e.name==='NotReadableError'?'카메라가 다른 앱에서 사용 중입니다. 카메라 앱을 닫고 다시 시도해주세요.':e.name==='SecurityError'?'이 페이지에서 카메라 사용이 제한되었습니다. HTTPS 주소로 실행하세요.':'카메라 실행 실패: '+(e.message||e.name);
   setStatus(reason,'warn');el('cameraFallback').hidden=false;
- }finally{el('start').disabled=false}
+ }finally{if(epoch===cameraEpoch){cameraPending=false;el('start').disabled=false;}}
 }
-async function processFrame(){if(!active||scanning)return;if(barcodePaused){raf=setTimeout(processFrame,250);return}scanning=true;try{if(detector){const hits=await detector.detect(el('video'));if(hits?.[0]?.rawValue)scan(hits[0].rawValue)}else if(zxing){try{const v=el('video');if(v.videoWidth&&v.videoHeight){const c=document.createElement('canvas');c.width=Math.min(960,v.videoWidth);c.height=Math.round(v.videoHeight*c.width/v.videoWidth);c.getContext('2d').drawImage(v,0,0,c.width,c.height);const r=await zxing.decodeFromCanvas(c);if(r?.getText())scan(r.getText())}}catch(e){}}}catch(e){}finally{scanning=false;if(active)raf=setTimeout(processFrame,160)}}
-function stopCamera(){active=false;if(raf)clearTimeout(raf);raf=0;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}el('video').pause();el('video').srcObject=null;el('video').style.display='none';el('cameraText').style.display='';el('scanFrame').hidden=true;setStatus('카메라 중지됨. 다시 시작할 수 있습니다.');}
-el('start').onclick=startCamera;el('stop').onclick=stopCamera;document.addEventListener('visibilitychange',()=>{if(document.hidden){if(active)stopCamera();stopExpiryVoice('화면이 비활성화되어 음성 입력을 중단했습니다.')}});
+async function processFrame(epoch){
+ if(!active||epoch!==cameraEpoch||scanning)return;
+ if(barcodePaused){raf=setTimeout(()=>processFrame(epoch),250);return;}
+ scanning=true;
+ try{
+  const video=el('video');
+  let result='';
+  if(detector){const hits=await detector.detect(video);result=hits?.[0]?.rawValue||'';}
+  else if(zxing&&video.videoWidth&&video.videoHeight){
+   const canvas=document.createElement('canvas');
+   canvas.width=Math.min(960,video.videoWidth);canvas.height=Math.round(video.videoHeight*canvas.width/video.videoWidth);
+   canvas.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
+   try{result=(await zxing.decodeFromCanvas(canvas))?.getText()||'';}catch(e){}
+  }
+  if(epoch===cameraEpoch&&active)scanFrameResult(result);
+ }catch(e){}
+ finally{
+  if(epoch===cameraEpoch){scanning=false;if(active)raf=setTimeout(()=>processFrame(epoch),160);}
+ }
+}
+function stopCamera(){cameraEpoch++;cameraPending=false;scanning=false;active=false;el('start').disabled=false;if(raf)clearTimeout(raf);raf=0;if(stream){stream.getTracks().forEach(t=>t.stop());stream=null}el('video').pause();el('video').srcObject=null;el('video').style.display='none';el('cameraText').style.display='';el('scanFrame').hidden=true;syncPhotoPreview();setStatus('카메라 중지됨. 다시 시작할 수 있습니다.');}
+el('start').onclick=startCamera;el('stop').onclick=stopCamera;
+document.addEventListener('visibilitychange',()=>{
+ if(document.hidden){if(active||cameraPending)stopCamera();stopExpiryVoice('화면이 비활성화되어 음성 입력을 중단했습니다.');}
+ else if(el('scan').classList.contains('active')){
+  if(scanVoicePending&&scanPhase==='entry')startScanVoice();
+  if(scanPhase==='photo'&&!active)startCamera();
+ }
+});
+scanWidth.addEventListener('change',refreshScanLayout);
+foldSegments.addEventListener('change',refreshScanLayout);
+refreshScanLayout();
+
 async function decodeImage(file){let img;try{img=await createImageBitmap(file);if(!detector&&!zxing)await decoder();if(detector){const out=await detector.detect(img);if(out?.length)return out[0].rawValue}if(zxing){const can=document.createElement('canvas');const scale=Math.min(1,1800/Math.max(img.width,img.height));can.width=Math.max(1,Math.round(img.width*scale));can.height=Math.max(1,Math.round(img.height*scale));can.getContext('2d').drawImage(img,0,0,can.width,can.height);const z=await zxing.decodeFromCanvas(can);return z?.getText()}throw Error('바코드를 찾을 수 없습니다. 더 가까이 밝게 촬영해주세요')}finally{img?.close?.()}}
 async function handleBarcodePhoto(e){const f=e.target.files?.[0];if(!f)return;if(barcodePaused){toast('먼저 현재 상품의 소비기한을 등록해주세요.');e.target.value='';return}setStatus('사진에서 바코드 인식 중...');el('barcodePhotoStatus').textContent='사진에서 바코드 인식 중...';try{const code=await decodeImage(f);if(!code)throw Error('바코드를 읽지 못했습니다.');scan(code,{force:true});setStatus('사진 인식 성공: '+code,'ok');el('barcodePhotoStatus').textContent='바코드 인식 성공: '+code}catch(err){setStatus('사진 인식 실패: '+err.message,'warn');el('barcodePhotoStatus').textContent='사진 인식 실패: '+err.message}finally{e.target.value=''}}
 el('photo').onchange=handleBarcodePhoto;el('cameraPhoto').onchange=handleBarcodePhoto;
